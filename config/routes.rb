@@ -168,6 +168,10 @@ Rails.application.routes.draw do
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
 
+  namespace :v2 do
+    resources :widget_tests, only: [:index] unless Rails.env.production?
+  end
+
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get 'apple-app-site-association' => 'apple_app#site_association'

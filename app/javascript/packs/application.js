@@ -48,7 +48,7 @@ Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
 Vue.component('woot-wizard', WootWizard);
 
-Object.keys(i18n).forEach(lang => {
+Object.keys(i18n).forEach((lang) => {
   Vue.locale(lang, i18n[lang]);
 });
 
@@ -70,12 +70,15 @@ window.onload = () => {
   vueActionCable.init();
 };
 
-window.addEventListener('load', () => {
-  verifyServiceWorkerExistence(registration =>
-    registration.pushManager.getSubscription().then(subscription => {
-      if (subscription) {
-        registerSubscription();
-      }
-    })
-  );
-});
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then((registration) => {
+        console.log('SW registered: ', registration);
+      })
+      .catch((registrationError) => {
+        console.log('SW registration failed: ', registrationError);
+      });
+  });
+}

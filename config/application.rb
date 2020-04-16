@@ -26,6 +26,7 @@ module Chatwoot
     # the framework and any gems in your application.
     config.generators.javascripts = false
     config.generators.stylesheets = false
+    config.web_console.whitelisted_ips = '172.20.0.1'
 
     # Custom chatwoot configurations
     config.x = config_for(:app).with_indifferent_access

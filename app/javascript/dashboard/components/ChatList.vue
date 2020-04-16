@@ -1,5 +1,5 @@
 <template>
-  <div class="conversations-sidebar  medium-4 columns">
+  <div class="conversations-sidebar medium-4 columns">
     <div class="chat-list__top">
       <h1 class="page-title">
         <woot-sidemenu-icon />
