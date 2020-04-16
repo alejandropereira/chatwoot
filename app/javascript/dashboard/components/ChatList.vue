@@ -1,5 +1,5 @@
 <template>
-  <div class="conversations-sidebar  medium-4 columns">
+  <div class="conversations-sidebar medium-4 columns">
     <div class="chat-list__top">
       <h1 class="page-title">
         <woot-sidemenu-icon />
@@ -41,8 +41,8 @@
       <p
         v-if="
           getChatsForTab().length &&
-            hasCurrentPageEndReached &&
-            !chatListLoading
+          hasCurrentPageEndReached &&
+          !chatListLoading
         "
         class="text-center text-muted end-of-list-text"
       >
@@ -90,7 +90,7 @@ export default {
       convStats: 'getConvTabStats',
     }),
     assigneeTabItems() {
-      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map(item => ({
+      return this.$t('CHAT_LIST.ASSIGNEE_TYPE_TABS').map((item) => ({
         key: item.KEY,
         name: item.NAME,
         count: this.convStats[item.COUNT_KEY] || 0,
