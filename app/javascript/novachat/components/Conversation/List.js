@@ -15,7 +15,7 @@ class List extends Component {
   };
 
   render() {
-    const { users: conversations } = this.props;
+    const conversations = [{ key: 1, createdAt: '2020-03-25T12:00:00-06:30' }];
     return (
       <div className="List">
         {conversations.map((conversation) => {
