@@ -1,10 +1,10 @@
 account = Account.create!(
-  name: 'Acme Inc',
-  domain: 'support.chatwoot.com',
-  support_email: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@chatwoot.com')
+  name: 'Wired Avenue',
+  domain: 'support.wiredave.com',
+  support_email: ENV.fetch('MAILER_SENDER_EMAIL', 'accounts@wiredave.com')
 )
 
-user = User.new(name: 'John', email: 'john@acme.inc', password: '123456')
+user = User.new(name: 'Alejandro Pereira', email: 'alex@wiredave.com', password: '123456')
 user.skip_confirmation!
 user.save!
 
@@ -14,9 +14,9 @@ AccountUser.create!(
   role: :administrator
 )
 
-web_widget = Channel::WebWidget.create!(account: account, website_url: 'https://acme.inc')
+web_widget = Channel::WebWidget.create!(account: account, website_name: 'Wiredave', website_url: 'https://wiredave.com')
 
-inbox = Inbox.create!(channel: web_widget, account: account, name: 'Acme Support')
+inbox = Inbox.create!(channel: web_widget, account: account, name: 'Wiredave Support')
 InboxMember.create!(user: user, inbox: inbox)
 
 contact = Contact.create!(name: 'jane', email: 'jane@example.com', phone_number: '0000', account: account)

@@ -26,7 +26,6 @@ module Chatwoot
     # the framework and any gems in your application.
     config.generators.javascripts = false
     config.generators.stylesheets = false
-    config.web_console.whitelisted_ips = '172.20.0.1'
 
     config.action_dispatch.default_headers = {
       'X-Frame-Options' => 'ALLOWALL'
