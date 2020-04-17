@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="15px" viewBox="0 0 10 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>Back Arrow</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Previous-Convo-or-New-Convo" transform="translate(-354.000000, -577.000000)" stroke="#FFFFFF" stroke-width="1.5">
+            <g id="What-is-your-Name" transform="translate(116.000000, 503.000000)">
+                <polyline id="Back-Arrow" transform="translate(242.500000, 81.500000) scale(-1, 1) translate(-242.500000, -81.500000) " points="246 88 239 81.5 246 75"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

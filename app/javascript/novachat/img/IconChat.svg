@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="17px" viewBox="0 0 17 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>IconChat</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Initiate-Convo" transform="translate(-108.000000, -362.000000)" fill="#FFFFFF" fill-rule="nonzero">
+            <g id="Chat-DIalog-Box" transform="translate(-465.000000, -38.000000)">
+                <g id="new-conversation-button" transform="translate(573.000000, 399.000000)">
+                    <g id="IconChat" transform="translate(0.000000, 1.000000)">
+                        <path d="M16.0791667,0 L0.708333333,0 C0.283333333,0 0,0.354166667 0,0.779166667 L0,11.9708333 C0,12.3958333 0.283333333,12.75 0.708333333,12.75 L12.75,12.75 L17,17 L17,0.779166667 C17,0.354166667 16.575,0 16.0791667,0 Z M15.5833333,13.6 L13.3166667,11.3333333 L1.41666667,11.3333333 L1.41666667,1.41666667 L15.5833333,1.41666667 L15.5833333,13.6 Z" id="Shape"></path>
+                        <g id="chat-bubble" transform="translate(4.250000, 4.250000)">
+                            <rect id="Rectangle" x="0" y="1.41666667" width="8.5" height="1"></rect>
+                            <rect id="Rectangle" x="0" y="2.83333333" width="8.5" height="1"></rect>
+                            <rect id="Rectangle" x="0" y="0" width="8.5" height="1"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
