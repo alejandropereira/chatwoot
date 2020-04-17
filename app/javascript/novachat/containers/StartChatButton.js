@@ -10,6 +10,7 @@ const StartChatButton = () => {
     state: { startChatButtonVisible },
     dispatch,
   } = useContext(AppContext);
+
   const toggleChat = () => {
     dispatch({ type: types.OPEN_CHAT });
   };

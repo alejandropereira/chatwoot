@@ -9,16 +9,21 @@ import AppContext from '../context/AppContext';
 
 const ChatBox = () => {
   const {
-    state: { openChat },
+    state: { openChat, onClose },
   } = useContext(AppContext);
   const chatBoxRef = useRef();
-  console.log({ openChat });
 
   const show = () => {
-    console.log({ show: true });
     TweenLite.to(chatBoxRef.current, 0.1, {
       opacity: 1,
       delay: 2,
+    });
+  };
+
+  const hide = () => {
+    TweenLite.to(chatBoxRef.current, 0.1, {
+      opacity: 0,
+      delay: 1.8,
     });
   };
 
@@ -28,8 +33,14 @@ const ChatBox = () => {
     }
   }, [openChat, show]);
 
+  useEffect(() => {
+    if (onClose) {
+      hide();
+    }
+  }, [onClose, hide]);
+
   return (
-    <styles.ChatBox ref={chatBoxRef}>
+    <styles.ChatBox className="ChatBox" ref={chatBoxRef}>
       <Header />
       <styles.ChatBoxWrapper>
         <Conversation />

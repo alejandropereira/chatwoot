@@ -94,6 +94,7 @@ styles.Conversation = styled.div`
   }
   .List {
     position: absolute;
+    background: white;
     height: 100%;
     overflow-y: scroll;
     left: 0;
