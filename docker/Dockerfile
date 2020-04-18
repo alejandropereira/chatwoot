@@ -41,6 +41,9 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   fi
 
 COPY package.json yarn.lock ./
+RUN mkdir -p /app/app/javascript/novachat/gsap
+COPY app/javascript/novachat/gsap/gsap-bonus.tgz \
+  ./app/javascript/novachat/gsap/
 RUN yarn install
 
 COPY . /app

@@ -1,3 +1,6 @@
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
 /* eslint no-console: 0 */
 /* eslint-env browser */
 /* eslint-disable no-new */
