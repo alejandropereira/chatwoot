@@ -1,3 +1,2 @@
-release: bundle exec rails db:prepare
-web: bin/rails server -p $PORT -e $RAILS_ENV
+web: bin/rails server -p $PORT -b 0.0.0.0 -e $RAILS_ENV
 worker: bundle exec sidekiq -C config/sidekiq.yml
