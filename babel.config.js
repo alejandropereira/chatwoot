@@ -27,10 +27,25 @@ module.exports = api => {
   return {
     presets: [
       [
-        require('@babel/preset-env').default,
-        { useBuiltIns: 'usage', corejs: 3 },
+        '@babel/plugin-transform-runtime',
+        {
+          helpers: false,
+          regenerator: true,
+          corejs: false,
+        },
       ],
-    ],
-    plugins: plugins(),
+      [
+        '@babel/plugin-transform-regenerator',
+        {
+          async: false,
+        },
+      ],
+      // isProductionEnv && [
+      //   'babel-plugin-transform-react-remove-prop-types',
+      //   {
+      //     removeImport: true,
+      //   },
+      // ],
+    ].filter(Boolean),
   };
 };
