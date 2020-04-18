@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "engines": {
-    "node": "12.16.x"
+    "node": "12.15.x"
   },
   "scripts": {
     "eslint": "eslint app/javascript --fix",
@@ -18,16 +18,16 @@
     "@babel/core": "^7.8.6",
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "~7.8.4",
+    "@babel/preset-react": "^7.9.4",
+    "@rails/actioncable": "^6.0.0",
+    "@rails/webpacker": "^4.2.2",
     "@vue/babel-preset-app": "^3.11.0",
     "@vue/test-utils": "^1.0.0-beta.29",
+    "axios": "^0.19.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-jest": "^25.1.0",
-    "@babel/preset-react": "^7.9.4",
-    "@rails/actioncable": "^6.0.0",
-    "@rails/webpacker": "^4.2.2",
-    "axios": "^0.19.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
@@ -48,6 +48,7 @@
     "query-string": "5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-is": "^16.13.1",
     "react-spring": "^8.0.27",
     "react-textarea-autosize": "^7.1.2",
     "react-transition-group": "^4.3.0",
