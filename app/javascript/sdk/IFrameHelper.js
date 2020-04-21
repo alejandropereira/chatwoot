@@ -57,7 +57,7 @@ export const IFrameHelper = {
     };
   },
   initPostMessageCommunication: () => {
-    window.onmessage = e => {
+    window.onmessage = (e) => {
       if (
         typeof e.data !== 'string' ||
         e.data.indexOf('chatwoot-widget:') !== 0
@@ -89,7 +89,7 @@ export const IFrameHelper = {
     });
   },
   events: {
-    loaded: message => {
+    loaded: (message) => {
       Cookies.set('cw_conversation', message.config.authToken, {
         expires: 365,
         sameSite: 'Lax',
@@ -173,8 +173,8 @@ export const IFrameHelper = {
       const closeIconclassName = `woot-elements--${window.$chatwoot.position} woot-widget-bubble woot--close woot--hide`;
       addClass(closeIcon, closeIconclassName);
 
-      chatIcon.style.background = widgetColor;
-      closeIcon.style.background = widgetColor;
+      // chatIcon.style.background = widgetColor;
+      // closeIcon.style.background = widgetColor;
 
       bubbleHolder.appendChild(chatIcon);
       bubbleHolder.appendChild(closeIcon);

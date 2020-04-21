@@ -2,14 +2,12 @@
   <a
     v-if="globalConfig.brandName"
     class="branding"
-    :href="`${globalConfig.widgetBrandURL}?utm_source=widget_branding`"
+    href="https://www.novachat.com?utm_source=widget_branding"
     rel="noreferrer noopener nofollow"
     target="_blank"
   >
-    <img :alt="globalConfig.brandName" :src="globalConfig.logoThumbnail" />
-    <span>
-      {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
-    </span>
+    <!-- <img src="~widget/assets/images/logo.svg" /> -->
+    <span>Powered by Novachat</span>
   </a>
   <div v-else class="brand--alternative" />
 </template>

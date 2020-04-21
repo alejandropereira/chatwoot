@@ -7,9 +7,9 @@
   >
     <i
       v-if="!loading"
+      :style="`background-color: #5D49C7`"
       class="ion-android-send icon-holder"
-      :style="`color: ${color}`"
-    />
+    ></span>
     <spinner v-else size="small" />
   </button>
 </template>
@@ -36,7 +36,7 @@ export default {
     },
     color: {
       type: String,
-      default: '#6e6f73',
+      default: '#5D49C7',
     },
   },
 };

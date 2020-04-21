@@ -121,7 +121,7 @@ export default {
     },
     avatarUrl() {
       // eslint-disable-next-line
-      const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
+      const BotImage = require('dashboard/assets/images/chatwoot_bot.svg');
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
         : BotImage;

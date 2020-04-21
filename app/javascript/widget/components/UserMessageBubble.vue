@@ -1,9 +1,9 @@
 <template>
   <div
     class="chat-bubble user"
-    :style="{ background: widgetColor }"
-    v-html="formatMessage(message, false)"
-  />
+    :style="{ background: '#5D49C7' }"
+    v-html="formatMessage(message)"
+  ></div>
 </template>
 
 <script>
