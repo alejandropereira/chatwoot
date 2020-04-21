@@ -81,6 +81,7 @@ export default {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
+  // background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
+  background: linear-gradient(315deg, #1c046d 0%, #5d49c7 100%);
 }
 </style>

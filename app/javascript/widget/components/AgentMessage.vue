@@ -111,7 +111,7 @@ export default {
     },
     avatarUrl() {
       // eslint-disable-next-line
-      const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
+      const BotImage = require('dashboard/assets/images/chatwoot_bot.svg');
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
         return BotImage;
       }

@@ -1,12 +1,12 @@
 <template>
   <a
     class="branding"
-    href="https://www.chatwoot.com?utm_source=widget_branding"
+    href="https://www.novachat.com?utm_source=widget_branding"
     rel="noreferrer noopener nofollow"
     target="_blank"
   >
-    <img src="~widget/assets/images/logo.svg" alt="ChatwootLogo" />
-    <span>{{ $t('POWERED_BY') }}</span>
+    <!-- <img src="~widget/assets/images/logo.svg" /> -->
+    <span>Powered by Novachat</span>
   </a>
 </template>
 
