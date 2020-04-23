@@ -87,6 +87,17 @@ const mutations = {
     }
   },
 
+  [types.default.UPDATE_CONV_SENDER](_state, data) {
+    _state.allConversations.forEach(element => {
+      if (element.meta.sender.id === data.id) {
+        Vue.set(element.meta, 'sender', {
+          ...element.meta.sender,
+          ...data,
+        });
+      }
+    });
+  },
+
   [types.default.APPEND_MESSAGES](_state, { id, data }) {
     if (data.length) {
       const [chat] = _state.allConversations.filter(c => c.id === id);

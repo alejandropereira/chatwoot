@@ -14,7 +14,11 @@
         />
         <div class="contact--details">
           <div class="contact--name">
-            {{ contact.name }}
+            <editable-input
+              :value="contact.name"
+              :id="this.contactId"
+              field="name"
+            />
           </div>
           <a
             v-if="contact.email"
@@ -34,7 +38,7 @@
           <div
             v-if="
               contact.additional_attributes &&
-                contact.additional_attributes.screen_name
+              contact.additional_attributes.screen_name
             "
             class="contact--location"
           >
@@ -51,7 +55,7 @@
       <div
         v-if="
           contact.additional_attributes &&
-            contact.additional_attributes.description
+          contact.additional_attributes.description
         "
         class="contact--bio"
       >
@@ -98,6 +102,7 @@ import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ConversationLabels from './ConversationLabels.vue';
+import EditableInput from '../../../components/EditableInput.vue';
 
 export default {
   components: {
@@ -105,6 +110,7 @@ export default {
     ContactDetailsItem,
     ConversationLabels,
     Thumbnail,
+    EditableInput,
   },
   props: {
     conversationId: {
@@ -135,8 +141,9 @@ export default {
       return this.additionalAttributes.initiated_at;
     },
     browserName() {
-      return `${this.browser.browser_name || ''} ${this.browser
-        .browser_version || ''}`;
+      return `${this.browser.browser_name || ''} ${
+        this.browser.browser_version || ''
+      }`;
     },
     platformName() {
       const {

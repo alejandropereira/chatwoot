@@ -49,6 +49,10 @@ const actions = {
     commit(types.default.EMPTY_ALL_CONVERSATION);
   },
 
+  updateConvSender({ commit }, data) {
+    commit(types.default.UPDATE_CONV_SENDER, data);
+  },
+
   clearSelectedState({ commit }) {
     commit(types.default.CLEAR_CURRENT_CHAT_WINDOW);
   },
@@ -86,7 +90,7 @@ const actions = {
     commit(types.default.CLEAR_ALL_MESSAGES_LOADED);
 
     if (data.dataFetched === undefined) {
-      donePromise = new Promise(resolve => {
+      donePromise = new Promise((resolve) => {
         localDispatch('fetchPreviousMessages', {
           conversationId: data.id,
           before: data.messages[0].id,
@@ -100,7 +104,7 @@ const actions = {
           });
       });
     } else {
-      donePromise = new Promise(resolve => {
+      donePromise = new Promise((resolve) => {
         commit(types.default.SET_CHAT_META, { id: data.id });
         resolve();
       });

@@ -2,14 +2,14 @@
   <div class="conv-header">
     <div class="user">
       <Thumbnail
-        :src="chat.meta.sender.thumbnail"
+        :src="contact.thumbnail"
         size="40px"
-        :badge="chat.meta.sender.channel"
-        :username="chat.meta.sender.name"
+        :badge="contact.channel"
+        :username="contact.name"
       />
       <div class="user--profile__meta">
         <h3 v-if="!isContactPanelOpen" class="user--name text-truncate">
-          {{ chat.meta.sender.name }}
+          <editable-input :value="contact.name" :id="contact.id" field="name" />
         </h3>
         <button
           class="user--profile__button clear button small"
@@ -50,11 +50,13 @@
 import { mapGetters } from 'vuex';
 import Thumbnail from '../Thumbnail';
 import ResolveButton from '../../buttons/ResolveButton';
+import EditableInput from '../../EditableInput';
 
 export default {
   components: {
     Thumbnail,
     ResolveButton,
+    EditableInput,
   },
 
   props: {
@@ -74,11 +76,23 @@ export default {
     };
   },
 
+  mounted() {
+    this.$store.dispatch('contacts/show', {
+      id: this.chat.meta.sender.id,
+    });
+  },
+
   computed: {
     ...mapGetters({
       agents: 'agents/getVerifiedAgents',
       currentChat: 'getSelectedChat',
     }),
+    contact() {
+      console.log({ chat: this.chat });
+      return this.$store.getters['contacts/getContact'](
+        this.chat.meta.sender.id
+      );
+    },
     agentList() {
       return [
         {
