@@ -57,6 +57,10 @@ const actions = {
     commit(types.default.EMPTY_ALL_CONVERSATION);
   },
 
+  updateConvSender({ commit }, data) {
+    commit(types.default.UPDATE_CONV_SENDER, data);
+  },
+
   clearSelectedState({ commit }) {
     commit(types.default.CLEAR_CURRENT_CHAT_WINDOW);
   },

@@ -14,7 +14,11 @@
         />
         <div class="contact--details">
           <div class="contact--name">
-            {{ contact.name }}
+            <editable-input
+              :value="contact.name"
+              :id="this.contactId"
+              field="name"
+            />
           </div>
           <a
             v-if="contact.email"
@@ -98,7 +102,8 @@ import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
-import ConversationLabels from './labels/LabelBox.vue';
+import ConversationLabels from './ConversationLabels.vue';
+import EditableInput from '../../../components/EditableInput.vue';
 
 export default {
   components: {
@@ -106,6 +111,7 @@ export default {
     ContactDetailsItem,
     ConversationLabels,
     Thumbnail,
+    EditableInput,
   },
   props: {
     conversationId: {

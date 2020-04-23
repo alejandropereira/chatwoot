@@ -55,6 +55,35 @@ export const mutations = {
   [types.default.SET_CURRENT_CHAT_WINDOW](_state, activeChat) {
     if (activeChat) {
       _state.selectedChatId = activeChat.id;
+      Object.assign(_state.selectedChat, activeChat);
+      Vue.set(_state.selectedChat.meta, 'assignee', activeChat.meta.assignee);
+      Vue.set(_state.selectedChat.meta, 'status', activeChat.meta.status);
+    }
+  },
+
+  [types.default.UPDATE_CONV_SENDER](_state, data) {
+    _state.allConversations.forEach(element => {
+      if (element.meta.sender.id === data.id) {
+        Vue.set(element.meta, 'sender', {
+          ...element.meta.sender,
+          ...data,
+        });
+      }
+    });
+  },
+
+  [types.default.APPEND_MESSAGES](_state, { id, data }) {
+    if (data.length) {
+      const [chat] = _state.allConversations.filter(c => c.id === id);
+      chat.messages = data;
+      Vue.set(chat, 'dataFetched', true);
+    }
+  },
+
+  [types.default.SET_CHAT_META](_state, { id, data }) {
+    const [chat] = _state.allConversations.filter(c => c.id === id);
+    if (data !== undefined) {
+      Vue.set(chat, 'labels', data.labels);
     }
   },
 

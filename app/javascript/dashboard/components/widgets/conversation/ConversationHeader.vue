@@ -10,7 +10,11 @@
       />
       <div class="user--profile__meta">
         <h3 v-if="!isContactPanelOpen" class="user--name text-truncate">
-          {{ currentContact.name }}
+          <editable-input
+            :id="currentContact.id"
+            :value="currentContact.name"
+            field="name"
+          />
         </h3>
         <button
           class="user--profile__button clear button small"
@@ -54,11 +58,13 @@
 import { mapGetters } from 'vuex';
 import MoreActions from './MoreActions';
 import Thumbnail from '../Thumbnail';
+import EditableInput from '../../EditableInput';
 
 export default {
   components: {
     MoreActions,
     Thumbnail,
+    EditableInput,
   },
 
   props: {
@@ -76,6 +82,12 @@ export default {
     return {
       currentChatAssignee: null,
     };
+  },
+
+  mounted() {
+    this.$store.dispatch('contacts/show', {
+      id: this.chat.meta.sender.id,
+    });
   },
 
   computed: {
