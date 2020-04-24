@@ -278,11 +278,39 @@ export default {
     dashboardPath() {
       return frontendURL(`accounts/${this.accountId}/dashboard`);
     },
+    shouldShowStatusBox() {
+      return (
+        window.chatwootConfig.billingEnabled &&
+        this.subscriptionData &&
+        (this.subscriptionData.state === 'trial' ||
+          this.subscriptionData.state === 'cancelled')
+      );
+    },
+    statusBarClass() {
+      if (this.subscriptionData.state === 'trial') {
+        return 'warning';
+      }
+      if (this.subscriptionData.state === 'cancelled') {
+        return 'danger';
+      }
+      return '';
+    },
+    trialMessage() {
+      return `${this.daysLeft} ${this.$t('APP_GLOBAL.TRIAL_MESSAGE')}`;
+    },
+    accountId() {
+      return this.currentUser.account_id;
+    },
   },
   mounted() {
     this.$store.dispatch('inboxes/get');
   },
   methods: {
+    filterBillingRoutes(menuItems) {
+      return menuItems.filter(
+        menuItem => !menuItem.toState.includes('billing')
+      );
+    },
     filterMenuItemsByRole(menuItems) {
       if (!this.currentRole) {
         return [];

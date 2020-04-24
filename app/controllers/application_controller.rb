@@ -12,6 +12,33 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def current_account
+    @_ ||= find_current_account
+  end
+
+  def find_current_account
+    account = Account.find(params[:account_id] || params[:id])
+    if current_user
+      account_accessible_for_user?(account)
+    elsif @resource&.is_a?(AgentBot)
+      account_accessible_for_bot?(account)
+    end
+    switch_locale account
+    account
+  end
+
+  def switch_locale(account)
+    I18n.locale = (I18n.available_locales.map(&:to_s).include?(account.locale) ? account.locale : nil) || I18n.default_locale
+  end
+
+  def account_accessible_for_user?(account)
+    render_unauthorized('You are not authorized to access this account') unless account.account_users.find_by(user_id: current_user.id)
+  end
+
+  def account_accessible_for_bot?(account)
+    render_unauthorized('You are not authorized to access this account') unless @resource.agent_bot_inboxes.find_by(account_id: account.id)
+  end
+
   def handle_with_exception
     yield
   rescue ActiveRecord::RecordNotFound => e
