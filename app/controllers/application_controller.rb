@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def find_current_account
-    account = Account.find(params[:account_id])
+    account = Account.find(params[:account_id] || params[:id])
     if current_user
       account_accessible_for_user?(account)
     elsif @resource&.is_a?(AgentBot)

@@ -21,6 +21,7 @@ export const IFrameHelper = {
     return `${baseUrl}/widget?website_token=${websiteToken}`;
   },
   createFrame: ({ baseUrl, websiteToken }) => {
+    if (!!document.getElementsByClassName('woot-widget-holder').length) return;
     const iframe = document.createElement('iframe');
     const cwCookie = Cookies.get('cw_conversation');
     let widgetUrl = IFrameHelper.getUrl({ baseUrl, websiteToken });

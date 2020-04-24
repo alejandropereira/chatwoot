@@ -146,7 +146,7 @@ export default {
         cssClass: 'menu-title align-justify',
         toState: frontendURL(`accounts/${this.accountId}/settings/inboxes`),
         toStateName: 'settings_inbox_list',
-        children: this.inboxes.map(inbox => ({
+        children: this.inboxes.map((inbox) => ({
           id: inbox.id,
           label: inbox.name,
           toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
@@ -160,6 +160,7 @@ export default {
     shouldShowStatusBox() {
       return (
         window.chatwootConfig.billingEnabled &&
+        this.subscriptionData &&
         (this.subscriptionData.state === 'trial' ||
           this.subscriptionData.state === 'cancelled')
       );
@@ -186,7 +187,7 @@ export default {
   methods: {
     filterBillingRoutes(menuItems) {
       return menuItems.filter(
-        menuItem => !menuItem.toState.includes('billing')
+        (menuItem) => !menuItem.toState.includes('billing')
       );
     },
     filterMenuItemsByRole(menuItems) {
@@ -195,7 +196,7 @@ export default {
         return [];
       }
       return menuItems.filter(
-        menuItem =>
+        (menuItem) =>
           window.roleWiseRoutes[role].indexOf(menuItem.toStateName) > -1
       );
     },

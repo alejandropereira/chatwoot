@@ -59,7 +59,10 @@ export default {
         id: this.id,
       });
 
-      this.$store.dispatch('updateConvSender', changes);
+      this.$store.dispatch('updateConvSender', {
+        ...changes,
+        id: this.id,
+      });
     },
   },
 };

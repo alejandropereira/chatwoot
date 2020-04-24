@@ -9,7 +9,11 @@
       />
       <div class="user--profile__meta">
         <h3 v-if="!isContactPanelOpen" class="user--name text-truncate">
-          <editable-input :value="contact.name" :id="contact.id" field="name" />
+          <editable-input
+            :value="contact.name"
+            :id="chat.meta.sender.id"
+            field="name"
+          />
         </h3>
         <button
           class="user--profile__button clear button small"
@@ -88,7 +92,6 @@ export default {
       currentChat: 'getSelectedChat',
     }),
     contact() {
-      console.log({ chat: this.chat });
       return this.$store.getters['contacts/getContact'](
         this.chat.meta.sender.id
       );
