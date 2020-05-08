@@ -9,7 +9,7 @@
       v-if="!loading"
       :style="`background-color: #5D49C7`"
       class="ion-android-send icon-holder"
-    ></span>
+    ></i>
     <spinner v-else size="small" />
   </button>
 </template>
