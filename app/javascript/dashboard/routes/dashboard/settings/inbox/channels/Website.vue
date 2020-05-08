@@ -6,7 +6,7 @@
     />
     <woot-loading-state
       v-if="uiFlags.isCreating"
-      :message="$('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LOADING_MESSAGE')"
+      :message="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.LOADING_MESSAGE')"
     >
     </woot-loading-state>
     <form

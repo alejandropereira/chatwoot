@@ -7,10 +7,9 @@ const plugins = () => [
       loose: true,
     },
   ],
-  [require('babel-plugin-transform-vue-jsx')],
 ];
 
-module.exports = api => {
+module.exports = (api) => {
   const validEnv = ['development', 'test', 'production'];
   const currentEnv = api.env();
 
@@ -27,25 +26,11 @@ module.exports = api => {
   return {
     presets: [
       [
-        '@babel/plugin-transform-runtime',
-        {
-          helpers: false,
-          regenerator: true,
-          corejs: false,
-        },
+        require('@babel/preset-env').default,
+        { useBuiltIns: 'usage', corejs: 3 },
       ],
-      [
-        '@babel/plugin-transform-regenerator',
-        {
-          async: false,
-        },
-      ],
-      // isProductionEnv && [
-      //   'babel-plugin-transform-react-remove-prop-types',
-      //   {
-      //     removeImport: true,
-      //   },
-      // ],
-    ].filter(Boolean),
+      '@babel/preset-react',
+    ],
+    plugins: plugins(),
   };
 };

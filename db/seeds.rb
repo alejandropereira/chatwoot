@@ -14,7 +14,7 @@ AccountUser.create!(
   role: :administrator
 )
 
-web_widget = Channel::WebWidget.create!(account: account, website_name: 'Wiredave', website_url: 'https://wiredave.com')
+web_widget = Channel::WebWidget.create!(account: account, website_url: 'https://wiredave.com')
 
 inbox = Inbox.create!(channel: web_widget, account: account, name: 'Wiredave Support')
 InboxMember.create!(user: user, inbox: inbox)
