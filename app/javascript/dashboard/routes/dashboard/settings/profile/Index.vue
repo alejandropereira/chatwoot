@@ -1,8 +1,8 @@
 <template>
-  <div class="columns profile--settings ">
+  <div class="columns profile--settings">
     <form @submit.prevent="updateUser">
       <div class="small-12 row profile--settings--row">
-        <div class="columns small-3 ">
+        <div class="columns small-3">
           <h4 class="block-title">
             {{ $t('PROFILE_SETTINGS.FORM.PROFILE_SECTION.TITLE') }}
           </h4>
@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="profile--settings--row row">
-        <div class="columns small-3 ">
+        <div class="columns small-3">
           <h4 class="block-title">
             {{ $t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE') }}
           </h4>
@@ -84,14 +84,17 @@
       </div>
       <notification-settings />
       <div class="profile--settings--row row">
-        <div class="columns small-3 ">
+        <div class="columns small-3">
           <h4 class="block-title">
             {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE') }}
           </h4>
           <p>{{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE') }}</p>
         </div>
         <div class="columns small-9 medium-5">
-          <woot-code :script="currentUser.access_token"></woot-code>
+          <woot-code
+            v-if="currentUser && currentUser.access_token"
+            :script="currentUser.access_token"
+          ></woot-code>
         </div>
       </div>
       <woot-submit-button
