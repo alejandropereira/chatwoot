@@ -58,6 +58,9 @@ gem 'pundit'
 # super admin
 gem 'administrate'
 
+#grapqhl
+gem 'graphql', '~> 1.10', '>= 1.10.9'
+
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
 gem 'wisper', '2.0.0'
@@ -127,3 +130,5 @@ group :development, :test do
   gem 'spring-watcher-listen'
   gem 'webmock'
 end
+
+gem 'graphiql-rails', group: :development
