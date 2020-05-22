@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import variables from '../novachat/utils/variables';
@@ -31,11 +33,15 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const client = new ApolloClient({
+  uri: '/graphql',
+});
+
 const App = () => (
-  <React.Fragment>
+  <ApolloProvider client={client}>
     <GlobalStyle />
-    <Chat />
-  </React.Fragment>
+    <Chat websiteToken="dYh5GQtcMgCM1KTozn5f29a2" />
+  </ApolloProvider>
 );
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
