@@ -60,6 +60,7 @@ gem 'administrate'
 
 #grapqhl
 gem 'graphql', '~> 1.10', '>= 1.10.9'
+gem 'graphiql-rails', group: :development
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
@@ -129,6 +130,5 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
   gem 'webmock'
+  gem 'graphiql-rails'
 end
-
-gem 'graphiql-rails', group: :development
