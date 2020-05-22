@@ -1,7 +1,8 @@
-import React, { Component, useReducer, useRef, useContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef, useContext } from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 import styled from 'styled-components';
-import { TweenLite, Power2, Power4 } from 'gsap';
+import { TweenLite, Power2 } from 'gsap';
 import { Transition } from 'react-transition-group';
 import HeaderInfo from './HeaderInfo';
 import HeaderPattern from './HeaderPattern';
@@ -12,7 +13,25 @@ import LogoNova from '../../components/Svgs/LogoNova';
 import { types } from '../../reducers';
 import AppContext from '../../context/AppContext';
 
+const WEB_WIDGET = gql`
+  query webWidget($websiteToken: String!, $authToken: String) {
+    webWidget(websiteToken: $websiteToken, authToken: $authToken) {
+      widget {
+        welcomeTitle
+        welcomeTagline
+      }
+    }
+  }
+`;
+
 const Header = () => {
+  const { loading, error, data } = useQuery(WEB_WIDGET, {
+    variables: {
+      websiteToken: 'dYh5GQtcMgCM1KTozn5f29a2',
+      authToken: localStorage.getItem('cw_conversation'),
+    },
+  });
+
   const {
     state: {
       onChatList,
@@ -41,6 +60,9 @@ const Header = () => {
     dispatch({ type: types.ON_HOME_OUT_DONE });
   };
 
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
   return (
     <styles.Header ref={headerRef}>
       <HeaderPattern onIntro={onIntro} />
@@ -49,7 +71,7 @@ const Header = () => {
         <Transition
           unmountOnExit
           in={onHome}
-          addEndListener={(node, done) => {
+          addEndListener={(node, done) =>
             onHome
               ? TweenLite.to(node, 1, {
                   opacity: 1,
@@ -66,17 +88,15 @@ const Header = () => {
                     }
                   },
                   onComplete: done,
-                });
-          }}
+                })
+          }
         >
           <styles.WelcomeElements className="WelcomeElements">
             <styles.LogoNova>
               <LogoNova />
             </styles.LogoNova>
-            <h1>Welcome to novachat</h1>
-            <h3>
-              Faster growth starts with better relationships. Get chatting!
-            </h3>
+            <h1>{data.webWidget.widget.welcomeTitle}</h1>
+            <h3>{data.webWidget.widget.welcomeTagline}</h3>
           </styles.WelcomeElements>
         </Transition>
         {/* onChatList | onMessages:  HeaderSmallContent */}
@@ -103,7 +123,7 @@ const Header = () => {
           <Transition
             unmountOnExit
             in={onChatList}
-            addEndListener={(node, done) => {
+            addEndListener={(node, done) =>
               onChatList
                 ? TweenLite.to(node, 0.5, {
                     opacity: 1,
@@ -115,8 +135,8 @@ const Header = () => {
                     opacity: 0,
                     top: -10,
                     onComplete: done,
-                  });
-            }}
+                  })
+            }
           >
             <div className="Label">Previous conversations</div>
           </Transition>
