@@ -23,6 +23,10 @@ class InboxMember < ApplicationRecord
   after_create :add_agent_to_round_robin
   after_destroy :remove_agent_from_round_robin
 
+  delegate :name, to: :user
+  delegate :avatar_url, to: :user
+  delegate :availability_status, to: :user
+
   private
 
   def add_agent_to_round_robin
