@@ -1,4 +1,6 @@
 import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import { Transition } from 'react-transition-group';
 import { TweenLite, Power4 } from 'gsap';
@@ -9,7 +11,30 @@ import IconChat from '../../components/Svgs/IconChat';
 import variables from '../../utils/variables';
 import mixins from '../../utils/mixins';
 
-function UserList({ onHome, onBackHome, onPrevChatClick, onListItemClick }) {
+const AGENTS = gql`
+  query agents($websiteToken: String!) {
+    agents(websiteToken: $websiteToken) {
+      id
+      avatarUrl
+      name
+      availabilityStatus
+    }
+  }
+`;
+
+function UserList({
+  onHome,
+  onBackHome,
+  onPrevChatClick,
+  onListItemClick,
+  agents,
+}) {
+  const { loading, error, data } = useQuery(AGENTS, {
+    variables: {
+      websiteToken: 'dYh5GQtcMgCM1KTozn5f29a2',
+    },
+  });
+
   return (
     <Transition
       unmountOnExit
@@ -36,13 +61,13 @@ function UserList({ onHome, onBackHome, onPrevChatClick, onListItemClick }) {
           <h3>Start a conversation</h3>
           <h4>The team member will be with you shortly!</h4>
           <styles.Users>
-            {[].map((node) => {
+            {agents.map(agent => {
               return (
                 <Avatar
                   big
-                  image={node.avatarUrl || `https://i.pravatar.cc/150`}
-                  name={node.name || node.email}
-                  key={node.id}
+                  image={agent.avatarUrl || null}
+                  name={agent.name}
+                  key={agent.id}
                 />
               );
             })}

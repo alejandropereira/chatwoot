@@ -7,7 +7,7 @@ import Header from '../components/Header';
 import variables from '../utils/variables';
 import AppContext from '../context/AppContext';
 
-const ChatBox = () => {
+const ChatBox = ({ webWidget }) => {
   const {
     state: { openChat, onClose },
   } = useContext(AppContext);
@@ -41,9 +41,9 @@ const ChatBox = () => {
 
   return (
     <styles.ChatBox className="ChatBox" ref={chatBoxRef}>
-      <Header />
+      <Header webWidget={webWidget} />
       <styles.ChatBoxWrapper>
-        <Conversation />
+        <Conversation webWidget={webWidget} />
         <ChatInput />
       </styles.ChatBoxWrapper>
     </styles.ChatBox>

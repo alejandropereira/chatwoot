@@ -12,13 +12,13 @@ import IconChat from '../../components/Svgs/IconChat';
 import { types } from '../../reducers';
 import AppContext from '../../context/AppContext';
 
-const Conversation = () => {
+const Conversation = ({ webWidget }) => {
   const {
     state: { onHome, onBackHome, onChatList, onMessages, currentConversation },
     dispatch,
   } = useContext(AppContext);
 
-  const onListItemClick = (conversationId) => {
+  const onListItemClick = conversationId => {
     dispatch({ type: types.ON_LIST_ITEM_CLICK, payload: conversationId });
   };
 
@@ -35,6 +35,7 @@ const Conversation = () => {
           onBackHome={onBackHome}
           onListItemClick={onListItemClick}
           onPrevChatClick={onPrevChatClick}
+          agents={webWidget.widget.agents}
         />
         {/* List */}
         <Conversations
