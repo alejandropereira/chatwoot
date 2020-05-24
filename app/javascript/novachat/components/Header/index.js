@@ -1,6 +1,4 @@
 import React, { useRef, useContext } from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import { TweenLite, Power2 } from 'gsap';
 import { Transition } from 'react-transition-group';
@@ -13,25 +11,7 @@ import LogoNova from '../../components/Svgs/LogoNova';
 import { types } from '../../reducers';
 import AppContext from '../../context/AppContext';
 
-const WEB_WIDGET = gql`
-  query webWidget($websiteToken: String!, $authToken: String) {
-    webWidget(websiteToken: $websiteToken, authToken: $authToken) {
-      widget {
-        welcomeTitle
-        welcomeTagline
-      }
-    }
-  }
-`;
-
-const Header = () => {
-  const { loading, error, data } = useQuery(WEB_WIDGET, {
-    variables: {
-      websiteToken: 'dYh5GQtcMgCM1KTozn5f29a2',
-      authToken: localStorage.getItem('cw_conversation'),
-    },
-  });
-
+const Header = ({ webWidget }) => {
   const {
     state: {
       onChatList,
@@ -59,9 +39,6 @@ const Header = () => {
   const onHomeOutDone = () => {
     dispatch({ type: types.ON_HOME_OUT_DONE });
   };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
 
   return (
     <styles.Header ref={headerRef}>
@@ -95,8 +72,8 @@ const Header = () => {
             <styles.LogoNova>
               <LogoNova />
             </styles.LogoNova>
-            <h1>{data.webWidget.widget.welcomeTitle}</h1>
-            <h3>{data.webWidget.widget.welcomeTagline}</h3>
+            <h1>{webWidget.widget.welcomeTitle}</h1>
+            <h3>{webWidget.widget.welcomeTagline}</h3>
           </styles.WelcomeElements>
         </Transition>
         {/* onChatList | onMessages:  HeaderSmallContent */}
@@ -162,13 +139,15 @@ styles.Header = styled.div`
   .Container {
     position: relative;
     h1 {
-      font-size: 30px;
+      font-size: 29px;
+      line-height: 1.1;
     }
     h3 {
       opacity: 0.6;
       font-size: 16px;
       margin: 20px 0 0 0;
       letter-spacing: -0.5px;
+      line-height: 1.5;
     }
   }
   .Label {

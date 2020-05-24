@@ -8,13 +8,13 @@ module Queries
 
     def resolve(website_token:)
       set_web_widget(website_token)
-      @web_widget.inbox.inbox_members.includes(:user)
+      @web_widget.inbox.inbox_members.includes(user: :avatar_attachment)
     end
 
     private
 
-    def set_web_widget
-      @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+    def set_web_widget(website_token)
+      @web_widget = ::Channel::WebWidget.find_by!(website_token: website_token)
       @account = @web_widget.account
       switch_locale @account
     end
