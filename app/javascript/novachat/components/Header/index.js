@@ -117,7 +117,10 @@ const Header = ({ webWidget }) => {
           >
             <div className="Label">Previous conversations</div>
           </Transition>
-          <HeaderInfo onChatList={onChatList} onMessages={onMessages} />
+          <HeaderInfo
+            agent={currentConversation.assignee}
+            onMessages={onMessages}
+          />
         </styles.HeaderSmallContent>
       </div>
     </styles.Header>

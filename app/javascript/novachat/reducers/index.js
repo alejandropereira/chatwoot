@@ -36,6 +36,7 @@ export const types = {
 };
 
 const reducer = (state, action) => {
+  console.log({ state, action });
   switch (action.type) {
     case types.OPEN_CHAT:
       return {
