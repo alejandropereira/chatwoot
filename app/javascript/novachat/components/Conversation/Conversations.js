@@ -15,6 +15,7 @@ const CONVERSATIONS = gql`
         assignee {
           id
           avatarUrl
+          availabilityStatus
           name
         }
         messages(sorting: { field: id, order: DESC }, per: 1) {
