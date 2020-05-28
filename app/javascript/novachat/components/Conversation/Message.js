@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { TweenLite, Power4 } from "gsap";
-import variables from "../../utils/variables";
-import Avatar from "../Avatar";
-import RequestBubble from "./RequestBubble";
-import PathMessage from "../../img/PathMessage.svg";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { TweenLite, Power4 } from 'gsap';
+import variables from '../../utils/variables';
+import Avatar from '../Avatar';
+import RequestBubble from './RequestBubble';
+import PathMessage from '../../img/PathMessage.svg';
 
 const ANIM_TIME = 2;
 const DOTS_TIME = 1;
@@ -14,14 +14,14 @@ class Message extends Component {
   static propTypes = {
     selectedUser: PropTypes.object,
     senderTyping: PropTypes.bool.isRequired,
-    sendUserData: PropTypes.func.isRequired
+    sendUserData: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      userData: "",
-      sent: false
+      userData: '',
+      sent: false,
     };
     this.tween1 = null;
     this.tween2 = null;
@@ -41,14 +41,14 @@ class Message extends Component {
       TweenLite.to(this.maskRight, ANIM_TIME, {
         left: -500,
         top: -130,
-        ease: Power4.easeOut
+        ease: Power4.easeOut,
       });
     } else {
       // For sender bubble: Move path from left to right
       TweenLite.to(this.maskLeft, ANIM_TIME, {
         left: 200,
         top: -200,
-        ease: Power4.easeOut
+        ease: Power4.easeOut,
       });
     }
     //Typing animation
@@ -59,7 +59,7 @@ class Message extends Component {
         repeat: -1,
         repeatDelay: DOTS_TIME / 2,
         ease: Power4.easeOut,
-        onRepeat: this.onRepeatLeft
+        onRepeat: this.onRepeatLeft,
       });
       //Rotate dots right
       this.tween2 = TweenLite.to(this.dotsRight, DOTS_TIME, {
@@ -69,7 +69,7 @@ class Message extends Component {
         repeatDelay: DOTS_TIME / 2,
         ease: Power4.easeOut,
         onStart: this.onRightStart,
-        onRepeat: this.onRepeatRight
+        onRepeat: this.onRepeatRight,
       });
     }
   }
@@ -81,28 +81,28 @@ class Message extends Component {
 
   onRepeatLeft = () => {
     TweenLite.to(this.lastDotRight, 0, {
-      opacity: 0
+      opacity: 0,
     });
     TweenLite.to(this.firstDotLeft, 0, {
-      opacity: 1
+      opacity: 1,
     });
   };
 
   onRepeatRight = () => {
     TweenLite.to(this.lastDotRight, 0, {
-      opacity: 1
+      opacity: 1,
     });
     TweenLite.to(this.firstDotLeft, 0, {
-      opacity: 0
+      opacity: 0,
     });
   };
 
   onRightStart = () => {
     TweenLite.to(this.firstDotRight, 0, {
-      opacity: 1
+      opacity: 1,
     });
     TweenLite.to(this.firstDotLeft, 0, {
-      opacity: 0
+      opacity: 0,
     });
   };
 
@@ -123,8 +123,8 @@ class Message extends Component {
     const { sent } = this.state;
     return (
       <styles.Message className="Message" fromUser={fromUser}>
-        {!fromUser && !type && <Avatar image={avatar} />}
-        {type === "request" ? (
+        {!fromUser && !type && avatar && <Avatar image={avatar} />}
+        {type === 'request' ? (
           <RequestBubble
             sent={sent}
             label={text}

@@ -12,6 +12,7 @@ const CONVERSATIONS = gql`
     conversations(token: $token, websiteToken: $websiteToken) {
       collection {
         id
+        uuid
         assignee {
           id
           avatarUrl
