@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Cookies from 'js-cookie';
 import { gql } from 'apollo-boost';
@@ -13,10 +13,12 @@ import StartButtonAnimation from '../containers/StartButtonAnimation';
 import OutroAnimation from '../containers/OutroAnimation';
 import OutroLogo from '../containers/OutroLogo';
 import reducer, { initialState } from '../reducers';
+import ActionCableConnector from '../utils/actionCable';
 
 const WEB_WIDGET = gql`
   query webWidget($websiteToken: String!, $authToken: String) {
     webWidget(websiteToken: $websiteToken, authToken: $authToken) {
+      pubsubToken
       widget {
         welcomeTitle
         welcomeTagline
@@ -39,6 +41,21 @@ const Chat = () => {
     },
   });
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    if (data && data.webWidget.pubsubToken) {
+      window.actionCable = new ActionCableConnector(
+        { dispatch },
+        data.webWidget.pubsubToken
+      );
+    }
+
+    return () => {
+      if (window.actionCable) {
+        window.actionCable.disconnect();
+      }
+    };
+  }, [data]);
 
   if (loading || error) return null;
 

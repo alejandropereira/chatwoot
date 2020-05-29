@@ -20,6 +20,14 @@ export const initialState = {
   currentConversation: {},
   senderTyping: false,
   userData: [],
+  messages: [],
+};
+
+const messageTypes = {
+  0: 'incoming',
+  1: 'outgoing',
+  2: 'activity',
+  3: 'template',
 };
 
 export const types = {
@@ -33,10 +41,17 @@ export const types = {
   ON_LIST_ITEM_CLICK: 'chat/ON_LIST_ITEM_CLICK',
   OUTRO_COMPLETE: 'chat/OUTRO_COMPLETE',
   ON_PREV_CHAT_CLICK: 'chat/ON_PREV_CHAT_CLICK',
+  SET_MESSAGES: 'chat/SET_MESSAGES',
+  APPEND_MESSAGE: 'chat/APPEND_MESSAGE',
+  APPEND_IP_MESSAGE: 'chat/APPEND_IP_MESSAGE',
 };
 
+const findUndeliveredMessage = (state, { content }) =>
+  state.messages.filter(
+    message => message.content === content && message.status === 'in_progress'
+  );
+
 const reducer = (state, action) => {
-  console.log({ state, action });
   switch (action.type) {
     case types.OPEN_CHAT:
       return {
@@ -104,6 +119,61 @@ const reducer = (state, action) => {
         onChatList: false,
         onHome: false,
         onMessages: true,
+      };
+    case types.SET_MESSAGES:
+      return {
+        ...state,
+        messages: action.payload,
+      };
+    case types.APPEND_IP_MESSAGE:
+      return {
+        ...state,
+        messages: [...[action.payload], ...state.messages],
+      };
+    case types.APPEND_MESSAGE:
+      const [message] = findUndeliveredMessage(state, action.payload);
+      if (message) {
+        return {
+          ...state,
+          messages: state.messages.map(m => {
+            if (message.id === m.id) {
+              return {
+                id: action.payload.id,
+                createdAt: new Date(action.payload.created_at).toISOString(),
+                status: action.payload.status,
+                assignee: action.payload.sender
+                  ? {
+                      avatarUrl: action.payload.sender.avatar_url,
+                    }
+                  : null,
+                content: action.payload.content,
+                messageType: messageTypes[action.payload.message_type],
+              };
+            }
+            return m;
+          }),
+        };
+      }
+
+      return {
+        ...state,
+        messages: [
+          ...[
+            {
+              id: action.payload.id,
+              createdAt: new Date(action.payload.created_at).toISOString(),
+              status: action.payload.status,
+              assignee: action.payload.sender
+                ? {
+                    avatarUrl: action.payload.sender.avatar_url,
+                  }
+                : null,
+              content: action.payload.content,
+              messageType: messageTypes[action.payload.message_type],
+            },
+          ],
+          ...state.messages,
+        ],
       };
     default:
       return state;

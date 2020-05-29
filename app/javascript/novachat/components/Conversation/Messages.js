@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Cookies from 'js-cookie';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import PropTypes from 'prop-types';
 import MessagesContainer from './MessagesContainer';
+import { types } from '../../reducers';
+import AppContext from '../../context/AppContext';
 
 const MESSAGES = gql`
   query messages($token: String!, $websiteToken: String!, $uuid: String!) {
@@ -13,6 +15,7 @@ const MESSAGES = gql`
         content
         createdAt
         messageType
+        status
         assignee {
           avatarUrl
         }
@@ -22,12 +25,19 @@ const MESSAGES = gql`
 `;
 
 const Messages = ({ onMessages, currentConversation }) => {
+  const {
+    state: { messages },
+    dispatch,
+  } = useContext(AppContext);
   const [typing, setTyping] = useState(false);
-  const { loading, error, data } = useQuery(MESSAGES, {
+  const { loading, error } = useQuery(MESSAGES, {
     variables: {
       websiteToken: 'dYh5GQtcMgCM1KTozn5f29a2',
       token: Cookies.get('cw_conversation'),
       uuid: currentConversation.uuid,
+    },
+    onCompleted(data) {
+      dispatch({ type: types.SET_MESSAGES, payload: data.messages.collection });
     },
   });
 
@@ -37,7 +47,7 @@ const Messages = ({ onMessages, currentConversation }) => {
     <MessagesContainer
       typing={typing}
       currentConversation={currentConversation}
-      messages={data.messages.collection}
+      messages={messages}
       toggle={onMessages}
     />
   );

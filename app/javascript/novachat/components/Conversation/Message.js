@@ -119,10 +119,14 @@ class Message extends Component {
   };
 
   render() {
-    const { text, avatar, fromUser, typing, type } = this.props;
+    const { text, avatar, fromUser, typing, type, status } = this.props;
     const { sent } = this.state;
     return (
-      <styles.Message className="Message" fromUser={fromUser}>
+      <styles.Message
+        inProgress={status === 'in_progress'}
+        className="Message"
+        fromUser={fromUser}
+      >
         {!fromUser && !type && avatar && <Avatar image={avatar} />}
         {type === 'request' ? (
           <RequestBubble
@@ -183,6 +187,12 @@ styles.Message = styled.div`
   display: flex;
   align-items: flex-end;
   padding: 0 0 15px 0;
+  ${props =>
+    props.inProgress &&
+    `
+    opacity: 0.75;
+  `}
+
   ${props =>
     props.fromUser &&
     `

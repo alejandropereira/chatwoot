@@ -15,7 +15,7 @@ module Queries
       set_contact(token)
       @contact_inbox.conversations.find_by(
         uuid: uuid
-      ).messages.page(page).per(per)
+      ).messages.page(page).per(per).reorder(created_at: :desc)
     end
 
     private

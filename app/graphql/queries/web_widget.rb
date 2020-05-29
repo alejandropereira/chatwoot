@@ -15,7 +15,8 @@ module Queries
 
       {
         widget: @web_widget,
-        token: @token
+        token: @token,
+        pubsub_token: @contact.pubsub_token
       }
     end
 
