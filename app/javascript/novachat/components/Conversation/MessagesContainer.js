@@ -47,10 +47,11 @@ const MessagesContainer = ({
           />
         )}
         {messages &&
-          messages.reverse().map(message => {
+          messages.map(message => {
             return (
               <Message
                 key={message.id}
+                status={message.status}
                 avatar={message.assignee && message.assignee.avatarUrl}
                 text={message.content}
                 fromUser={message.messageType === 'incoming'}

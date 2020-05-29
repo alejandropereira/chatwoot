@@ -1,11 +1,8 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useReducer,
-  useContext,
-} from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { TweenLite, Power4 } from 'gsap';
+import Cookies from 'js-cookie';
+import { gql } from 'apollo-boost';
+import { useMutation } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import TextareaAutoSize from 'react-textarea-autosize';
 import variables from '../../utils/variables';
@@ -13,15 +10,34 @@ import LogoNova from '../../components/Svgs/LogoNova';
 import IconSmile from '../../components/Svgs/IconSmile';
 import IconPaperClip from '../../components/Svgs/IconPaperClip';
 import AppContext from '../../context/AppContext';
+import getUuid from '../../../widget/helpers/uuid';
+import { types } from '../../reducers'
+
+const CREATE_MESSAGE = gql`
+  mutation createMessage(
+    $websiteToken: String!
+    $token: String
+    $content: String
+  ) {
+    createMessage(
+      input: { websiteToken: $websiteToken, token: $token, content: $content }
+    ) {
+      message {
+        id
+      }
+    }
+  }
+`;
 
 const ChatInput = () => {
   const {
     state: { onMessages, onHome, onChatList },
+    dispatch,
   } = useContext(AppContext);
   const [message, setMessage] = useState('');
   const chatInputRef = useRef();
   const inputRef = useRef();
-  const onMessageSent = () => {};
+  const [createMessage] = useMutation(CREATE_MESSAGE);
 
   const focusInput = () => {
     if (inputRef.current && onMessages) {
@@ -57,17 +73,34 @@ const ChatInput = () => {
     toggleInput();
   }, [onMessages, onHome, onChatList]);
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setMessage(event.target.value);
   };
 
-  const onSave = (e) => {
+  const onSave = e => {
     e.preventDefault();
-    onMessageSent(message);
+    createMessage({
+      variables: {
+        content: message,
+        websiteToken: 'dYh5GQtcMgCM1KTozn5f29a2',
+        token: Cookies.get('cw_conversation'),
+      },
+    });
+    dispatch({
+      type: types.APPEND_IP_MESSAGE,
+      payload: {
+        id: getUuid(),
+        createdAt: new Date().toISOString(),
+        assignee: null,
+        content: message,
+        status: 'in_progress',
+        messageType: 'incoming',
+      },
+    });
     setMessage('');
   };
 
-  const onEnterPress = (e) => {
+  const onEnterPress = e => {
     if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
       onSave(e);
