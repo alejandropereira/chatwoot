@@ -6,12 +6,18 @@ class ApplicationController < ActionController::Base
 
   before_action :set_current_user, unless: :devise_controller?
   before_action :check_subscription, unless: :devise_controller?
+  before_action :set_raven_context
   around_action :handle_with_exception, unless: :devise_controller?
 
   # after_action :verify_authorized
   rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
 
   private
+
+  def set_raven_context
+    Raven.user_context(id: current_user.id, account_id: current_account.id)
+    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+  end
 
   def current_account
     @_ ||= find_current_account
