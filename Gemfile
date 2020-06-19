@@ -86,6 +86,7 @@ gem 'sentry-raven'
 
 ##-- background job processing --##
 gem 'sidekiq'
+gem 'sidekiq-failures'
 
 ##-- Push notification service --##
 gem 'fcm'

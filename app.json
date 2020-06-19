@@ -6,6 +6,12 @@
   "logo": "https://app.chatwoot.com/brand-assets/logo_thumbnail.svg",
   "keywords": ["live chat", "customer support", "ruby", "rails", "vue"],
   "success_url": "/app/login",
+  "scripts": {
+    "dokku": {
+      "postdeploy": "bundle exec rake db:migrate"
+    },
+    "postdeploy": "bundle exec rake db:migrate && bundle exec rake db:seed"
+  },
   "env": {
     "SECRET_TOKEN": {
       "description": "A secret key for verifying the integrity of signed cookies.",
