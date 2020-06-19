@@ -14,10 +14,13 @@ export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
-  getSelectedEmailFlags: $state => {
+  getSelectedEmailFlags: ($state) => {
     return $state.record.selected_email_flags;
   },
-  getSelectedPushFlags: $state => {
+  getSelectedSmsFlags: ($state) => {
+    return $state.record.selected_sms_flags;
+  },
+  getSelectedPushFlags: ($state) => {
     return $state.record.selected_push_flags;
   },
 };
@@ -38,12 +41,16 @@ export const actions = {
     }
   },
 
-  update: async ({ commit }, { selectedEmailFlags, selectedPushFlags }) => {
+  update: async (
+    { commit },
+    { selectedEmailFlags, selectedSmsFlags, selectedPushFlags }
+  ) => {
     commit(types.default.SET_USER_NOTIFICATION_UI_FLAG, { isUpdating: true });
     try {
       const response = await UserNotificationSettings.update({
         notification_settings: {
           selected_email_flags: selectedEmailFlags,
+          selected_sms_flags: selectedSmsFlags,
           selected_push_flags: selectedPushFlags,
         },
       });

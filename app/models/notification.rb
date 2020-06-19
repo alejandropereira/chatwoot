@@ -74,5 +74,6 @@ class Notification < ApplicationRecord
 
     # Queuing after 2 minutes so that we won't send emails for read notifications
     Notification::EmailNotificationJob.set(wait: 2.minutes).perform_later(self)
+    Notification::SmsNotificationJob.set(wait: 2.minutes).perform_later(self)
   end
 end

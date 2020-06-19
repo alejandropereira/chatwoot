@@ -1,6 +1,16 @@
 # loading installation configs
 GlobalConfig.clear_cache
 ConfigLoader.new.process
+Account.destroy_all
+User.destroy_all
+AccountUser.destroy_all
+Channel::WebWidget.destroy_all
+Inbox.destroy_all
+InboxMember.destroy_all
+Contact.destroy_all
+ContactInbox.destroy_all
+Conversation.destroy_all
+Message.destroy_all
 
 account = Account.create!(
   name: 'Wired Avenue',

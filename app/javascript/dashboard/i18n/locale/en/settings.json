@@ -28,6 +28,12 @@
         "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
         "CONVERSATION_CREATION": "Send email notifications when a new conversation is created"
       },
+      "SMS_NOTIFICATIONS_SECTION": {
+        "TITLE": "SMS Notifications",
+        "NOTE": "Update your sms notification preferences here",
+        "CONVERSATION_ASSIGNMENT": "Send sms notifications when a conversation is assigned to me",
+        "CONVERSATION_CREATION": "Send sms notifications when a new conversation is created"
+      },
       "API": {
         "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
         "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
@@ -74,6 +80,11 @@
         "LABEL": "Your email address",
         "ERROR": "Please enter a valid email address",
         "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+      },
+      "PHONE": {
+        "LABEL": "Your phone number",
+        "ERROR": "Please enter a valid phone number",
+        "PLACEHOLDER": "Please enter your phone number, this would be used for sms notifications"
       },
       "PASSWORD": {
         "LABEL": "Password",

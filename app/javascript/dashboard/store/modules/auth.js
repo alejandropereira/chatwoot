@@ -13,6 +13,7 @@ const state = {
     account_id: null,
     channel: null,
     email: null,
+    phone_number: null,
     name: null,
     provider: null,
     uid: null,
@@ -68,7 +69,7 @@ export const actions = {
           window.location = '/';
           resolve();
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -76,6 +77,7 @@ export const actions = {
   async validityCheck(context) {
     try {
       const response = await authAPI.validityCheck();
+      console.log({ data: response.data.payload.data });
       setUser(response.data.payload.data, getHeaderExpiry(response));
       context.commit(types.default.SET_CURRENT_USER);
     } catch (error) {

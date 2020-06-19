@@ -13,6 +13,10 @@
         "TITLE": "General settings",
         "NOTE": ""
       },
+      "TWILIO_SECTION": {
+        "TITLE": "Twilio settings",
+        "NOTE": ""
+      },
       "NAME": {
         "LABEL": "Account name",
         "PLACEHOLDER": "Your account name",

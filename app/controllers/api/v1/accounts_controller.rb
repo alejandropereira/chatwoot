@@ -33,7 +33,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def update
-    @account.update!(account_params.slice(:name, :locale, :domain, :support_email))
+    @account.update!(account_params.slice(:name, :locale, :domain, :support_email, :domain_emails_enabled, :account_sid, :auth_token, :phone_number))
   end
 
   def update_active_at
@@ -58,7 +58,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :locale, :domain, :support_email)
+    params.permit(:account_name, :email, :name, :locale, :domain, :support_email, :domain_emails_enabled, :account_sid, :auth_token, :phone_number)
   end
 
   def check_signup_enabled

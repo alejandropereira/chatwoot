@@ -2,15 +2,16 @@
 #
 # Table name: accounts
 #
-#  id             :integer          not null, primary key
-#  domain         :string(100)
-#  feature_flags  :integer          default(0), not null
-#  locale         :integer          default("en")
-#  name           :string           not null
-#  settings_flags :integer          default(0), not null
-#  support_email  :string(100)
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
+#  id              :integer          not null, primary key
+#  domain          :string(100)
+#  feature_flags   :integer          default(0), not null
+#  locale          :integer          default("en")
+#  name            :string           not null
+#  settings_flags  :integer          default(0), not null
+#  support_email   :string(100)
+#  twilio_settings :jsonb            not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 
 class Account < ApplicationRecord
@@ -56,6 +57,8 @@ class Account < ApplicationRecord
 
   after_create :notify_creation
   after_destroy :notify_deletion
+
+  store :twilio_settings, accessors: [:account_sid, :auth_token, :phone_number]
 
   def agents
     users.where(account_users: { role: :agent })

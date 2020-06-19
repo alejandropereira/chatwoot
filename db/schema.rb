@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2020_08_02_170002) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pgcrypto"
@@ -49,6 +48,7 @@ ActiveRecord::Schema.define(version: 2020_08_02_170002) do
     t.string "support_email", limit: 100
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
+    t.jsonb "twilio_settings", default: "{}", null: false
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
@@ -341,6 +341,7 @@ ActiveRecord::Schema.define(version: 2020_08_02_170002) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "push_flags", default: 0, null: false
+    t.integer "sms_flags", default: 0, null: false
     t.index ["account_id", "user_id"], name: "by_account_user", unique: true
   end
 
@@ -457,6 +458,7 @@ ActiveRecord::Schema.define(version: 2020_08_02_170002) do
     t.datetime "updated_at", null: false
     t.string "pubsub_token"
     t.integer "availability", default: 0
+    t.string "phone_number"
     t.index ["email"], name: "index_users_on_email"
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

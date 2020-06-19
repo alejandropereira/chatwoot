@@ -122,6 +122,7 @@ export default {
     password,
     password_confirmation,
     displayName,
+    phone_number,
     ...profileAttributes
   }) {
     const formData = new FormData();
@@ -132,6 +133,10 @@ export default {
       }
     });
     formData.append('profile[display_name]', displayName || '');
+
+    if (phone_number) {
+      formData.append('profile[phone_number]', phone_number);
+    }
     if (password && password_confirmation) {
       formData.append('profile[password]', password);
       formData.append('profile[password_confirmation]', password_confirmation);

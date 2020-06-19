@@ -91,6 +91,11 @@
           "LABEL": "Channel Type",
           "ERROR": "Please select your Channel Type"
         },
+        "PHONE": {
+          "LABEL": "Phone Number",
+          "PLACEHOLDER": "Please enter your Twilio Phone Number",
+          "ERROR": "This field is required"
+        },
         "AUTH_TOKEN": {
           "LABEL": "Auth Token",
           "PLACEHOLDER": "Please enter your Twilio Auth Token",
