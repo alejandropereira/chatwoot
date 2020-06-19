@@ -80,6 +80,7 @@ gem 'sentry-raven'
 
 ##-- background job processing --##
 gem 'sidekiq'
+gem 'sidekiq-failures'
 
 ##-- used for single column multiple binary flags in notification settings/feature flagging --##
 gem 'flag_shih_tzu'
