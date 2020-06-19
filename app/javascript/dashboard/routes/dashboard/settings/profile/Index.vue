@@ -44,6 +44,18 @@
               {{ $t('PROFILE_SETTINGS.FORM.EMAIL.ERROR') }}
             </span>
           </label>
+          <label :class="{ error: $v.phoneNumber.$error }">
+            {{ $t('PROFILE_SETTINGS.FORM.PHONE.LABEL') }}
+            <input
+              v-model.trim="phoneNumber"
+              type="text"
+              :placeholder="$t('PROFILE_SETTINGS.FORM.PHONE.PLACEHOLDER')"
+              @input="$v.phoneNumber.$touch"
+            />
+            <span v-if="$v.phoneNumber.$error" class="message">
+              {{ $t('PROFILE_SETTINGS.FORM.PHONE.ERROR') }}
+            </span>
+          </label>
         </div>
       </div>
       <div class="profile--settings--row row">
@@ -116,6 +128,8 @@ import { mapGetters } from 'vuex';
 import { clearCookiesOnLogout } from '../../../../store/utils/api';
 import NotificationSettings from './NotificationSettings';
 
+const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
+
 export default {
   components: {
     NotificationSettings,
@@ -127,6 +141,7 @@ export default {
       avatarUrl: '',
       name: '',
       email: '',
+      phoneNumber: '',
       password: '',
       passwordConfirmation: '',
       isUpdating: false,
@@ -140,6 +155,7 @@ export default {
       required,
       email,
     },
+    phoneNumber: { required, shouldStartWithPlusSign },
     password: {
       minLength: minLength(6),
     },
@@ -173,9 +189,11 @@ export default {
   },
   methods: {
     initializeUser() {
+      console.log({ currentUser: this.currentUser });
       this.name = this.currentUser.name;
       this.email = this.currentUser.email;
       this.avatarUrl = this.currentUser.avatar_url;
+      this.phoneNumber = this.currentUser.phone_number;
     },
     async updateUser() {
       this.$v.$touch();
@@ -189,6 +207,7 @@ export default {
         await this.$store.dispatch('updateProfile', {
           name: this.name,
           email: this.email,
+          phone_number: this.phoneNumber,
           avatar: this.avatarFile,
           password: this.password,
           password_confirmation: this.passwordConfirmation,

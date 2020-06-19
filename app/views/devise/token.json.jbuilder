@@ -7,6 +7,7 @@ json.payload do
     json.name @resource.name
     json.nickname @resource.nickname
     json.email @resource.email
+    json.phone_number @resource.phone_number
     json.account_id @resource.account.id
     json.pubsub_token @resource.pubsub_token
     json.role @resource.account_user.role

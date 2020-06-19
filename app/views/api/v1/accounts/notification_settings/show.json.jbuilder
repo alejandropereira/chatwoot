@@ -5,3 +5,5 @@ json.all_email_flags @notification_setting.all_email_flags
 json.selected_email_flags @notification_setting.selected_email_flags
 json.all_push_flags @notification_setting.all_push_flags
 json.selected_push_flags @notification_setting.selected_push_flags
+json.all_sms_flags @notification_setting.all_sms_flags
+json.selected_sms_flags @notification_setting.selected_sms_flags

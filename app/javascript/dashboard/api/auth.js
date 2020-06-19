@@ -11,11 +11,11 @@ export default {
     return new Promise((resolve, reject) => {
       axios
         .post('auth/sign_in', creds)
-        .then(response => {
+        .then((response) => {
           setAuthCredentials(response);
           resolve();
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error.response);
         });
     });
@@ -29,11 +29,11 @@ export default {
           account_name: creds.name,
           email: creds.email,
         })
-        .then(response => {
+        .then((response) => {
           setAuthCredentials(response);
           resolve(response);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -48,11 +48,11 @@ export default {
     const fetchPromise = new Promise((resolve, reject) => {
       axios
         .delete(urlData.url)
-        .then(response => {
+        .then((response) => {
           clearCookiesOnLogout();
           resolve(response);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -103,11 +103,11 @@ export default {
           password_confirmation: confirmPassword,
           password,
         })
-        .then(response => {
+        .then((response) => {
           setAuthCredentials(response);
           resolve(response);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error.response);
         });
     });
@@ -118,13 +118,23 @@ export default {
     return axios.post(urlData.url, { email });
   },
 
-  profileUpdate({ name, email, password, password_confirmation, avatar }) {
+  profileUpdate({
+    name,
+    email,
+    password,
+    password_confirmation,
+    avatar,
+    phone_number,
+  }) {
     const formData = new FormData();
     if (name) {
       formData.append('profile[name]', name);
     }
     if (email) {
       formData.append('profile[email]', email);
+    }
+    if (phone_number) {
+      formData.append('profile[phone_number]', phone_number);
     }
     if (password && password_confirmation) {
       formData.append('profile[password]', password);

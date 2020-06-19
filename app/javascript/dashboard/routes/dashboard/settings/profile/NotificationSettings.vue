@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="profile--settings--row row">
-      <div class="columns small-3 ">
+      <div class="columns small-3">
         <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.EMAIL_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
@@ -45,8 +45,53 @@
         </div>
       </div>
     </div>
+    <div class="profile--settings--row row">
+      <div class="columns small-3">
+        <h4 class="block-title">
+          {{ $t('PROFILE_SETTINGS.FORM.SMS_NOTIFICATIONS_SECTION.TITLE') }}
+        </h4>
+        <p>
+          {{ $t('PROFILE_SETTINGS.FORM.SMS_NOTIFICATIONS_SECTION.NOTE') }}
+        </p>
+      </div>
+      <div class="columns small-9">
+        <div>
+          <input
+            v-model="selectedSmsFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="sms_conversation_creation"
+            @input="handleSmsInput"
+          />
+          <label for="conversation_creation">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.SMS_NOTIFICATIONS_SECTION.CONVERSATION_CREATION'
+              )
+            }}
+          </label>
+        </div>
+
+        <div>
+          <input
+            v-model="selectedSmsFlags"
+            class="notification--checkbox"
+            type="checkbox"
+            value="sms_conversation_assignment"
+            @input="handleSmsInput"
+          />
+          <label for="conversation_assignment">
+            {{
+              $t(
+                'PROFILE_SETTINGS.FORM.SMS_NOTIFICATIONS_SECTION.CONVERSATION_ASSIGNMENT'
+              )
+            }}
+          </label>
+        </div>
+      </div>
+    </div>
     <div v-if="vapidPublicKey" class="profile--settings--row row push-row">
-      <div class="columns small-3 ">
+      <div class="columns small-3">
         <h4 class="block-title">
           {{ $t('PROFILE_SETTINGS.FORM.PUSH_NOTIFICATIONS_SECTION.TITLE') }}
         </h4>
@@ -125,6 +170,7 @@ export default {
   data() {
     return {
       selectedEmailFlags: [],
+      selectedSmsFlags: [],
       selectedPushFlags: [],
       hasEnabledPushPermissions: false,
     };
@@ -132,12 +178,16 @@ export default {
   computed: {
     ...mapGetters({
       emailFlags: 'userNotificationSettings/getSelectedEmailFlags',
+      smsFlags: 'userNotificationSettings/getSelectedSmsFlags',
       pushFlags: 'userNotificationSettings/getSelectedPushFlags',
     }),
   },
   watch: {
     emailFlags(value) {
       this.selectedEmailFlags = value;
+    },
+    smsFlags(value) {
+      this.selectedSmsFlags = value;
     },
     pushFlags(value) {
       this.selectedPushFlags = value;
@@ -160,10 +210,10 @@ export default {
       });
     },
     getPushSubscription() {
-      verifyServiceWorkerExistence(registration =>
+      verifyServiceWorkerExistence((registration) =>
         registration.pushManager
           .getSubscription()
-          .then(subscription => {
+          .then((subscription) => {
             console.log(subscription);
             if (!subscription) {
               this.hasEnabledPushPermissions = false;
@@ -171,13 +221,14 @@ export default {
               this.hasEnabledPushPermissions = true;
             }
           })
-          .catch(error => console.log(error))
+          .catch((error) => console.log(error))
       );
     },
     async updateNotificationSettings() {
       try {
         this.$store.dispatch('userNotificationSettings/update', {
           selectedEmailFlags: this.selectedEmailFlags,
+          selectedSmsFlags: this.selectedSmsFlags,
           selectedPushFlags: this.selectedPushFlags,
         });
         this.showAlert(this.$t('PROFILE_SETTINGS.FORM.API.UPDATE_SUCCESS'));
@@ -193,6 +244,14 @@ export default {
 
       this.updateNotificationSettings();
     },
+    handleSmsInput(e) {
+      this.selectedSmsFlags = this.toggleInput(
+        this.selectedSmsFlags,
+        e.target.value
+      );
+
+      this.updateNotificationSettings();
+    },
     handlePushInput(e) {
       this.selectedPushFlags = this.toggleInput(
         this.selectedPushFlags,
@@ -203,7 +262,7 @@ export default {
     },
     toggleInput(selected, current) {
       if (selected.includes(current)) {
-        const newSelectedFlags = selected.filter(flag => flag !== current);
+        const newSelectedFlags = selected.filter((flag) => flag !== current);
         return newSelectedFlags;
       }
       return [...selected, current];

@@ -1,8 +1,8 @@
 <template>
-  <div class="columns profile--settings ">
+  <div class="columns profile--settings">
     <form v-if="!uiFlags.isFetchingItem" @submit.prevent="updateAccount">
       <div class="small-12 row profile--settings--row">
-        <div class="columns small-3 ">
+        <div class="columns small-3">
           <h4 class="block-title">
             {{ $t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE') }}
           </h4>
@@ -78,6 +78,47 @@
           </label>
         </div>
       </div>
+      <div class="small-12 row profile--settings--row">
+        <div class="columns small-3">
+          <h4 class="block-title">
+            {{ $t('GENERAL_SETTINGS.FORM.TWILIO_SECTION.TITLE') }}
+          </h4>
+          <p>{{ $t('GENERAL_SETTINGS.FORM.TWILIO_SECTION.NOTE') }}</p>
+        </div>
+        <div class="columns small-9 medium-5">
+          <label>
+            {{ $t('INBOX_MGMT.ADD.TWILIO.PHONE.LABEL') }}
+            <input
+              v-model="twilioSettings.phone_number"
+              type="text"
+              :placeholder="$t('INBOX_MGMT.ADD.TWILIO.PHONE.PLACEHOLDER')"
+            />
+          </label>
+          <label>
+            {{ $t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.LABEL') }}
+            <input
+              v-model="twilioSettings.account_sid"
+              type="text"
+              :placeholder="$t('INBOX_MGMT.ADD.TWILIO.ACCOUNT_SID.PLACEHOLDER')"
+            />
+          </label>
+          <label
+            :class="{
+              relative: true,
+            }"
+          >
+            {{ $t('INBOX_MGMT.ADD.TWILIO.AUTH_TOKEN.LABEL') }}
+            <input
+              v-model="twilioSettings.auth_token"
+              :type="displayToken ? 'text' : 'password'"
+              :placeholder="$t('INBOX_MGMT.ADD.TWILIO.AUTH_TOKEN.PLACEHOLDER')"
+            />
+            <span class="show-hide" @click="displayToken = !displayToken">{{
+              displayToken ? 'HIDE' : 'SHOW'
+            }}</span>
+          </label>
+        </div>
+      </div>
       <woot-submit-button
         class="button nice success button--fixed-right-top"
         :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
@@ -109,6 +150,12 @@ export default {
       domainEmailsEnabled: false,
       supportEmail: '',
       features: {},
+      twilioSettings: {
+        phone_number: '',
+        account_sid: '',
+        auth_token: '',
+      },
+      displayToken: false,
     };
   },
   validations: {
@@ -153,6 +200,7 @@ export default {
           support_email,
           domain_emails_enabled,
           features,
+          twilio_settings,
         } = this.getAccount(accountId);
 
         Vue.config.lang = locale;
@@ -163,6 +211,7 @@ export default {
         this.supportEmail = support_email;
         this.domainEmailsEnabled = domain_emails_enabled;
         this.features = features;
+        this.twilioSettings = twilio_settings;
       }
     },
 
@@ -179,6 +228,9 @@ export default {
           domain: this.domain,
           support_email: this.supportEmail,
           domain_emails_enabled: this.domainEmailsEnabled,
+          account_sid: this.twilioSettings.account_sid,
+          auth_token: this.twilioSettings.auth_token,
+          phone_number: this.twilioSettings.phone_number,
         });
         Vue.config.lang = this.locale;
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
@@ -208,5 +260,22 @@ export default {
   .small-9 {
     padding: $space-normal;
   }
+}
+
+.show-hide {
+  cursor: pointer;
+  position: absolute;
+  bottom: 7px;
+  right: 10px;
+  color: #5d49c7;
+  font-size: 13px;
+
+  &:hover {
+    color: #4b37b3;
+  }
+}
+
+.relative {
+  position: relative;
 }
 </style>

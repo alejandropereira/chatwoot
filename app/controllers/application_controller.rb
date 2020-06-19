@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   private
 
   def set_raven_context
-    Raven.user_context(id: current_user.id, account_id: current_account.id)
+    Raven.user_context(id: current_user&.id, account_id: current_account&.id)
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
   end
 
@@ -24,7 +24,11 @@ class ApplicationController < ActionController::Base
   end
 
   def find_current_account
-    account = Account.find(params[:account_id] || params[:id])
+    puts params
+    id = params[:account_id] || params[:id]
+    return unless id
+
+    account = Account.find(id)
     if current_user
       account_accessible_for_user?(account)
     elsif @resource&.is_a?(AgentBot)
@@ -64,7 +68,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_subscription
-    @subscription ||= current_account.subscription
+    @subscription ||= current_account&.subscription
   end
 
   def render_unauthorized(message)
@@ -96,7 +100,7 @@ class ApplicationController < ActionController::Base
   def check_subscription
     # This block is left over from the initial version of chatwoot
     # We might reuse this later in the hosted version of chatwoot.
-    return if !ENV['BILLING_ENABLED'] || !current_user
+    return if !ENV['BILLING_ENABLED'] || !current_user || !current_subscription
 
     if current_subscription.trial? && current_subscription.expiry < Date.current
       render json: { error: 'Trial Expired' }, status: :trial_expired
