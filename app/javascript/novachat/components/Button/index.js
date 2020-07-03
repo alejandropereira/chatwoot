@@ -1,12 +1,12 @@
-import React from "react";
-import styled from "styled-components";
-import variables from "../../utils/variables";
+import React from 'react';
+import styled from 'styled-components';
+import variables from '../../utils/variables';
 
 function Button({ text, icon: Icon, flat, onClick, className }) {
   return (
     <styles.Button flat={flat} onClick={onClick} className={className}>
-      {Icon && typeof Icon !== "string" && <Icon />}
-      {Icon && typeof Icon === "string" && <img src={Icon} alt={text} />}
+      {Icon && typeof Icon !== 'string' && <Icon />}
+      {Icon && typeof Icon === 'string' && <img src={Icon} alt={text} />}
       {text}
     </styles.Button>
   );
@@ -26,6 +26,7 @@ styles.Button = styled.button`
   cursor: pointer;
   outline: none;
   border: none;
+  white-space: nowrap;
   ${props =>
     props.flat &&
     `

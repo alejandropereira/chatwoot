@@ -461,6 +461,8 @@ GEM
       rack (~> 2.0)
       rack-protection (>= 2.0.0)
       redis (>= 4.1.0)
+    sidekiq-failures (1.0.0)
+      sidekiq (>= 4.0.0)
     signet (0.14.0)
       addressable (~> 2.3)
       faraday (>= 0.17.3, < 2.0)
@@ -617,6 +619,7 @@ DEPENDENCIES
   sentry-raven
   shoulda-matchers
   sidekiq
+  sidekiq-failures
   simplecov (= 0.17.1)
   slack-ruby-client
   spring

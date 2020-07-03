@@ -26,13 +26,14 @@ const MESSAGES = gql`
 
 const Messages = ({ onMessages, currentConversation }) => {
   const {
-    state: { messages },
+    state: { messages, websiteToken },
     dispatch,
   } = useContext(AppContext);
-  const [typing, setTyping] = useState(false);
-  const { loading, error } = useQuery(MESSAGES, {
+  const [typing] = useState(false);
+  useQuery(MESSAGES, {
     variables: {
-      websiteToken: 'dYh5GQtcMgCM1KTozn5f29a2',
+      websiteToken,
+
       token: Cookies.get('cw_conversation'),
       uuid: currentConversation.uuid,
     },
@@ -41,8 +42,7 @@ const Messages = ({ onMessages, currentConversation }) => {
     },
   });
 
-  if (loading || error) return null;
-
+  console.log({ ms: messages });
   return (
     <MessagesContainer
       typing={typing}
@@ -54,7 +54,7 @@ const Messages = ({ onMessages, currentConversation }) => {
 };
 
 Messages.propTypes = {
-  conversationId: PropTypes.string,
+  currentConversation: PropTypes.object,
   onMessages: PropTypes.bool,
 };
 

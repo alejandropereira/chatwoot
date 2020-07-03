@@ -132,4 +132,5 @@ group :development, :test do
   gem 'spring-watcher-listen'
   gem 'webmock'
   gem 'graphiql-rails'
+  gem 'cypress-on-rails', '~> 1.0'
 end

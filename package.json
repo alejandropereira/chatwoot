@@ -40,6 +40,7 @@
     "dotenv": "^8.0.0",
     "emojione": "~2.2.7",
     "foundation-sites": "~6.5.3",
+    "global": "^4.4.0",
     "graphql": "^15.0.0",
     "gsap": "file:./app/javascript/novachat/gsap/gsap-bonus.tgz",
     "highlight.js": "^9.15.10",

@@ -52,6 +52,7 @@ const findUndeliveredMessage = (state, { content }) =>
   );
 
 const reducer = (state, action) => {
+  console.log({ state, action });
   switch (action.type) {
     case types.OPEN_CHAT:
       return {
@@ -126,6 +127,7 @@ const reducer = (state, action) => {
         messages: action.payload,
       };
     case types.APPEND_IP_MESSAGE:
+      console.log({ messages: [...[action.payload], ...state.messages] });
       return {
         ...state,
         messages: [...[action.payload], ...state.messages],
