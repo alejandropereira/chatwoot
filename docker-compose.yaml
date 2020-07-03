@@ -42,6 +42,33 @@ services:
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
 
+  rails_test:
+    <<: *base
+    build:
+      context: .
+      dockerfile: ./docker/dockerfiles/rails.Dockerfile
+    image: chatwoot-rails:development
+    volumes:
+      - ./:/app:delegated
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+    depends_on:
+      - postgres
+      - redis
+      - webpack
+      - mailhog
+      - sidekiq
+    ports:
+      - 5017:5017
+    environment:
+      - WEBPACKER_DEV_SERVER_HOST=webpack
+      - NODE_ENV=development
+      - RAILS_ENV=test
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '5017', '-b', '0.0.0.0']
+
   sidekiq:
     <<: *base
     image: chatwoot-rails:development

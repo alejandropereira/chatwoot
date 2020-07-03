@@ -16,7 +16,7 @@ environment.loaders.append('audio', {
 
 environment.config.merge({ resolve });
 environment.config.set('output.filename', chunkData => {
-  return chunkData.chunk.name === 'sdk'
+  return ['novachat', 'sdk'].includes(chunkData.chunk.name)
     ? 'js/[name].js'
     : 'js/[name]-[hash].js';
 });

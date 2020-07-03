@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
 import styled from 'styled-components';
 import { TweenLite } from 'gsap';
 import Conversation from '../components/Conversation';
@@ -65,7 +65,7 @@ styles.ChatBoxWrapper = styled.div`
   border-radius: ${variables.BorderRadius};
   width: ${variables.ChatWidth}px;
   height: calc(${variables.ChatHeight} - ${variables.HeaderSmall}px);
-  top: ${variables.HeaderSmall}px;
+  bottom: 0;
   left: 0;
   position: absolute;
 `;

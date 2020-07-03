@@ -119,4 +119,5 @@ group :development, :test do
   gem 'simplecov', '0.17.1', require: false
   gem 'spring'
   gem 'spring-watcher-listen'
+  gem 'cypress-on-rails', '~> 1.0'
 end

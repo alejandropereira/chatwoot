@@ -1,7 +1,10 @@
-import React, { useReducer, useContext } from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Transition } from 'react-transition-group';
 import { TweenLite } from 'gsap';
+import { gql } from 'apollo-boost';
+import Cookies from 'js-cookie';
+import { useQuery } from '@apollo/react-hooks';
 import Button from '../Button';
 import Messages from './Messages';
 import UserList from './UserList';
@@ -12,11 +15,48 @@ import IconChat from '../../components/Svgs/IconChat';
 import { types } from '../../reducers';
 import AppContext from '../../context/AppContext';
 
+const CONVERSATIONS = gql`
+  query conversations($token: String!, $websiteToken: String!) {
+    conversations(token: $token, websiteToken: $websiteToken) {
+      collection {
+        id
+        uuid
+        assignee {
+          id
+          avatarUrl
+          availabilityStatus
+          name
+        }
+        messages(sorting: { field: id, order: DESC }, per: 1) {
+          collection {
+            id
+            content
+            createdAt
+          }
+        }
+      }
+    }
+  }
+`;
+
 const Conversation = ({ webWidget }) => {
   const {
-    state: { onHome, onBackHome, onChatList, onMessages, currentConversation },
+    state: {
+      onHome,
+      onBackHome,
+      onChatList,
+      onMessages,
+      currentConversation,
+      websiteToken,
+    },
     dispatch,
   } = useContext(AppContext);
+  const { loading, error, data } = useQuery(CONVERSATIONS, {
+    variables: {
+      websiteToken,
+      token: Cookies.get('cw_conversation'),
+    },
+  });
 
   const onListItemClick = conversationId => {
     dispatch({ type: types.ON_LIST_ITEM_CLICK, payload: conversationId });
@@ -25,6 +65,9 @@ const Conversation = ({ webWidget }) => {
   const onPrevChatClick = () => {
     dispatch({ type: types.ON_PREV_CHAT_CLICK });
   };
+
+  if (loading) return <p>Loading</p>;
+  if (error) return <p>Error!</p>;
 
   return (
     <React.Fragment>
@@ -36,19 +79,21 @@ const Conversation = ({ webWidget }) => {
           onListItemClick={onListItemClick}
           onPrevChatClick={onPrevChatClick}
           agents={webWidget.widget.agents}
+          conversations={data.conversations.collection}
         />
         {/* List */}
         <Conversations
           onChatList={onChatList}
           onBackHome={onBackHome}
           onListItemClick={onListItemClick}
+          conversations={data.conversations.collection}
         />
       </styles.Conversation>
       {/* Side Transition */}
       <Transition
         unmountOnExit
         in={onMessages}
-        addEndListener={(node, done) => {
+        addEndListener={(node, done) =>
           onMessages
             ? TweenLite.to(node, 1, {
                 left: 0,
@@ -57,8 +102,8 @@ const Conversation = ({ webWidget }) => {
             : TweenLite.to(node, 0.5, {
                 left: variables.ChatWidth,
                 onComplete: done,
-              });
-        }}
+              })
+        }
       >
         <SideTransition className="SideTransition" />
       </Transition>

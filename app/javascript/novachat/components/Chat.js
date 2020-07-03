@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import Cookies from 'js-cookie';
 import { gql } from 'apollo-boost';
@@ -19,6 +19,7 @@ const WEB_WIDGET = gql`
   query webWidget($websiteToken: String!, $authToken: String) {
     webWidget(websiteToken: $websiteToken, authToken: $authToken) {
       pubsubToken
+      token
       widget {
         welcomeTitle
         welcomeTagline
@@ -33,11 +34,14 @@ const WEB_WIDGET = gql`
   }
 `;
 
-const Chat = () => {
+const Chat = ({ websiteToken }) => {
+  const [authToken, setAuthToken] = useState(
+    Cookies.get('cw_conversation') || ''
+  );
   const { loading, error, data } = useQuery(WEB_WIDGET, {
     variables: {
-      websiteToken: 'dYh5GQtcMgCM1KTozn5f29a2',
-      authToken: Cookies.get('cw_conversation'),
+      websiteToken,
+      authToken,
     },
   });
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -48,6 +52,11 @@ const Chat = () => {
         { dispatch },
         data.webWidget.pubsubToken
       );
+
+      if (!Cookies.get('cw_conversation')) {
+        Cookies.set('cw_conversation', data.webWidget.token);
+        setAuthToken(data.webWidget.token);
+      }
     }
 
     return () => {
@@ -57,10 +66,12 @@ const Chat = () => {
     };
   }, [data]);
 
-  if (loading || error) return null;
+  if (loading || error || !authToken) return null;
 
   return (
-    <AppContext.Provider value={{ state, dispatch }}>
+    <AppContext.Provider
+      value={{ state: { ...state, websiteToken }, dispatch }}
+    >
       <styles.Chat className="Chat">
         <IntroAnimation />
         <ChatBox webWidget={data.webWidget} />

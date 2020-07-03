@@ -11,16 +11,24 @@ import IconSmile from '../../components/Svgs/IconSmile';
 import IconPaperClip from '../../components/Svgs/IconPaperClip';
 import AppContext from '../../context/AppContext';
 import getUuid from '../../../widget/helpers/uuid';
-import { types } from '../../reducers'
+import { types } from '../../reducers';
 
 const CREATE_MESSAGE = gql`
   mutation createMessage(
     $websiteToken: String!
     $token: String
     $content: String
+    $refererUrl: String
+    $timestamp: String
   ) {
     createMessage(
-      input: { websiteToken: $websiteToken, token: $token, content: $content }
+      input: {
+        websiteToken: $websiteToken
+        token: $token
+        content: $content
+        refererUrl: $refererUrl
+        timestamp: $timestamp
+      }
     ) {
       message {
         id
@@ -31,7 +39,7 @@ const CREATE_MESSAGE = gql`
 
 const ChatInput = () => {
   const {
-    state: { onMessages, onHome, onChatList },
+    state: { onMessages, onHome, onChatList, websiteToken },
     dispatch,
   } = useContext(AppContext);
   const [message, setMessage] = useState('');
@@ -47,26 +55,30 @@ const ChatInput = () => {
 
   const toggleInput = () => {
     if (onHome) {
-      TweenLite.to(chatInputRef.current, 1, {
+      return TweenLite.to(chatInputRef.current, 1, {
         bottom: -48,
         delay: 2.5,
         ease: Power4.easeInOut,
       });
     }
     if (onChatList) {
-      TweenLite.to(chatInputRef.current, 1, {
+      return TweenLite.to(chatInputRef.current, 1, {
         bottom: -48,
         ease: Power4.easeInOut,
       });
     }
     if (onMessages) {
-      TweenLite.to(chatInputRef.current, 1, {
+      return TweenLite.to(chatInputRef.current, 1, {
         bottom: 0,
         ease: Power4.easeInOut,
         delay: 1,
         onComplete: focusInput,
       });
     }
+    return TweenLite.to(chatInputRef.current, 1, {
+      bottom: -48,
+      ease: Power4.easeInOut,
+    });
   };
 
   useEffect(() => {
@@ -82,7 +94,9 @@ const ChatInput = () => {
     createMessage({
       variables: {
         content: message,
-        websiteToken: 'dYh5GQtcMgCM1KTozn5f29a2',
+        websiteToken,
+        refererUrl: window.location.href,
+        timestamp: new Date().toString(),
         token: Cookies.get('cw_conversation'),
       },
     });

@@ -1,26 +1,13 @@
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Transition } from 'react-transition-group';
 import { TweenLite, Power4 } from 'gsap';
-
 import Button from '../Button';
 import Avatar from '../Avatar';
 import IconChat from '../../components/Svgs/IconChat';
 import variables from '../../utils/variables';
 import mixins from '../../utils/mixins';
-
-const AGENTS = gql`
-  query agents($websiteToken: String!) {
-    agents(websiteToken: $websiteToken) {
-      id
-      avatarUrl
-      name
-      availabilityStatus
-    }
-  }
-`;
 
 function UserList({
   onHome,
@@ -28,22 +15,18 @@ function UserList({
   onPrevChatClick,
   onListItemClick,
   agents,
+  conversations,
 }) {
-  const { loading, error, data } = useQuery(AGENTS, {
-    variables: {
-      websiteToken: 'dYh5GQtcMgCM1KTozn5f29a2',
-    },
-  });
-
   return (
     <Transition
       unmountOnExit
       in={onHome}
-      addEndListener={(node, done) => {
+      appear
+      addEndListener={(node, done) =>
         onHome
           ? TweenLite.to(node, 1.5, {
               opacity: 1,
-              top: 100,
+              top: 115,
               ease: Power4.easeOut,
               delay: onBackHome ? 0 : 2.5,
               onComplete: done,
@@ -53,8 +36,8 @@ function UserList({
               top: 0,
               ease: Power4.easeOut,
               onComplete: done,
-            });
-      }}
+            })
+      }
     >
       <styles.UserList className="UserList">
         <div>
@@ -80,13 +63,24 @@ function UserList({
               }
               icon={IconChat}
             />
-            <Button text="previous chats" flat onClick={onPrevChatClick} />
+            {conversations.length > 0 && (
+              <Button text="previous chats" flat onClick={onPrevChatClick} />
+            )}
           </styles.Buttons>
         </div>
       </styles.UserList>
     </Transition>
   );
 }
+
+UserList.propTypes = {
+  onHome: PropTypes.bool,
+  onBackHome: PropTypes.bool,
+  onPrevChatClick: PropTypes.func,
+  onListItemClick: PropTypes.func,
+  agents: PropTypes.array,
+  conversations: PropTypes.array,
+};
 
 const styles = {};
 

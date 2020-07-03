@@ -30,6 +30,7 @@ const MessagesContainer = ({
       messagesRef.current.scrollTo({ top: scrollPosition, behavior: 'smooth' });
     }
   }, [messages]);
+  console.log({ msgs: messages });
 
   return (
     <animated.div style={transition}>

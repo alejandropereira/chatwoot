@@ -1,51 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from '@apollo/react-hooks';
-import { createGlobalStyle } from 'styled-components';
-import reset from 'styled-reset';
-import variables from '../novachat/utils/variables';
-import Chat from '../novachat/components/Chat';
+import App from '../novachat/App';
 
-const GlobalStyle = createGlobalStyle`
-  ${reset}
-  @font-face {
-    font-family: 'Avenir Next';
-    font-style: normal;
-    font-weight: 400;
-    src: url('../novachat/fonts/AvenirNext.ttc.eot'); /* IE9 Compat Modes */
-    src: local('Avenir Next'), local('OpenSans'),
-         url('../novachat/fonts/AvenirNext.ttc.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-         url('../novachat/fonts/AvenirNext.ttc.woff2') format('woff2'), /* Super Modern Browsers */
-         url('../novachat/fonts/AvenirNext.ttc.woff') format('woff'), /* Modern Browsers */
-         url('../novachat/fonts/AvenirNext.ttc.ttf') format('truetype'), /* Safari, Android, iOS */
-         url('../novachat/fonts/AvenirNext.ttc.svg#OpenSans') format('svg'); /* Legacy iOS */
+class NovachatMessenger {
+  constructor(props) {
+    this.props = props;
   }
 
-  body{
-    font-family: ${variables.MainFontFamily};
-    color: ${variables.MainFontColor};
-    font-size: ${variables.MainFontSize};
-    line-height: 20px;
-    background: ${
-      process.env.NODE_ENV === 'production' ? 'transparent' : '#F1F0F2'
-    };
+  render() {
+    ReactDOM.render(
+      <App {...this.props} />,
+      document.body.appendChild(document.createElement('div'))
+    );
   }
-`;
+}
 
-const client = new ApolloClient({
-  uri: '/graphql',
-});
-
-const App = () => (
-  <ApolloProvider client={client}>
-    <GlobalStyle />
-    <Chat websiteToken="dYh5GQtcMgCM1KTozn5f29a2" />
-  </ApolloProvider>
-);
-document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(
-    <App />,
-    document.body.appendChild(document.createElement('div'))
-  );
-});
+window.NovachatMessenger = NovachatMessenger;
