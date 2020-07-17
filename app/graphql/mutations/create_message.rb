@@ -14,9 +14,6 @@ class Mutations::CreateMessage < Mutations::BaseMutation
     set_conversation({ referer_url: referer_url, timestamp: timestamp })
     message = conversation.messages.new(message_params(content))
     message.save
-    puts "---------------"
-    puts @contact.pubsub_token
-    puts "---------------"
 
     {
       message: message,

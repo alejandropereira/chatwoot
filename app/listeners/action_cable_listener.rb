@@ -17,7 +17,6 @@ class ActionCableListener < BaseListener
     message, account, timestamp = extract_message_and_account(event)
     conversation = message.conversation
     tokens = user_tokens(account, conversation.inbox.members) + contact_token(conversation.contact, message)
-
     broadcast(tokens, MESSAGE_CREATED, message.push_event_data)
   end
 

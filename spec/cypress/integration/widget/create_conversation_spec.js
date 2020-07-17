@@ -12,9 +12,11 @@ describe('Creates a new conversation', function() {
     cy.get('.sc-fznyAO > .sc-AxirZ')
       .should('be.visible')
       .click();
-    cy.wait(2500);
     cy.get('form > textarea')
       .should('be.visible')
-      .type('Hello {enter}');
+      .type('Hello{enter}');
+    cy.get('.sc-fzoLsD').within($messages => {
+      cy.get('.sc-AxmLO').should('have.text', 'Hello');
+    });
   });
 });
