@@ -151,6 +151,9 @@ GEM
     database_cleaner (1.8.5)
     datetime_picker_rails (0.0.7)
       momentjs-rails (>= 2.8.1)
+    database_cleaner-active_record (1.8.0)
+      activerecord
+      database_cleaner (~> 1.8.0)
     declarative (0.0.10)
     declarative-option (0.1.0)
     descendants_tracker (0.0.4)
@@ -572,6 +575,7 @@ DEPENDENCIES
   byebug
   cypress-on-rails (~> 1.0)
   database_cleaner
+  database_cleaner-active_record
   devise
   devise_token_auth
   dotenv-rails

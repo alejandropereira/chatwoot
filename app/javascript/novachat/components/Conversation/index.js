@@ -93,6 +93,7 @@ const Conversation = ({ webWidget }) => {
       <Transition
         unmountOnExit
         in={onMessages}
+        appear
         addEndListener={(node, done) =>
           onMessages
             ? TweenLite.to(node, 1, {
@@ -109,15 +110,12 @@ const Conversation = ({ webWidget }) => {
       </Transition>
       {/* Messages */}
 
-      {currentConversation &&
-        currentConversation.id &&
-        currentConversation.id !== 'volatile' && (
-          <Messages
-            onMessages={onMessages}
-            conversationId={currentConversation.id}
-            currentConversation={currentConversation}
-          />
-        )}
+      <Messages
+        onMessages={onMessages}
+        conversationId={currentConversation.id}
+        currentConversation={currentConversation}
+      />
+
       {/* FooterButton */}
       <styles.FooterButton>
         <Button text="New conversationn" icon={IconChat} />

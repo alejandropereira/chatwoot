@@ -1,6 +1,12 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-
+<script>
+    if(window.Cypress) {
+      window.__REACT_DEVTOOLS_GLOBAL_HOOK__ =
+        window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__
+    }
+  </script>
+  
 <script>
 (function(d,t) {
   var BASE_URL = '';
