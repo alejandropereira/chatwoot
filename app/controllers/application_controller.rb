@@ -24,8 +24,7 @@ class ApplicationController < ActionController::Base
   end
 
   def find_current_account
-    puts params
-    id = params[:account_id] || params[:id]
+    id = params[:account_id]
     return unless id
 
     account = Account.find(id)

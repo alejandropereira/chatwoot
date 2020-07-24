@@ -30,7 +30,6 @@ const MessagesContainer = ({
       messagesRef.current.scrollTo({ top: scrollPosition, behavior: 'smooth' });
     }
   }, [messages]);
-  console.log({ msgs: messages });
 
   return (
     <animated.div style={transition}>
@@ -42,9 +41,7 @@ const MessagesContainer = ({
             avatar={currentConversation.assignee.avatarUrl}
             senderTyping={false}
             type={null}
-            sendUserData={() => {
-              console.log('hi');
-            }}
+            sendUserData={() => {}}
           />
         )}
         {messages &&
@@ -57,6 +54,7 @@ const MessagesContainer = ({
                 text={message.content}
                 fromUser={message.messageType === 'incoming'}
                 typing={false}
+                attachments={message.attachments}
                 senderTyping={false}
                 type={null}
                 sendUserData={() => {}}

@@ -56,7 +56,7 @@ export default {
     const { websiteToken, locale } = window.chatwootWebChannel;
     this.setLocale(locale);
 
-    if (IFrameHelper.isIFrame()) {
+    if (IFrameHelper.isIFrame() || IFrameHelper.isCypress()) {
       IFrameHelper.sendMessage({
         event: 'loaded',
         config: {
