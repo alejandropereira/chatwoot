@@ -78,7 +78,7 @@ styles.Messages = styled.div`
   box-sizing: border-box;
   width: ${variables.ChatWidth}px;
   padding: 50px 25px 0px;
-  overflow: scroll;
+  overflow-y: scroll;
   height: calc(
     ${variables.ChatHeight} - ${formattedHeaderSmall} -
       (${variables.ChatInputHeight}*2)
