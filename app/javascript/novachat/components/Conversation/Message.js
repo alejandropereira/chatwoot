@@ -119,7 +119,15 @@ class Message extends Component {
   };
 
   render() {
-    const { text, avatar, fromUser, typing, type, status } = this.props;
+    const {
+      text,
+      avatar,
+      fromUser,
+      typing,
+      type,
+      status,
+      attachments,
+    } = this.props;
     const { sent } = this.state;
     return (
       <styles.Message
@@ -136,7 +144,10 @@ class Message extends Component {
             onChange={this.handleChange}
           />
         ) : (
-          <styles.Bubble fromUser={fromUser}>
+          <styles.Bubble
+            fromUser={fromUser}
+            hasAttachment={attachments && attachments[0]}
+          >
             {typing && (
               <styles.Typing>
                 <div className="Dots" ref={div => (this.dotsLeft = div)}>
@@ -159,6 +170,11 @@ class Message extends Component {
               </styles.Typing>
             )}
             <div dangerouslySetInnerHTML={{ __html: text }} />
+            {attachments &&
+              attachments[0] &&
+              attachments[0].fileType === 'image' && (
+                <img src={attachments[0].thumbUrl} />
+              )}
             {fromUser ? (
               <img
                 src={PathMessage}
@@ -210,6 +226,12 @@ styles.Bubble = styled.div`
   overflow: hidden;
   position: relative;
   word-break: break-all;
+  ${props =>
+    props.hasAttachment &&
+    `
+    padding: 0;
+    box-shadow: 0 0.4rem 6px rgba(50, 50, 93, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
+  `}
   ${props =>
     props.fromUser &&
     `

@@ -21,7 +21,7 @@ export default {
     const { websiteToken, locale } = window.chatwootWebChannel;
     Vue.config.lang = locale;
 
-    if (IFrameHelper.isIFrame()) {
+    if (IFrameHelper.isIFrame() || IFrameHelper.isCypress()) {
       IFrameHelper.sendMessage({
         event: 'loaded',
         config: {

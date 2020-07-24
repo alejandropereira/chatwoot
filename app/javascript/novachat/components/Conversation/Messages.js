@@ -16,6 +16,11 @@ const MESSAGES = gql`
         createdAt
         messageType
         status
+        attachments {
+          id
+          fileType
+          thumbUrl
+        }
         assignee {
           avatarUrl
         }
