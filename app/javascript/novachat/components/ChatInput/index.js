@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
+import Dropzone from 'react-dropzone';
 import { TweenLite, Power4 } from 'gsap';
 import Cookies from 'js-cookie';
 import { gql } from 'apollo-boost';
@@ -141,7 +142,16 @@ const ChatInput = () => {
           </form>
           <div>
             <IconSmile />
-            <IconPaperClip />
+            <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+              {({ getRootProps, getInputProps }) => (
+                <styles.FileUpload>
+                  <div {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <IconPaperClip />
+                  </div>
+                </styles.FileUpload>
+              )}
+            </Dropzone>
           </div>
         </styles.Input>
       </styles.ChatInput>
@@ -151,8 +161,19 @@ const ChatInput = () => {
 
 const styles = {};
 
+styles.FileUpload = styled.section`
+  display: inline-block;
+
+  svg {
+    margin-right: 0px !important;
+  }
+
+  &:focus {
+    outline: none;
+  }
+`;
+
 styles.ChatInput = styled.div`
-  border-top: 1px solid #efefef;
   border-bottom-left-radius: ${variables.BorderRadius};
   border-bottom-right-radius: ${variables.BorderRadius};
   background: white;
@@ -178,6 +199,7 @@ styles.ChatInput = styled.div`
 styles.Input = styled.div`
   display: flex;
   padding: 10px 20px;
+  border-top: 1px solid #efefef;
   form {
     flex: 1;
     width: 100%;
