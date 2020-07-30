@@ -18,6 +18,7 @@ const MESSAGES = gql`
         status
         attachments {
           id
+          fileName
           fileType
           thumbUrl
         }
@@ -38,16 +39,16 @@ const Messages = ({ onMessages, currentConversation }) => {
   useQuery(MESSAGES, {
     variables: {
       websiteToken,
-
       token: Cookies.get('cw_conversation'),
       uuid: currentConversation.uuid,
     },
+    skip: !currentConversation.uuid,
     onCompleted(data) {
+      if (!data) return;
       dispatch({ type: types.SET_MESSAGES, payload: data.messages.collection });
     },
   });
 
-  console.log({ ms: messages });
   return (
     <MessagesContainer
       typing={typing}
