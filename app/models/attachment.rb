@@ -34,6 +34,10 @@ class Attachment < ApplicationRecord
     file.attached? ? url_for(file) : ''
   end
 
+  def file_name
+    file.filename.to_s
+  end
+
   def thumb_url
     if file.attached? && file.representable?
       url_for(file.representation(resize: '250x250'))
