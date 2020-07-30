@@ -93,7 +93,7 @@ styles.Chat = styled.div`
   bottom: 0px;
   width: 0px;
   height: 0px;
-  z-index: 1;
+  z-index: 0;
   width: ${variables.ChatWidth}px;
   height: 716px;
 `;

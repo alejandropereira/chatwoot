@@ -8,11 +8,11 @@ import styled from 'styled-components';
 import TextareaAutoSize from 'react-textarea-autosize';
 import variables from '../../utils/variables';
 import LogoNova from '../../components/Svgs/LogoNova';
-import IconSmile from '../../components/Svgs/IconSmile';
 import IconPaperClip from '../../components/Svgs/IconPaperClip';
 import AppContext from '../../context/AppContext';
 import getUuid from '../../../widget/helpers/uuid';
 import { types } from '../../reducers';
+import EmojiPicker from './EmojiPicker';
 
 const CREATE_MESSAGE = gql`
   mutation createMessage(
@@ -90,6 +90,10 @@ const ChatInput = () => {
     setMessage(event.target.value);
   };
 
+  const handleEmoji = selection => {
+    setMessage(msg => `${msg} ${selection.emoji}`);
+  };
+
   const onSave = e => {
     e.preventDefault();
     createMessage({
@@ -141,7 +145,7 @@ const ChatInput = () => {
             />
           </form>
           <div>
-            <IconSmile />
+            <EmojiPicker onChange={handleEmoji} />
             <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
               {({ getRootProps, getInputProps }) => (
                 <styles.FileUpload>

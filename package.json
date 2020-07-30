@@ -20,6 +20,7 @@
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "~7.8.4",
     "@babel/preset-react": "^7.9.4",
+    "@joeattardi/emoji-button": "^4.0.1",
     "@rails/actioncable": "^6.0.0",
     "@rails/webpacker": "^4.2.2",
     "@vue/babel-preset-app": "^3.11.0",

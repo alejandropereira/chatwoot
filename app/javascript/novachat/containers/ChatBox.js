@@ -59,6 +59,7 @@ styles.ChatBox = styled.div`
   position: relative;
   opacity: 0;
   overflow: hidden;
+  box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.05);
 `;
 
 styles.ChatBoxWrapper = styled.div`
