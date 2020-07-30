@@ -4,23 +4,49 @@ class Mutations::CreateMessage < Mutations::BaseMutation
   argument :content, String, required: false
   argument :referer_url, String, required: false
   argument :timestamp, String, required: false
+  argument :attachment, Types::FileType, required: false
 
   field :message, Types::MessageType, null: true
 
-  def resolve(website_token:, token:, content:, referer_url:, timestamp:)
+  def resolve(website_token:, token:, content: nil, referer_url:, timestamp:, attachment:)
     set_web_widget(website_token)
     set_token(token)
     set_contact
     set_conversation({ referer_url: referer_url, timestamp: timestamp })
-    message = conversation.messages.new(message_params(content))
-    message.save
+    @message = conversation.messages.new(message_params(content))
+    @message.save
+    build_attachment(attachment)
 
     {
-      message: message,
+      message: @message,
     }
   end
 
   private
+
+  def build_attachment(uploaded_attachment)
+    return if uploaded_attachment.blank?
+
+    attachment = @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: file_type(uploaded_attachment&.content_type)
+    )
+    attachment.file.attach(uploaded_attachment)
+    @message.save!
+  end
+
+  def file_type(content_type)
+    return :image if [
+      'image/jpeg',
+      'image/png',
+      'image/svg+xml',
+      'image/gif',
+      'image/tiff',
+      'image/bmp'
+    ].include?(content_type)
+
+    :file
+  end
 
   def message_params(content)
     {

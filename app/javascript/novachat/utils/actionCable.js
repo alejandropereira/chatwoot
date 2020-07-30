@@ -6,6 +6,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     super(app, pubsubToken);
     this.events = {
       'message.created': this.onMessageCreated,
+      'message.updated': this.onMessageUpdated,
       // 'message.updated': this.onMessageUpdated,
       // 'conversation.typing_on': this.onTypingOn,
       // 'conversation.typing_off': this.onTypingOff,
@@ -13,6 +14,15 @@ class ActionCableConnector extends BaseActionCableConnector {
   }
 
   onMessageCreated = data => {
+    if (!data.content) return;
+
+    this.app.dispatch({
+      type: types.APPEND_MESSAGE,
+      payload: data,
+    });
+  };
+
+  onMessageUpdated = data => {
     this.app.dispatch({
       type: types.APPEND_MESSAGE,
       payload: data,

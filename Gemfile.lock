@@ -91,6 +91,9 @@ GEM
     annotate (3.1.1)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
+    apollo_upload_server (2.0.1)
+      graphql (>= 1.8)
+      rails (>= 4.2)
     ast (2.4.1)
     attr_extras (6.2.4)
     autoprefixer-rails (9.8.2)
@@ -564,6 +567,7 @@ DEPENDENCIES
   acts-as-taggable-on
   administrate
   annotate
+  apollo_upload_server (= 2.0.1)
   attr_extras
   aws-sdk-s3
   azure-storage-blob

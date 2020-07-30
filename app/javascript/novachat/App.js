@@ -1,6 +1,6 @@
 import React from 'react';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { createUploadLink } from 'apollo-upload-client';
 import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 import variables from './utils/variables';
@@ -33,7 +33,9 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const client = new ApolloClient({
-  uri: '/graphql',
+  ssrMode: typeof window !== 'undefined',
+  cache: new InMemoryCache(),
+  link: createUploadLink({ uri: '/graphql' }),
 });
 
 const App = ({ websiteToken }) => (

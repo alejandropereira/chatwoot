@@ -1,19 +1,11 @@
 export const initialState = {
-  //1:
   onIntro: false,
-  //2:
   onHome: false,
-  //3:
   onChatList: false,
-  //4:
   onMessages: false,
-  //5:
   onBackHome: false,
-  //6:
   onClose: false,
-  //7:
   onLogoOutro: false,
-  //8:
   onLogoOutroComplete: false,
   startChatButtonVisible: true,
   openChat: false,
@@ -46,13 +38,20 @@ export const types = {
   APPEND_IP_MESSAGE: 'chat/APPEND_IP_MESSAGE',
 };
 
-const findUndeliveredMessage = (state, { content }) =>
-  state.messages.filter(
-    message => message.content === content && message.status === 'in_progress'
-  );
+const findUndeliveredMessage = (state, { content, attachments }) =>
+  state.messages.filter(message => {
+    if (attachments && attachments.length > 0) {
+      return (
+        message.status === 'in_progress' &&
+        message.attachments &&
+        message.attachments[0].fileName === attachments[0].file_name
+      );
+    }
+
+    return message.status === 'in_progress' && message.content === content;
+  });
 
 const reducer = (state, action) => {
-  console.log({ state, action });
   switch (action.type) {
     case types.OPEN_CHAT:
       return {
@@ -127,13 +126,13 @@ const reducer = (state, action) => {
         messages: action.payload,
       };
     case types.APPEND_IP_MESSAGE:
-      console.log({ messages: [...[action.payload], ...state.messages] });
       return {
         ...state,
         messages: [...[action.payload], ...state.messages],
       };
-    case types.APPEND_MESSAGE:
+    case types.APPEND_MESSAGE: {
       const [message] = findUndeliveredMessage(state, action.payload);
+
       if (message) {
         return {
           ...state,
@@ -143,6 +142,17 @@ const reducer = (state, action) => {
                 id: action.payload.id,
                 createdAt: new Date(action.payload.created_at).toISOString(),
                 status: action.payload.status,
+                attachments:
+                  action.payload.attachments.length > 0
+                    ? [
+                        {
+                          id: action.payload.attachments[0].id,
+                          fileName: action.payload.attachments[0].file_name,
+                          fileType: action.payload.attachments[0].file_type,
+                          thumbUrl: action.payload.attachments[0].thumb_url,
+                        },
+                      ]
+                    : [],
                 assignee: action.payload.sender
                   ? {
                       avatarUrl: action.payload.sender.avatar_url,
@@ -177,6 +187,7 @@ const reducer = (state, action) => {
           ...state.messages,
         ],
       };
+    }
     default:
       return state;
   }

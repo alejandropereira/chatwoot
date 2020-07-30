@@ -173,7 +173,10 @@ class Message extends Component {
             {attachments &&
               attachments[0] &&
               attachments[0].fileType === 'image' && (
-                <img src={attachments[0].thumbUrl} />
+                <img
+                  style={{ maxWidth: '100%' }}
+                  src={attachments[0].thumbUrl}
+                />
               )}
             {fromUser ? (
               <img

@@ -1,24 +1,23 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
-import Dropzone from 'react-dropzone';
 import { TweenLite, Power4 } from 'gsap';
 import Cookies from 'js-cookie';
-import { gql } from 'apollo-boost';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, gql } from '@apollo/client';
 import styled from 'styled-components';
 import TextareaAutoSize from 'react-textarea-autosize';
 import variables from '../../utils/variables';
 import LogoNova from '../../components/Svgs/LogoNova';
-import IconPaperClip from '../../components/Svgs/IconPaperClip';
 import AppContext from '../../context/AppContext';
 import getUuid from '../../../widget/helpers/uuid';
 import { types } from '../../reducers';
 import EmojiPicker from './EmojiPicker';
+import FileUpload from './FileUpload';
 
 const CREATE_MESSAGE = gql`
   mutation createMessage(
     $websiteToken: String!
     $token: String
     $content: String
+    $attachment: File
     $refererUrl: String
     $timestamp: String
   ) {
@@ -27,6 +26,7 @@ const CREATE_MESSAGE = gql`
         websiteToken: $websiteToken
         token: $token
         content: $content
+        attachment: $attachment
         refererUrl: $refererUrl
         timestamp: $timestamp
       }
@@ -119,6 +119,37 @@ const ChatInput = () => {
     setMessage('');
   };
 
+  const onFileUpload = file => {
+    createMessage({
+      variables: {
+        attachment: file,
+        websiteToken,
+        refererUrl: window.location.href,
+        timestamp: new Date().toString(),
+        token: Cookies.get('cw_conversation'),
+      },
+    });
+    dispatch({
+      type: types.APPEND_IP_MESSAGE,
+      payload: {
+        id: getUuid(),
+        createdAt: new Date().toISOString(),
+        assignee: null,
+        content: null,
+        attachments: [
+          {
+            id: getUuid(),
+            fileName: file.name,
+            fileType: /image/i.test(file.type) ? 'image' : 'file',
+            thumbUrl: URL.createObjectURL(file),
+          },
+        ],
+        status: 'in_progress',
+        messageType: 'incoming',
+      },
+    });
+  };
+
   const onEnterPress = e => {
     if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
@@ -146,16 +177,7 @@ const ChatInput = () => {
           </form>
           <div>
             <EmojiPicker onChange={handleEmoji} />
-            <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
-              {({ getRootProps, getInputProps }) => (
-                <styles.FileUpload>
-                  <div {...getRootProps()}>
-                    <input {...getInputProps()} />
-                    <IconPaperClip />
-                  </div>
-                </styles.FileUpload>
-              )}
-            </Dropzone>
+            <FileUpload onFileUpload={onFileUpload} />
           </div>
         </styles.Input>
       </styles.ChatInput>
@@ -164,18 +186,6 @@ const ChatInput = () => {
 };
 
 const styles = {};
-
-styles.FileUpload = styled.section`
-  display: inline-block;
-
-  svg {
-    margin-right: 0px !important;
-  }
-
-  &:focus {
-    outline: none;
-  }
-`;
 
 styles.ChatInput = styled.div`
   border-bottom-left-radius: ${variables.BorderRadius};

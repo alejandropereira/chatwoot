@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import Cookies from 'js-cookie';
-import { useQuery } from '@apollo/react-hooks';
-import { gql } from 'apollo-boost';
+import { useQuery, gql } from '@apollo/client';
 import PropTypes from 'prop-types';
 import MessagesContainer from './MessagesContainer';
 import { types } from '../../reducers';

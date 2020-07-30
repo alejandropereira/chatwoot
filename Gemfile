@@ -60,6 +60,7 @@ gem 'administrate'
 
 #grapqhl
 gem 'graphql', '~> 1.10', '>= 1.10.9'
+gem 'apollo_upload_server', '2.0.1'
 gem 'graphiql-rails', group: :development
 
 ##--- gems for pubsub service ---##

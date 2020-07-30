@@ -1,7 +1,6 @@
 import React, { useReducer, useEffect, useState } from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, gql } from '@apollo/client';
 import Cookies from 'js-cookie';
-import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import AppContext from '../context/AppContext';
 import variables from '../utils/variables';
