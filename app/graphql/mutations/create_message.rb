@@ -8,7 +8,7 @@ class Mutations::CreateMessage < Mutations::BaseMutation
 
   field :message, Types::MessageType, null: true
 
-  def resolve(website_token:, token:, content: nil, referer_url:, timestamp:, attachment:)
+  def resolve(website_token:, token:, content: nil, referer_url:, timestamp:, attachment: nil)
     set_web_widget(website_token)
     set_token(token)
     set_contact

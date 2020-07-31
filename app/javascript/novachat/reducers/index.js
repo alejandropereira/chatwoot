@@ -143,6 +143,7 @@ const reducer = (state, action) => {
                 createdAt: new Date(action.payload.created_at).toISOString(),
                 status: action.payload.status,
                 attachments:
+                  action.payload.attachments &&
                   action.payload.attachments.length > 0
                     ? [
                         {

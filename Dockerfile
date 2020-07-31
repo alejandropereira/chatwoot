@@ -75,6 +75,8 @@ RUN apk add --update --no-cache \
     tzdata \
     postgresql-client \
     imagemagick \
+    ffmpeg \
+    vips \
   && gem install bundler
 
 RUN if [ "$RAILS_ENV" = "production" ]; then \
