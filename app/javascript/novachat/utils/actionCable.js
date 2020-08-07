@@ -14,8 +14,6 @@ class ActionCableConnector extends BaseActionCableConnector {
   }
 
   onMessageCreated = data => {
-    if (!data.content) return;
-
     this.app.dispatch({
       type: types.APPEND_MESSAGE,
       payload: data,
@@ -24,7 +22,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onMessageUpdated = data => {
     this.app.dispatch({
-      type: types.APPEND_MESSAGE,
+      type: types.UPDATE_MESSAGE,
       payload: data,
     });
   };

@@ -13,6 +13,7 @@ import OutroAnimation from '../containers/OutroAnimation';
 import OutroLogo from '../containers/OutroLogo';
 import reducer, { initialState } from '../reducers';
 import ActionCableConnector from '../utils/actionCable';
+import useReducerWithLogger from '../hooks/useReducerWithLogger';
 
 const WEB_WIDGET = gql`
   query webWidget($websiteToken: String!, $authToken: String) {
@@ -43,7 +44,7 @@ const Chat = ({ websiteToken }) => {
       authToken,
     },
   });
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducerWithLogger(reducer, initialState);
 
   useEffect(() => {
     if (data && data.webWidget.pubsubToken) {

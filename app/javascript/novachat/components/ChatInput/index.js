@@ -96,6 +96,8 @@ const ChatInput = () => {
 
   const onSave = e => {
     e.preventDefault();
+    if (!message) return;
+
     createMessage({
       variables: {
         content: message,

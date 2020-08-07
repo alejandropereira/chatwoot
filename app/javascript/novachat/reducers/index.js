@@ -35,6 +35,7 @@ export const types = {
   ON_PREV_CHAT_CLICK: 'chat/ON_PREV_CHAT_CLICK',
   SET_MESSAGES: 'chat/SET_MESSAGES',
   APPEND_MESSAGE: 'chat/APPEND_MESSAGE',
+  UPDATE_MESSAGE: 'chat/UPDATE_MESSAGE',
   APPEND_IP_MESSAGE: 'chat/APPEND_IP_MESSAGE',
 };
 
@@ -176,6 +177,18 @@ const reducer = (state, action) => {
               id: action.payload.id,
               createdAt: new Date(action.payload.created_at).toISOString(),
               status: action.payload.status,
+              attachments:
+                action.payload.attachments &&
+                action.payload.attachments.length > 0
+                  ? [
+                      {
+                        id: action.payload.attachments[0].id,
+                        fileName: action.payload.attachments[0].file_name,
+                        fileType: action.payload.attachments[0].file_type,
+                        thumbUrl: action.payload.attachments[0].thumb_url,
+                      },
+                    ]
+                  : [],
               assignee: action.payload.sender
                 ? {
                     avatarUrl: action.payload.sender.avatar_url,
@@ -187,6 +200,40 @@ const reducer = (state, action) => {
           ],
           ...state.messages,
         ],
+      };
+    }
+    case types.UPDATE_MESSAGE: {
+      return {
+        ...state,
+        messages: state.messages.map(m => {
+          if (action.payload.id === m.id) {
+            return {
+              id: action.payload.id,
+              createdAt: new Date(action.payload.created_at).toISOString(),
+              status: action.payload.status,
+              attachments:
+                action.payload.attachments &&
+                action.payload.attachments.length > 0
+                  ? [
+                      {
+                        id: action.payload.attachments[0].id,
+                        fileName: action.payload.attachments[0].file_name,
+                        fileType: action.payload.attachments[0].file_type,
+                        thumbUrl: action.payload.attachments[0].thumb_url,
+                      },
+                    ]
+                  : [],
+              assignee: action.payload.sender
+                ? {
+                    avatarUrl: action.payload.sender.avatar_url,
+                  }
+                : null,
+              content: action.payload.content,
+              messageType: messageTypes[action.payload.message_type],
+            };
+          }
+          return m;
+        }),
       };
     }
     default:
