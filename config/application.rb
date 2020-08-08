@@ -16,7 +16,7 @@ module Chatwoot
     config.autoload_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('lib')
 
-    config.active_storage.variant_processor = :vips
+    # config.active_storage.variant_processor = :vips
 
     # This is required in production for zeitwerk to autoload the file
     config.paths.add File.join('app', 'bot'), glob: File.join('**', '*.rb')

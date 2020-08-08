@@ -11,6 +11,7 @@ import getUuid from '../../../widget/helpers/uuid';
 import { types } from '../../reducers';
 import EmojiPicker from './EmojiPicker';
 import FileUpload from './FileUpload';
+import CopyPasteImageUpload from './CopyPasteImageUpload';
 
 const CREATE_MESSAGE = gql`
   mutation createMessage(
@@ -177,6 +178,7 @@ const ChatInput = () => {
               onKeyDown={onEnterPress}
             />
           </form>
+          <CopyPasteImageUpload onFileUpload={onFileUpload} />
           <div>
             <EmojiPicker onChange={handleEmoji} />
             <FileUpload onFileUpload={onFileUpload} />
