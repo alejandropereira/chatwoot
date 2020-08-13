@@ -174,6 +174,10 @@ class Message extends Component {
               attachments[0] &&
               attachments[0].fileType === 'image' && (
                 <img
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src= attachments[0].fileUrl
+                  }}
                   style={{ maxWidth: '100%' }}
                   src={attachments[0].thumbUrl}
                 />

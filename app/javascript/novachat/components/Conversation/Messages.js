@@ -19,6 +19,7 @@ const MESSAGES = gql`
           id
           fileName
           fileType
+          fileUrl
           thumbUrl
         }
         assignee {
