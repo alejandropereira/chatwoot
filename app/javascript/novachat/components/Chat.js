@@ -70,11 +70,14 @@ const Chat = ({ websiteToken }) => {
 
   return (
     <AppContext.Provider
-      value={{ state: { ...state, websiteToken }, dispatch }}
+      value={{
+        state: { ...state, websiteToken, webWidget: data.webWidget },
+        dispatch,
+      }}
     >
       <styles.Chat className="Chat">
         <IntroAnimation />
-        <ChatBox webWidget={data.webWidget} />
+        <ChatBox />
         <OutroAnimation />
         <CloseButton />
         <StartButtonAnimation />

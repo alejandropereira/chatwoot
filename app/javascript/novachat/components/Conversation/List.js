@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ListItem from '../ListItem';
 import { timeDifferenceForDate } from '../../utils';
 
@@ -20,6 +21,11 @@ const List = ({ onListItemClick, conversations }) => {
       })}
     </div>
   );
+};
+
+List.propTypes = {
+  onListItemClick: PropTypes.func,
+  conversations: PropTypes.array,
 };
 
 export default List;

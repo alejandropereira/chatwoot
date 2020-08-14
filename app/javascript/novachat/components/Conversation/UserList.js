@@ -59,7 +59,7 @@ function UserList({
             <Button
               text="New conversation"
               onClick={() =>
-                onListItemClick({ key: 'volatile', id: 'volatile' })
+                onListItemClick({ key: 'volatile', uuid: 'volatile' })
               }
               icon={IconChat}
             />

@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  useCallback,
+} from 'react';
 import { TweenLite, Power4 } from 'gsap';
 import Cookies from 'js-cookie';
 import { useMutation, gql } from '@apollo/client';
@@ -16,6 +22,7 @@ import CopyPasteImageUpload from './CopyPasteImageUpload';
 const CREATE_MESSAGE = gql`
   mutation createMessage(
     $websiteToken: String!
+    $uuid: String!
     $token: String
     $content: String
     $attachment: File
@@ -25,6 +32,7 @@ const CREATE_MESSAGE = gql`
     createMessage(
       input: {
         websiteToken: $websiteToken
+        uuid: $uuid
         token: $token
         content: $content
         attachment: $attachment
@@ -41,7 +49,13 @@ const CREATE_MESSAGE = gql`
 
 const ChatInput = () => {
   const {
-    state: { onMessages, onHome, onChatList, websiteToken },
+    state: {
+      onMessages,
+      onHome,
+      onChatList,
+      websiteToken,
+      currentConversation,
+    },
     dispatch,
   } = useContext(AppContext);
   const [message, setMessage] = useState('');
@@ -55,36 +69,31 @@ const ChatInput = () => {
     }
   };
 
-  const toggleInput = () => {
+  useEffect(() => {
     if (onHome) {
-      return TweenLite.to(chatInputRef.current, 1, {
+      TweenLite.to(chatInputRef.current, 1, {
         bottom: -48,
         delay: 2.5,
         ease: Power4.easeInOut,
       });
-    }
-    if (onChatList) {
-      return TweenLite.to(chatInputRef.current, 1, {
+    } else if (onChatList) {
+      TweenLite.to(chatInputRef.current, 1, {
         bottom: -48,
         ease: Power4.easeInOut,
       });
-    }
-    if (onMessages) {
-      return TweenLite.to(chatInputRef.current, 1, {
+    } else if (onMessages) {
+      TweenLite.to(chatInputRef.current, 1, {
         bottom: 0,
         ease: Power4.easeInOut,
         delay: 1,
         onComplete: focusInput,
       });
+    } else {
+      TweenLite.to(chatInputRef.current, 1, {
+        bottom: -48,
+        ease: Power4.easeInOut,
+      });
     }
-    return TweenLite.to(chatInputRef.current, 1, {
-      bottom: -48,
-      ease: Power4.easeInOut,
-    });
-  };
-
-  useEffect(() => {
-    toggleInput();
   }, [onMessages, onHome, onChatList]);
 
   const handleChange = event => {
@@ -103,6 +112,7 @@ const ChatInput = () => {
       variables: {
         content: message,
         websiteToken,
+        uuid: currentConversation.uuid,
         refererUrl: window.location.href,
         timestamp: new Date().toString(),
         token: Cookies.get('cw_conversation'),
@@ -122,36 +132,40 @@ const ChatInput = () => {
     setMessage('');
   };
 
-  const onFileUpload = file => {
-    createMessage({
-      variables: {
-        attachment: file,
-        websiteToken,
-        refererUrl: window.location.href,
-        timestamp: new Date().toString(),
-        token: Cookies.get('cw_conversation'),
-      },
-    });
-    dispatch({
-      type: types.APPEND_IP_MESSAGE,
-      payload: {
-        id: getUuid(),
-        createdAt: new Date().toISOString(),
-        assignee: null,
-        content: null,
-        attachments: [
-          {
-            id: getUuid(),
-            fileName: file.name,
-            fileType: /image/i.test(file.type) ? 'image' : 'file',
-            thumbUrl: URL.createObjectURL(file),
-          },
-        ],
-        status: 'in_progress',
-        messageType: 'incoming',
-      },
-    });
-  };
+  const onFileUpload = useCallback(
+    file => {
+      createMessage({
+        variables: {
+          attachment: file,
+          websiteToken,
+          uuid: currentConversation.uuid,
+          refererUrl: window.location.href,
+          timestamp: new Date().toString(),
+          token: Cookies.get('cw_conversation'),
+        },
+      });
+      dispatch({
+        type: types.APPEND_IP_MESSAGE,
+        payload: {
+          id: getUuid(),
+          createdAt: new Date().toISOString(),
+          assignee: null,
+          content: null,
+          attachments: [
+            {
+              id: getUuid(),
+              fileName: file.name,
+              fileType: /image/i.test(file.type) ? 'image' : 'file',
+              thumbUrl: URL.createObjectURL(file),
+            },
+          ],
+          status: 'in_progress',
+          messageType: 'incoming',
+        },
+      });
+    },
+    [currentConversation.uuid]
+  );
 
   const onEnterPress = e => {
     if (e.keyCode === 13 && e.shiftKey === false) {

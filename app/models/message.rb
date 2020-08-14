@@ -86,7 +86,8 @@ class Message < ApplicationRecord
     data = attributes.merge(
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
-      conversation_id: conversation.display_id
+      conversation_id: conversation.display_id,
+      conversation_uuid: conversation.reload.uuid
     )
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     data.merge!(sender: sender.push_event_data) if sender && !sender.is_a?(AgentBot)

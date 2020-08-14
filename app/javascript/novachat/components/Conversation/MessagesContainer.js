@@ -45,10 +45,10 @@ const MessagesContainer = ({
           />
         )}
         {messages &&
-          messages.map(message => {
+          messages.map((message, key) => {
             return (
               <Message
-                key={message.id}
+                key={key}
                 status={message.status}
                 avatar={message.assignee && message.assignee.avatarUrl}
                 text={message.content}
@@ -69,6 +69,8 @@ const MessagesContainer = ({
 MessagesContainer.propTypes = {
   messages: PropTypes.array,
   toggle: PropTypes.bool,
+  typing: PropTypes.bool,
+  currentConversation: PropTypes.object,
 };
 
 const styles = {};

@@ -11,7 +11,7 @@ import LogoNova from '../../components/Svgs/LogoNova';
 import { types } from '../../reducers';
 import AppContext from '../../context/AppContext';
 
-const Header = ({ webWidget }) => {
+const Header = () => {
   const {
     state: {
       onChatList,
@@ -20,6 +20,7 @@ const Header = ({ webWidget }) => {
       onMessages,
       onBackHome,
       currentConversation,
+      webWidget,
     },
     dispatch,
   } = useContext(AppContext);

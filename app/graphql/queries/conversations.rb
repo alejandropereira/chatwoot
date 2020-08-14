@@ -14,7 +14,7 @@ module Queries
       set_contact(token)
       @contact_inbox.conversations.where(
         inbox_id: auth_token_params(token)[:inbox_id]
-      ).page(page).per(per)
+      ).page(page).per(per).order(created_at: :desc)
     end
 
     private

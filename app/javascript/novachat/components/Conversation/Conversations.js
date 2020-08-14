@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import { TweenLite } from 'gsap';
@@ -10,7 +10,14 @@ const Conversations = ({
   onListItemClick,
   onBackHome,
   conversations,
+  refetchConversations,
 }) => {
+  useEffect(() => {
+    if (onChatList) {
+      refetchConversations();
+    }
+  }, [onChatList]);
+
   return (
     <Transition
       unmountOnExit
@@ -39,6 +46,7 @@ Conversations.propTypes = {
   onChatList: PropTypes.bool,
   onBackHome: PropTypes.bool,
   onListItemClick: PropTypes.func,
+  refetchConversations: PropTypes.func,
   conversations: PropTypes.array,
 };
 

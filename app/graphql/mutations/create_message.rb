@@ -1,5 +1,6 @@
 class Mutations::CreateMessage < Mutations::BaseMutation
   argument :website_token, String, required: true
+  argument :uuid, String, required: true
   argument :token, String, required: true
   argument :content, String, required: false
   argument :referer_url, String, required: false
@@ -8,7 +9,8 @@ class Mutations::CreateMessage < Mutations::BaseMutation
 
   field :message, Types::MessageType, null: true
 
-  def resolve(website_token:, token:, content: nil, referer_url:, timestamp:, attachment: nil)
+  def resolve(website_token:, uuid:, token:, content: nil, referer_url:, timestamp:, attachment: nil)
+    @uuid = uuid
     set_web_widget(website_token)
     set_token(token)
     set_contact
@@ -59,13 +61,14 @@ class Mutations::CreateMessage < Mutations::BaseMutation
   end
 
   def conversation
-    @conversation ||= @contact_inbox.conversations.where(
-      inbox_id: @auth_token_params[:inbox_id]
-    ).last
+    @conversation ||= @contact_inbox.conversations.find_by(
+      inbox_id: @auth_token_params[:inbox_id],
+      uuid: @uuid,
+    )
   end
 
   def set_conversation(params)
-    @conversation = ::Conversation.create!(conversation_params(params)) if conversation.nil?
+    @conversation = ::Conversation.create!(conversation_params(params)) if conversation.nil? || @uuid == "volatile"
   end
 
   def conversation_params(params)

@@ -41,9 +41,9 @@ const ChatBox = ({ webWidget }) => {
 
   return (
     <styles.ChatBox className="ChatBox" ref={chatBoxRef}>
-      <Header webWidget={webWidget} />
+      <Header />
       <styles.ChatBoxWrapper>
-        <Conversation webWidget={webWidget} />
+        <Conversation />
         <ChatInput />
       </styles.ChatBoxWrapper>
     </styles.ChatBox>

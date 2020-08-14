@@ -30,19 +30,21 @@ const MESSAGES = gql`
   }
 `;
 
-const Messages = ({ onMessages, currentConversation }) => {
+const Messages = () => {
   const {
-    state: { messages, websiteToken },
+    state: { messages, websiteToken, onMessages, currentConversation },
     dispatch,
   } = useContext(AppContext);
   const [typing] = useState(false);
+  const skip =
+    currentConversation.uuid === 'volatile' || !currentConversation.uuid;
   useQuery(MESSAGES, {
     variables: {
       websiteToken,
       token: Cookies.get('cw_conversation'),
       uuid: currentConversation.uuid,
     },
-    skip: !currentConversation.uuid,
+    skip,
     onCompleted(data) {
       if (!data) return;
       dispatch({ type: types.SET_MESSAGES, payload: data.messages.collection });

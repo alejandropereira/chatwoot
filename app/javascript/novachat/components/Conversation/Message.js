@@ -174,9 +174,9 @@ class Message extends Component {
               attachments[0] &&
               attachments[0].fileType === 'image' && (
                 <img
-                  onError={(e) => {
+                  onError={e => {
                     e.target.onerror = null;
-                    e.target.src= attachments[0].fileUrl
+                    e.target.src = attachments[0].fileUrl;
                   }}
                   style={{ maxWidth: '100%' }}
                   src={attachments[0].thumbUrl}
@@ -232,7 +232,7 @@ styles.Bubble = styled.div`
   box-sizing: border-box;
   overflow: hidden;
   position: relative;
-  word-break: break-all;
+  word-break: break-word;
   ${props =>
     props.hasAttachment &&
     `

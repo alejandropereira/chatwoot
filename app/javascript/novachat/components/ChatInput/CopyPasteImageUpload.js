@@ -10,7 +10,7 @@ const CopyPasteImageUpload = ({ onFileUpload }) => {
   useEffect(() => {
     window.addEventListener('paste', onPaste, false);
     return () => window.removeEventListener('paste', onPaste);
-  }, []);
+  }, [onFileUpload]);
 
   return null;
 };

@@ -118,6 +118,7 @@ const reducer = (state, action) => {
         ...state,
         currentConversation: action.payload,
         onChatList: false,
+        messages: action.payload.uuid === 'volatile' ? [] : state.messages,
         onHome: false,
         onMessages: true,
       };
@@ -137,6 +138,10 @@ const reducer = (state, action) => {
       if (message) {
         return {
           ...state,
+          currentConversation: {
+            key: action.payload.conversation_uuid,
+            uuid: action.payload.conversation_uuid,
+          },
           messages: state.messages.map(m => {
             if (message.id === m.id) {
               return {
@@ -171,6 +176,10 @@ const reducer = (state, action) => {
 
       return {
         ...state,
+        currentConversation: {
+          key: action.payload.conversation_uuid,
+          uuid: action.payload.conversation_uuid,
+        },
         messages: [
           ...[
             {

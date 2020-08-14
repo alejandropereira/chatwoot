@@ -38,7 +38,7 @@ const CONVERSATIONS = gql`
   }
 `;
 
-const Conversation = ({ webWidget }) => {
+const Conversation = () => {
   const {
     state: {
       onHome,
@@ -47,14 +47,16 @@ const Conversation = ({ webWidget }) => {
       onMessages,
       currentConversation,
       websiteToken,
+      webWidget,
     },
     dispatch,
   } = useContext(AppContext);
-  const { loading, error, data } = useQuery(CONVERSATIONS, {
+  const { loading, error, data, refetch } = useQuery(CONVERSATIONS, {
     variables: {
       websiteToken,
       token: Cookies.get('cw_conversation'),
     },
+    fetchPolicy: 'network-only',
   });
 
   const onListItemClick = conversationId => {
@@ -83,6 +85,7 @@ const Conversation = ({ webWidget }) => {
         {/* List */}
         <Conversations
           onChatList={onChatList}
+          refetchConversations={refetch}
           onBackHome={onBackHome}
           onListItemClick={onListItemClick}
           conversations={data.conversations.collection}
@@ -109,11 +112,7 @@ const Conversation = ({ webWidget }) => {
       </Transition>
       {/* Messages */}
 
-      <Messages
-        onMessages={onMessages}
-        conversationId={currentConversation.id}
-        currentConversation={currentConversation}
-      />
+      {onMessages && <Messages />}
 
       {/* FooterButton */}
       <styles.FooterButton>
