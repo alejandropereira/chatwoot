@@ -17,9 +17,13 @@ const EmojiPicker = ({ onChange }) => {
     return () => pickerRef.current.destroyPicker();
   }, [pickerRef]);
 
-  const togglePicker = useCallback(() => {
-    pickerRef.current.togglePicker(triggerRef.current);
-  }, [pickerRef.current, triggerRef.current]);
+  const togglePicker = useCallback(
+    e => {
+      e.stopPropagation();
+      pickerRef.current.togglePicker(triggerRef.current);
+    },
+    [pickerRef.current, triggerRef.current]
+  );
 
   useEffect(() => {
     pickerRef.current.on('emoji', onChange);

@@ -47,7 +47,7 @@ const CREATE_MESSAGE = gql`
   }
 `;
 
-const ChatInput = () => {
+const ChatInput = React.memo(() => {
   const {
     state: {
       onMessages,
@@ -63,11 +63,11 @@ const ChatInput = () => {
   const inputRef = useRef();
   const [createMessage] = useMutation(CREATE_MESSAGE);
 
-  const focusInput = () => {
+  const focusInput = useCallback(() => {
     if (inputRef.current && onMessages) {
       inputRef.current.focus();
     }
-  };
+  }, [inputRef, onMessages]);
 
   useEffect(() => {
     if (onHome) {
@@ -96,13 +96,13 @@ const ChatInput = () => {
     }
   }, [onMessages, onHome, onChatList]);
 
-  const handleChange = event => {
+  const handleChange = useCallback(event => {
     setMessage(event.target.value);
-  };
+  }, []);
 
-  const handleEmoji = selection => {
+  const handleEmoji = useCallback(selection => {
     setMessage(msg => `${msg} ${selection.emoji}`);
-  };
+  }, []);
 
   const onSave = e => {
     e.preventDefault();
@@ -201,7 +201,7 @@ const ChatInput = () => {
       </styles.ChatInput>
     </React.Fragment>
   );
-};
+});
 
 const styles = {};
 
@@ -253,5 +253,9 @@ styles.Input = styled.div`
     width: 19px;
   }
 `;
+
+ChatInput.displayName = 'ChatInput';
+
+ChatInput.whyDidYouRender = true;
 
 export default ChatInput;
