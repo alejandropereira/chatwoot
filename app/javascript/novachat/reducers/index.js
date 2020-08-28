@@ -13,6 +13,8 @@ export const initialState = {
   senderTyping: false,
   userData: [],
   messages: [],
+  websiteToken: null,
+  webWidget: null,
 };
 
 const messageTypes = {
@@ -37,6 +39,7 @@ export const types = {
   APPEND_MESSAGE: 'chat/APPEND_MESSAGE',
   UPDATE_MESSAGE: 'chat/UPDATE_MESSAGE',
   APPEND_IP_MESSAGE: 'chat/APPEND_IP_MESSAGE',
+  SET_WIDGET_TOKEN: 'chat/SET_WIDGET_TOKEN',
 };
 
 const findUndeliveredMessage = (state, { content, attachments }) =>
@@ -63,6 +66,12 @@ const reducer = (state, action) => {
         startChatButtonVisible: false,
         onLogoOutroComplete: false,
         onChatList: false,
+      };
+    case types.SET_WIDGET_TOKEN:
+      return {
+        ...state,
+        websiteToken: action.payload.websiteToken,
+        webWidget: action.payload.webWidget,
       };
     case types.ON_INTRO_COMPLETE_CLOSE:
       return {
@@ -139,7 +148,7 @@ const reducer = (state, action) => {
         return {
           ...state,
           currentConversation: {
-            key: action.payload.conversation_uuid,
+            ...state.currentConversation,
             uuid: action.payload.conversation_uuid,
           },
           messages: state.messages.map(m => {
@@ -159,7 +168,7 @@ const reducer = (state, action) => {
                           thumbUrl: action.payload.attachments[0].thumb_url,
                         },
                       ]
-                    : [],
+                    : m.attachments || [],
                 assignee: action.payload.sender
                   ? {
                       avatarUrl: action.payload.sender.avatar_url,
@@ -177,7 +186,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         currentConversation: {
-          key: action.payload.conversation_uuid,
+          ...state.currentConversation,
           uuid: action.payload.conversation_uuid,
         },
         messages: [
@@ -229,6 +238,7 @@ const reducer = (state, action) => {
                         fileName: action.payload.attachments[0].file_name,
                         fileType: action.payload.attachments[0].file_type,
                         thumbUrl: action.payload.attachments[0].thumb_url,
+                        fileUrl: action.payload.attachments[0].data_url,
                       },
                     ]
                   : [],

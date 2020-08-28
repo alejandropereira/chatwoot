@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useContext,
-  useCallback,
-} from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { TweenLite, Power4 } from 'gsap';
 import Cookies from 'js-cookie';
 import { useMutation, gql } from '@apollo/client';
@@ -12,12 +6,12 @@ import styled from 'styled-components';
 import TextareaAutoSize from 'react-textarea-autosize';
 import variables from '../../utils/variables';
 import LogoNova from '../../components/Svgs/LogoNova';
-import AppContext from '../../context/AppContext';
 import getUuid from '../../../widget/helpers/uuid';
 import { types } from '../../reducers';
 import EmojiPicker from './EmojiPicker';
 import FileUpload from './FileUpload';
 import CopyPasteImageUpload from './CopyPasteImageUpload';
+import { useTracked } from '../../App';
 
 const CREATE_MESSAGE = gql`
   mutation createMessage(
@@ -48,16 +42,10 @@ const CREATE_MESSAGE = gql`
 `;
 
 const ChatInput = React.memo(() => {
-  const {
-    state: {
-      onMessages,
-      onHome,
-      onChatList,
-      websiteToken,
-      currentConversation,
-    },
+  const [
+    { onMessages, onHome, onChatList, websiteToken, currentConversation },
     dispatch,
-  } = useContext(AppContext);
+  ] = useTracked();
   const [message, setMessage] = useState('');
   const chatInputRef = useRef();
   const inputRef = useRef();
@@ -184,7 +172,7 @@ const ChatInput = React.memo(() => {
         <styles.Input className="Input">
           <form onSubmit={onSave}>
             <TextareaAutoSize
-              inputRef={inputRef}
+              ref={inputRef}
               maxRows={3}
               placeholder="write a reply…"
               value={message}

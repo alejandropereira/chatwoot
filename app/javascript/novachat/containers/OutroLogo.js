@@ -1,17 +1,14 @@
-import React, { useContext, useCallback, useRef, useEffect } from 'react';
+import React, { useCallback, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { Transition } from 'react-transition-group';
-import { TweenLite } from 'gsap';
-import AppContext from '../context/AppContext';
+import { TweenLite, TimelineMax, Power4, Back } from 'gsap';
 import { types } from '../reducers';
 import variables from '../utils/variables';
 import LogoNova from '../components/Svgs/LogoNova';
+import { useTracked } from '../App';
 
 const OutroLogo = () => {
-  const {
-    state: { onLogoOutro },
-    dispatch,
-  } = useContext(AppContext);
+  const [{ onLogoOutro }, dispatch] = useTracked();
 
   const circleRef = useRef();
   const logoRef = useRef();
@@ -67,7 +64,7 @@ const OutroLogo = () => {
     <Transition
       unmountOnExit
       in={onLogoOutro}
-      addEndListener={(node, done) => {
+      addEndListener={(node, done) =>
         onLogoOutro
           ? TweenLite.to(node, 0.3, {
               opacity: 1,
@@ -76,8 +73,8 @@ const OutroLogo = () => {
           : TweenLite.to(node, 0.3, {
               opacity: 0,
               onComplete: done,
-            });
-      }}
+            })
+      }
     >
       <styles.LogoOutro onClick={toggleChat} className="LogoOutro">
         <div className="CircleWrapper">

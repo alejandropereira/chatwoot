@@ -1,15 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Transition } from 'react-transition-group';
 import { TweenLite } from 'gsap';
-import AppContext from '../context/AppContext';
 import StartButtonAnimation from '../components/Button/StartButtonAnimation';
 import { types } from '../reducers';
+import { useTracked } from '../App';
 
 const StartButtonAnimationContainer = () => {
-  const {
-    state: { openChat, onLogoOutroComplete },
-    dispatch,
-  } = useContext(AppContext);
+  const [{ openChat, onLogoOutroComplete }, dispatch] = useTracked();
 
   const toggleChat = () => {
     dispatch({ type: types.OPEN_CHAT });
@@ -19,7 +16,7 @@ const StartButtonAnimationContainer = () => {
     <Transition
       unmountOnExit
       in={openChat}
-      addEndListener={(node, done) => {
+      addEndListener={(node, done) =>
         openChat
           ? TweenLite.to(node, 0.3, {
               opacity: 1,
@@ -28,8 +25,8 @@ const StartButtonAnimationContainer = () => {
           : TweenLite.to(node, 0.3, {
               opacity: 0,
               onComplete: done,
-            });
-      }}
+            })
+      }
     >
       <StartButtonAnimation
         onClick={toggleChat}

@@ -1,16 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Transition } from 'react-transition-group';
 import { TweenLite } from 'gsap';
 import 'gsap/MorphSVGPlugin';
-import AppContext from '../context/AppContext';
 import Intro from '../views/Intro';
 import { types } from '../reducers';
+import { useTracked } from '../App';
 
 const OutroAnimation = () => {
-  const {
-    state: { onClose },
-    dispatch,
-  } = useContext(AppContext);
+  const [{ onClose }, dispatch] = useTracked();
 
   const onIntroComplete = () => {
     dispatch({ type: types.ON_INTRO_COMPLETE_CLOSE });
@@ -20,7 +17,7 @@ const OutroAnimation = () => {
     <Transition
       unmountOnExit
       in={onClose}
-      addEndListener={(node, done) => {
+      addEndListener={(node, done) =>
         onClose
           ? TweenLite.to(node, 0.3, {
               opacity: 1,
@@ -29,8 +26,8 @@ const OutroAnimation = () => {
           : TweenLite.to(node, 0.3, {
               opacity: 0,
               onComplete: done,
-            });
-      }}
+            })
+      }
     >
       <Intro className="Outro" onIntroComplete={onIntroComplete} />
     </Transition>

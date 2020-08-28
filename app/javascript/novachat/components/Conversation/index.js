@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Transition } from 'react-transition-group';
 import { TweenLite } from 'gsap';
@@ -12,7 +12,7 @@ import variables from '../../utils/variables';
 import SideTransition from '../../views/SideTransition';
 import IconChat from '../../components/Svgs/IconChat';
 import { types } from '../../reducers';
-import AppContext from '../../context/AppContext';
+import { useTracked } from '../../App';
 
 const CONVERSATIONS = gql`
   query conversations($token: String!, $websiteToken: String!) {
@@ -39,18 +39,10 @@ const CONVERSATIONS = gql`
 `;
 
 const Conversation = () => {
-  const {
-    state: {
-      onHome,
-      onBackHome,
-      onChatList,
-      onMessages,
-      currentConversation,
-      websiteToken,
-      webWidget,
-    },
+  const [
+    { onHome, onBackHome, onChatList, onMessages, websiteToken, webWidget },
     dispatch,
-  } = useContext(AppContext);
+  ] = useTracked();
   const { loading, error, data, refetch } = useQuery(CONVERSATIONS, {
     variables: {
       websiteToken,

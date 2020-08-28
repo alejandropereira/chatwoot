@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :null_session
 
   before_action :set_current_user, unless: :devise_controller?
-  before_action :check_subscription, unless: :devise_controller?
+  # before_action :check_subscription, unless: :devise_controller?
   before_action :set_raven_context
   around_action :handle_with_exception, unless: :devise_controller?
 
@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
   private
 
   def set_raven_context
+    return if Rails.env.development?
+    
     Raven.user_context(id: current_user&.id, account_id: current_account&.id)
     Raven.extra_context(params: params.to_unsafe_h, url: request.url)
   end
@@ -67,7 +69,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_subscription
-    @subscription ||= Current.account.subscription
+    @subscription ||= Current.account&.subscription
   end
 
   def render_unauthorized(message)

@@ -1,16 +1,14 @@
-import React, { useEffect, useRef, useContext } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { TweenLite } from 'gsap';
 import Conversation from '../components/Conversation';
 import ChatInput from '../components/ChatInput';
 import Header from '../components/Header';
 import variables from '../utils/variables';
-import AppContext from '../context/AppContext';
+import { useTracked } from '../App';
 
-const ChatBox = ({ webWidget }) => {
-  const {
-    state: { openChat, onClose },
-  } = useContext(AppContext);
+const ChatBox = () => {
+  const [{ openChat, onClose }] = useTracked();
   const chatBoxRef = useRef();
 
   const show = () => {

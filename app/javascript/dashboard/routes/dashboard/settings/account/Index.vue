@@ -64,12 +64,11 @@
           </label>
         </div>
       </div>
-<<<<<<< HEAD
+
       <div class="current-version">
         {{ `v${globalConfig.appVersion}` }}
       </div>
 
-=======
       <div class="small-12 row profile--settings--row">
         <div class="columns small-3">
           <h4 class="block-title">
@@ -111,7 +110,6 @@
           </label>
         </div>
       </div>
->>>>>>> Add sms notifications
       <woot-submit-button
         class="button nice success button--fixed-right-top"
         :button-text="$t('GENERAL_SETTINGS.SUBMIT')"
@@ -194,12 +192,8 @@ export default {
           support_email,
           custom_email_domain_enabled,
           features,
-<<<<<<< HEAD
-        } = this.getAccount(this.accountId);
-=======
           twilio_settings,
-        } = this.getAccount(accountId);
->>>>>>> Add sms notifications
+        } = this.getAccount(this.accountId);
 
         Vue.config.lang = locale;
         this.name = name;
@@ -209,12 +203,9 @@ export default {
         this.supportEmail = support_email;
         this.customEmailDomainEnabled = custom_email_domain_enabled;
         this.features = features;
-<<<<<<< HEAD
+        this.twilioSettings = twilio_settings;
       } catch (error) {
         // Ignore error
-=======
-        this.twilioSettings = twilio_settings;
->>>>>>> Add sms notifications
       }
     },
 
@@ -230,13 +221,10 @@ export default {
           name: this.name,
           domain: this.domain,
           support_email: this.supportEmail,
-<<<<<<< HEAD
-=======
           domain_emails_enabled: this.domainEmailsEnabled,
           account_sid: this.twilioSettings.account_sid,
           auth_token: this.twilioSettings.auth_token,
           phone_number: this.twilioSettings.phone_number,
->>>>>>> Add sms notifications
         });
         Vue.config.lang = this.locale;
         this.showAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
@@ -268,12 +256,12 @@ export default {
   }
 }
 
-<<<<<<< HEAD
 .current-version {
   font-size: var(--font-size-small);
   text-align: center;
   padding: var(--space-normal);
-=======
+}
+
 .show-hide {
   cursor: pointer;
   position: absolute;
@@ -289,6 +277,5 @@ export default {
 
 .relative {
   position: relative;
->>>>>>> Add sms notifications
 }
 </style>

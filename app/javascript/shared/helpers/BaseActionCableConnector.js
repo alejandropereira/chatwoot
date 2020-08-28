@@ -9,8 +9,8 @@ class BaseActionCableConnector {
       {
         channel: 'RoomChannel',
         pubsub_token: pubsubToken,
-        account_id: app.$store.getters.getCurrentAccountId,
-        user_id: app.$store.getters.getCurrentUserID,
+        account_id: app.$store ? app.$store.getters.getCurrentAccountId : null,
+        user_id: app.$store ? app.$store.getters.getCurrentUserID : null,
       },
       {
         updatePresence() {

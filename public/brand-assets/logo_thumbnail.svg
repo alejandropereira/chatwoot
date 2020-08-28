@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
-    <title>woot-log</title>
+<svg width="34px" height="40px" viewBox="0 0 34 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 57.1 (83088) - https://sketch.com -->
+    <title>Nova Logo</title>
     <desc>Created with Sketch.</desc>
-    <g id="Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="woot-log" fill-rule="nonzero">
-            <circle id="Oval" fill="#47A7F6" cx="256" cy="256" r="256"></circle>
-            <path d="M362.807947,368.807947 L244.122956,368.807947 C178.699407,368.807947 125.456954,315.561812 125.456954,250.12177 C125.456954,184.703089 178.699407,131.456954 244.124143,131.456954 C309.565494,131.456954 362.807947,184.703089 362.807947,250.12177 L362.807947,368.807947 Z" id="Fill-1" stroke="#FFFFFF" stroke-width="6" fill="#FFFFFF"></path>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Initiate-Convo" transform="translate(-88.000000, -38.000000)">
+            <g id="Chat-DIalog-Box" transform="translate(-465.000000, -38.000000)">
+                <g id="Nova-Logo" transform="translate(553.000000, 76.000000)">
+                    <polygon id="Polygon" fill="#6E5CF0" transform="translate(4.765601, 10.363636) rotate(270.000000) translate(-4.765601, -10.363636) " points="4.76560062 6.29538363 9.56810514 14.4318891 -0.0369038879 14.4318891"></polygon>
+                    <polygon id="Polygon" fill="#6340E7" transform="translate(4.765601, 20.060606) rotate(270.000000) translate(-4.765601, -20.060606) " points="4.76560062 15.9923533 9.56810514 24.1288588 -0.0369038879 24.1288588"></polygon>
+                    <polygon id="Polygon" fill="#6F55EC" transform="translate(12.913963, 10.351515) rotate(450.000000) translate(-12.913963, -10.351515) " points="12.9139626 6.28326242 17.7164671 14.4197679 8.11145805 14.4197679"></polygon>
+                    <polygon id="Polygon" fill="#644AE9" transform="translate(4.792278, 15.260606) rotate(450.000000) translate(-4.792278, -15.260606) " points="4.79227769 11.1923533 9.5947822 19.3288588 -0.0102268208 19.3288588"></polygon>
+                    <polygon id="Polygon" fill="#644AE9" transform="translate(4.792278, 24.775758) rotate(450.000000) translate(-4.792278, -24.775758) " points="4.79227769 20.7075048 9.5947822 28.8440103 -0.0102268208 28.8440103"></polygon>
+                    <polygon id="Polygon" fill="#522FDD" transform="translate(12.913963, 29.624242) rotate(450.000000) translate(-12.913963, -29.624242) " points="12.9139626 25.5559897 17.7164671 33.6924952 8.11145805 33.6924952"></polygon>
+                    <polygon id="Polygon" fill="#634DDD" transform="translate(12.916927, 5.545455) rotate(270.000000) translate(-12.916927, -5.545455) " points="12.9169267 1.47720182 17.7194312 9.61370728 8.11442217 9.61370728"></polygon>
+                    <polygon id="Polygon" fill="#6C53F5" transform="translate(21.038612, 10.333333) rotate(270.000000) translate(-21.038612, -10.333333) " points="21.0386115 6.2650806 25.8411161 14.4015861 16.236107 14.4015861"></polygon>
+                    <polygon id="Polygon" fill="#4B2BF4" transform="translate(29.160296, 15.181818) rotate(270.000000) translate(-29.160296, -15.181818) " points="29.1602964 11.1135655 33.9628009 19.2500709 24.3577919 19.2500709"></polygon>
+                    <polygon id="Polygon" fill="#4F21D3" transform="translate(29.160296, 24.757576) rotate(270.000000) translate(-29.160296, -24.757576) " points="29.1602964 20.689323 33.9628009 28.8258285 24.3577919 28.8258285"></polygon>
+                    <polygon id="Polygon" fill="#5128C7" transform="translate(29.160296, 34.393939) rotate(270.000000) translate(-29.160296, -34.393939) " points="29.1602964 30.3256867 33.9628009 38.4621921 24.3577919 38.4621921"></polygon>
+                    <polygon id="Polygon" fill="#4B25D3" transform="translate(21.038612, 29.606061) rotate(270.000000) translate(-21.038612, -29.606061) " points="21.0386115 25.5378079 25.8411161 33.6743133 16.236107 33.6743133"></polygon>
+                    <polygon id="Polygon" fill="#634CEA" transform="translate(21.056396, 5.545455) rotate(450.000000) translate(-21.056396, -5.545455) " points="21.0563963 1.47720182 25.8589008 9.61370728 16.2538917 9.61370728"></polygon>
+                    <polygon id="Polygon" fill="#3B1FD2" transform="translate(21.056396, 34.393939) rotate(450.000000) translate(-21.056396, -34.393939) " points="21.0563963 30.3256867 25.8589008 38.4621921 16.2538917 38.4621921"></polygon>
+                    <polygon id="Polygon" fill="#3B1FD2" transform="translate(29.178081, 29.606061) rotate(450.000000) translate(-29.178081, -29.606061) " points="29.1780811 25.5378079 33.9805856 33.6743133 24.3755766 33.6743133"></polygon>
+                    <polygon id="Polygon" fill="#3B1FD2" transform="translate(29.178081, 19.969697) rotate(450.000000) translate(-29.178081, -19.969697) " points="29.1780811 15.9014442 33.9805856 24.0379497 24.3755766 24.0379497"></polygon>
+                    <polygon id="Polygon" fill="#6348ED" transform="translate(29.157332, 10.351515) rotate(450.000000) translate(-29.157332, -10.351515) " points="29.1573323 6.28326242 33.9598368 14.4197679 24.3548278 14.4197679"></polygon>
+                    <polygon id="Polygon" fill="#5F44EE" transform="translate(4.765601, 29.575758) rotate(270.000000) translate(-4.765601, -29.575758) " points="4.76560062 25.5075048 9.56810514 33.6440103 -0.0369038879 33.6440103"></polygon>
+                    <polygon id="Polygon" fill="#6244FC" transform="translate(12.946568, 34.424242) rotate(270.000000) translate(-12.946568, -34.424242) " points="12.9465679 30.3559897 17.7490724 38.4924952 8.14406335 38.4924952"></polygon>
+                    <polyline id="Path-2" stroke="#FFFFFF" stroke-width="0.5" points="0.697347894 10.3646879 16.9703588 19.969697 33.2433697 10.3646879"></polyline>
+                    <path d="M16.9907176,19.9707486 L16.9907176,39.1807666" id="Path-3" stroke="#FFFFFF" stroke-width="0.5"></path>
+                    <polygon id="Polygon" fill="#FFFFFF" points="17 10.3636364 25.1373963 15.1666667 25.1373963 24.7727273 17 29.5757576 8.86260373 24.7727273 8.86260373 15.1666667"></polygon>
+                </g>
+            </g>
         </g>
     </g>
 </svg>

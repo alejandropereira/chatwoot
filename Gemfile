@@ -133,7 +133,5 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
   gem 'webmock'
-  gem 'graphiql-rails'
-  gem 'cypress-on-rails', '~> 1.0'
   gem 'database_cleaner-active_record'
 end

@@ -1,15 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import { Transition } from 'react-transition-group';
+import { TweenLite } from 'gsap';
 import { types } from '../reducers';
 import LogoNova from '../components/Svgs/LogoNova';
-import AppContext from '../context/AppContext';
+import { useTracked } from '../App';
 
 const StartChatButton = () => {
-  const {
-    state: { startChatButtonVisible },
-    dispatch,
-  } = useContext(AppContext);
+  const [{ startChatButtonVisible }, dispatch] = useTracked();
 
   const toggleChat = () => {
     dispatch({ type: types.OPEN_CHAT });
@@ -18,7 +16,7 @@ const StartChatButton = () => {
   return (
     <Transition
       in={startChatButtonVisible}
-      addEndListener={(node, done) => {
+      addEndListener={(node, done) =>
         startChatButtonVisible
           ? TweenLite.to(node, 0.3, {
               opacity: 1,
@@ -27,8 +25,8 @@ const StartChatButton = () => {
           : TweenLite.to(node, 0.3, {
               opacity: 0,
               onComplete: done,
-            });
-      }}
+            })
+      }
     >
       <styles.StartChatButton
         open={startChatButtonVisible}

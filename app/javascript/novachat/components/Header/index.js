@@ -1,4 +1,4 @@
-import React, { useRef, useContext } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { TweenLite, Power2 } from 'gsap';
 import { Transition } from 'react-transition-group';
@@ -9,11 +9,11 @@ import variables from '../../utils/variables';
 import IconLeft from '../../components/Svgs/IconLeft';
 import LogoNova from '../../components/Svgs/LogoNova';
 import { types } from '../../reducers';
-import AppContext from '../../context/AppContext';
+import { useTracked } from '../../App';
 
 const Header = () => {
-  const {
-    state: {
+  const [
+    {
       onChatList,
       onHome,
       onIntro,
@@ -23,7 +23,7 @@ const Header = () => {
       webWidget,
     },
     dispatch,
-  } = useContext(AppContext);
+  ] = useTracked();
 
   const headerRef = useRef();
 
@@ -40,6 +40,8 @@ const Header = () => {
   const onHomeOutDone = () => {
     dispatch({ type: types.ON_HOME_OUT_DONE });
   };
+
+  if (!webWidget) return null;
 
   return (
     <styles.Header ref={headerRef}>

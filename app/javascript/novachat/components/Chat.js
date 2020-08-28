@@ -1,4 +1,5 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useQuery, gql } from '@apollo/client';
 import Cookies from 'js-cookie';
 import styled from 'styled-components';
@@ -11,9 +12,10 @@ import IntroAnimation from '../containers/IntroAnimation';
 import StartButtonAnimation from '../containers/StartButtonAnimation';
 import OutroAnimation from '../containers/OutroAnimation';
 import OutroLogo from '../containers/OutroLogo';
-import reducer, { initialState } from '../reducers';
+
 import ActionCableConnector from '../utils/actionCable';
-import useReducerWithLogger from '../hooks/useReducerWithLogger';
+import { useTracked } from '../App';
+import { types } from '../reducers';
 
 const WEB_WIDGET = gql`
   query webWidget($websiteToken: String!, $authToken: String) {
@@ -35,6 +37,7 @@ const WEB_WIDGET = gql`
 `;
 
 const Chat = ({ websiteToken }) => {
+  const [state, dispatch] = useTracked();
   const [authToken, setAuthToken] = useState(
     Cookies.get('cw_conversation') || ''
   );
@@ -43,8 +46,13 @@ const Chat = ({ websiteToken }) => {
       websiteToken,
       authToken,
     },
+    onCompleted(d) {
+      dispatch({
+        type: types.SET_WIDGET_TOKEN,
+        payload: { webWidget: d.webWidget, websiteToken },
+      });
+    },
   });
-  const [state, dispatch] = useReducerWithLogger(reducer, initialState);
 
   useEffect(() => {
     if (data && data.webWidget.pubsubToken) {
@@ -86,6 +94,10 @@ const Chat = ({ websiteToken }) => {
       </styles.Chat>
     </AppContext.Provider>
   );
+};
+
+Chat.propTypes = {
+  websiteToken: PropTypes.string,
 };
 
 const styles = {};

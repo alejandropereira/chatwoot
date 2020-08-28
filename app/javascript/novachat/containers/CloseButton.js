@@ -1,16 +1,12 @@
-import React, { useContext } from 'react';
-import styled, { css } from 'styled-components';
+import React from 'react';
 import { Transition } from 'react-transition-group';
 import { TweenLite, Back, Power4 } from 'gsap';
 import { types } from '../reducers';
-import AppContext from '../context/AppContext';
 import CloseChatButton from '../components/Button/CloseChatButton';
+import { useTracked } from '../App';
 
 const CloseButton = () => {
-  const {
-    state: { openChat },
-    dispatch,
-  } = useContext(AppContext);
+  const [{ openChat }, dispatch] = useTracked();
 
   const onCloseClick = () => {
     dispatch({ type: types.ON_CLOSE_CLICK });
@@ -20,7 +16,7 @@ const CloseButton = () => {
     <Transition
       unmountOnExit
       in={openChat}
-      addEndListener={(node, done) => {
+      addEndListener={(node, done) =>
         openChat
           ? TweenLite.to(node, 1.5, {
               bottom: 0,
@@ -33,8 +29,8 @@ const CloseButton = () => {
               opacity: 0,
               ease: Back.easeInOut.config(10),
               onComplete: done,
-            });
-      }}
+            })
+      }
     >
       <CloseChatButton onCloseClick={onCloseClick} />
     </Transition>

@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { TweenLite, Power4 } from "gsap";
-import { Transition } from "react-transition-group";
-import styled from "styled-components";
-import HeaderPatternMask from "../../components/Svgs/HeaderPatternMask";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { TweenLite, Power4 } from 'gsap';
+import { Transition } from 'react-transition-group';
+import styled from 'styled-components';
+import HeaderPatternMask from '../../components/Svgs/HeaderPatternMask';
 
 class HeaderPattern extends Component {
   static propTypes = {
-    onIntro: PropTypes.bool.isRequired
+    onIntro: PropTypes.bool.isRequired,
   };
 
   render() {
@@ -18,23 +18,23 @@ class HeaderPattern extends Component {
         <Transition
           unmountOnExit
           in={onIntro}
-          addEndListener={(node, done) => {
+          addEndListener={(node, done) =>
             onIntro
               ? TweenLite.to(node, 1.5, {
                   top: -630,
                   left: -130,
                   delay: 1.5,
                   ease: Power4.easeInOut,
-                  onComplete: done
+                  onComplete: done,
                 })
               : TweenLite.to(node, 1.5, {
                   top: -630,
                   left: -130,
                   delay: 1.5,
                   ease: Power4.easeInOut,
-                  onComplete: done
-                });
-          }}
+                  onComplete: done,
+                })
+          }
         >
           <styles.HeaderPatternMask>
             <HeaderPatternMask />

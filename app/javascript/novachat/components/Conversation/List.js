@@ -10,10 +10,14 @@ const List = ({ onListItemClick, conversations }) => {
         return (
           <ListItem
             agent={conversation.assignee}
-            text={conversation.messages.collection[0].content}
+            text={
+              conversation.messages.collection[0] &&
+              conversation.messages.collection[0].content
+            }
             key={conversation.id}
             date={timeDifferenceForDate(
-              conversation.messages.collection[0].createdAt
+              conversation.messages.collection[0] &&
+                conversation.messages.collection[0].createdAt
             )}
             onClick={() => onListItemClick(conversation)}
           />

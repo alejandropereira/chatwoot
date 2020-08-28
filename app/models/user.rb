@@ -15,7 +15,6 @@
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  name                   :string           not null
-#  nickname               :string
 #  phone_number           :string
 #  provider               :string           default("email"), not null
 #  pubsub_token           :string

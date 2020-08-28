@@ -4,7 +4,7 @@ import { useRef, useReducer, useMemo, useEffect } from 'react';
 function enchanceDispatchWithLogger(dispatch) {
   // eslint-disable-next-line func-names
   return function(action) {
-    console.groupCollapsed('Action Type:', action.type);
+    console.groupCollapsed('Action Type:', action.type, action.payload);
     return dispatch(action);
   };
 }

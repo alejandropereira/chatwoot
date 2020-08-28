@@ -53,7 +53,7 @@ class Mutations::CreateMessage < Mutations::BaseMutation
   def message_params(content)
     {
       account_id: @conversation.account_id,
-      contact_id: @contact.id,
+      sender: @contact,
       content: content,
       inbox_id: @conversation.inbox_id,
       message_type: :incoming

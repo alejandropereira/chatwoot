@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { useQuery, gql } from '@apollo/client';
+import { useLazyQuery, gql } from '@apollo/client';
 import PropTypes from 'prop-types';
 import MessagesContainer from './MessagesContainer';
 import { types } from '../../reducers';
-import AppContext from '../../context/AppContext';
+import { useTracked } from '../../App';
 
 const MESSAGES = gql`
   query messages($token: String!, $websiteToken: String!, $uuid: String!) {
@@ -31,25 +31,29 @@ const MESSAGES = gql`
 `;
 
 const Messages = () => {
-  const {
-    state: { messages, websiteToken, onMessages, currentConversation },
+  const [
+    { messages, websiteToken, onMessages, currentConversation },
     dispatch,
-  } = useContext(AppContext);
+  ] = useTracked();
   const [typing] = useState(false);
-  const skip =
-    currentConversation.uuid === 'volatile' || !currentConversation.uuid;
-  useQuery(MESSAGES, {
+  const [loadMessages] = useLazyQuery(MESSAGES, {
     variables: {
       websiteToken,
       token: Cookies.get('cw_conversation'),
       uuid: currentConversation.uuid,
     },
-    skip,
+    fetchPolicy: 'no-cache',
     onCompleted(data) {
       if (!data) return;
       dispatch({ type: types.SET_MESSAGES, payload: data.messages.collection });
     },
   });
+
+  useEffect(() => {
+    if (currentConversation.uuid === 'volatile' || !currentConversation.uuid)
+      return;
+    loadMessages();
+  }, [currentConversation.id]);
 
   return (
     <MessagesContainer

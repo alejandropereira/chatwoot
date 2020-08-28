@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "engines": {
-    "node": "12.15.x"
+    "node": "12.18.x"
   },
   "scripts": {
     "eslint": "eslint app/javascript --fix",
@@ -58,6 +58,7 @@
     "react-is": "^16.13.1",
     "react-spring": "^8.0.27",
     "react-textarea-autosize": "^8.2.0",
+    "react-tracked": "^1.4.1",
     "react-transition-group": "^4.3.0",
     "regenerator-runtime": "^0.13.2",
     "spinkit": "~1.2.5",
