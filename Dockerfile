@@ -54,7 +54,7 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
   fi
 
 # final build stage
-FROM ruby:2.7.0-alpine
+FROM ruby:2.7.1-alpine
 
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
@@ -88,8 +88,8 @@ COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app
 
 # Remove unecessary files
-RUN rm -rf /gems/ruby/2.7.0/cache/*.gem \
-  && find /gems/ruby/2.7.0/gems/ -name "*.c" -delete \
-  && find /gems/ruby/2.7.0/gems/ -name "*.o" -delete
+RUN rm -rf /gems/ruby/2.7.1/cache/*.gem \
+  && find /gems/ruby/2.7.1/gems/ -name "*.c" -delete \
+  && find /gems/ruby/2.7.1/gems/ -name "*.o" -delete
 
 WORKDIR /app
