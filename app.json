@@ -7,9 +7,7 @@
   "keywords": ["live chat", "customer support", "ruby", "rails", "vue"],
   "success_url": "/app/login",
   "scripts": {
-    "dokku": {
-      "predeploy": "bundle exec rails db:migrate"
-    }
+    "dokku": {}
   },
   "env": {
     "SECRET_TOKEN": {
