@@ -8,9 +8,8 @@
   "success_url": "/app/login",
   "scripts": {
     "dokku": {
-      "postdeploy": "bundle exec rake db:migrate"
-    },
-    "postdeploy": "bundle exec rake db:migrate && bundle exec rake db:seed"
+      "predeploy": "bundle exec rails db:migrate"
+    }
   },
   "env": {
     "SECRET_TOKEN": {
