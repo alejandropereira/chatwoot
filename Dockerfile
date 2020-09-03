@@ -88,8 +88,8 @@ COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app
 
 # Remove unecessary files
-RUN [ -d /gems/ruby/2.7.1/ ] && rm -rf /gems/ruby/2.7.1/cache/*.gem \
-  && find /gems/ruby/2.7.1/gems/ -name "*.c" -delete \
-  && find /gems/ruby/2.7.1/gems/ -name "*.o" -delete
+# RUN [ -d /gems/ruby/2.7.1/ ] && rm -rf /gems/ruby/2.7.1/cache/*.gem \
+#   && find /gems/ruby/2.7.1/gems/ -name "*.c" -delete \
+#   && find /gems/ruby/2.7.1/gems/ -name "*.o" -delete
 
 WORKDIR /app
