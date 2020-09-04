@@ -55,7 +55,7 @@ export const mutations = {
   [types.default.SET_CURRENT_CHAT_WINDOW](_state, activeChat) {
     if (activeChat) {
       _state.selectedChatId = activeChat.id;
-      Object.assign(_state.selectedChat, activeChat);
+      _state.selectedChat = activeChat;
       Vue.set(_state.selectedChat.meta, 'assignee', activeChat.meta.assignee);
       Vue.set(_state.selectedChat.meta, 'status', activeChat.meta.status);
     }

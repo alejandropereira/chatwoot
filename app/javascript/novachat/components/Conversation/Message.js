@@ -6,6 +6,7 @@ import variables from '../../utils/variables';
 import Avatar from '../Avatar';
 import RequestBubble from './RequestBubble';
 import PathMessage from '../../img/PathMessage.svg';
+import ImageContainer from './ImageContainer';
 
 const ANIM_TIME = 2;
 const DOTS_TIME = 1;
@@ -170,18 +171,9 @@ class Message extends Component {
               </styles.Typing>
             )}
             <div dangerouslySetInnerHTML={{ __html: text }} />
-            {attachments &&
-              attachments[0] &&
-              attachments[0].fileType === 'image' && (
-                <img
-                  onError={e => {
-                    e.target.onerror = null;
-                    e.target.src = attachments[0].fileUrl;
-                  }}
-                  style={{ maxWidth: '100%' }}
-                  src={attachments[0].thumbUrl}
-                />
-              )}
+            {attachments && attachments[0] && (
+              <ImageContainer attachment={attachments[0]} />
+            )}
             {fromUser ? (
               <img
                 src={PathMessage}

@@ -69,7 +69,7 @@ export const actions = {
           window.location = '/';
           resolve();
         })
-        .catch((error) => {
+        .catch(error => {
           reject(error);
         });
     });
@@ -77,7 +77,6 @@ export const actions = {
   async validityCheck(context) {
     try {
       const response = await authAPI.validityCheck();
-      console.log({ data: response.data.payload.data });
       setUser(response.data.payload.data, getHeaderExpiry(response));
       context.commit(types.default.SET_CURRENT_USER);
     } catch (error) {
