@@ -15,6 +15,7 @@ export const initialState = {
   messages: [],
   websiteToken: null,
   webWidget: null,
+  previewFile: {},
 };
 
 const messageTypes = {
@@ -40,6 +41,7 @@ export const types = {
   UPDATE_MESSAGE: 'chat/UPDATE_MESSAGE',
   APPEND_IP_MESSAGE: 'chat/APPEND_IP_MESSAGE',
   SET_WIDGET_TOKEN: 'chat/SET_WIDGET_TOKEN',
+  SET_PREVIEW_FILE_UPLOAD: 'chat/SET_PREVIEW_FILE_UPLOAD',
 };
 
 const findUndeliveredMessage = (state, { content, attachments }) =>
@@ -66,6 +68,11 @@ const reducer = (state, action) => {
         startChatButtonVisible: false,
         onLogoOutroComplete: false,
         onChatList: false,
+      };
+    case types.SET_PREVIEW_FILE_UPLOAD:
+      return {
+        ...state,
+        previewFile: action.payload,
       };
     case types.SET_WIDGET_TOKEN:
       return {

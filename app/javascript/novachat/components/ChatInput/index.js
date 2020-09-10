@@ -12,6 +12,7 @@ import EmojiPicker from './EmojiPicker';
 import FileUpload from './FileUpload';
 import CopyPasteImageUpload from './CopyPasteImageUpload';
 import { useTracked } from '../../App';
+import ImageUploadPreview from './ImageUploadPreview';
 
 const CREATE_MESSAGE = gql`
   mutation createMessage(
@@ -43,12 +44,20 @@ const CREATE_MESSAGE = gql`
 
 const ChatInput = React.memo(() => {
   const [
-    { onMessages, onHome, onChatList, websiteToken, currentConversation },
+    {
+      onMessages,
+      onHome,
+      onChatList,
+      websiteToken,
+      currentConversation,
+      previewFile,
+    },
     dispatch,
   ] = useTracked();
   const [message, setMessage] = useState('');
   const chatInputRef = useRef();
   const inputRef = useRef();
+  const focusInputRef = useRef(false);
   const [createMessage] = useMutation(CREATE_MESSAGE);
 
   const focusInput = useCallback(() => {
@@ -56,6 +65,12 @@ const ChatInput = React.memo(() => {
       inputRef.current.focus();
     }
   }, [inputRef, onMessages]);
+
+  useEffect(() => {
+    if (focusInputRef.current) {
+      focusInput();
+    }
+  }, [focusInputRef.current]);
 
   useEffect(() => {
     if (onHome) {
@@ -120,6 +135,28 @@ const ChatInput = React.memo(() => {
     setMessage('');
   };
 
+  const onFileUploadPreview = useCallback(file => {
+    focusInputRef.current = true;
+    dispatch({
+      type: types.SET_PREVIEW_FILE_UPLOAD,
+      payload: {
+        id: getUuid(),
+        fileName: file.name,
+        fileType: /image/i.test(file.type) ? 'image' : 'file',
+        thumbUrl: URL.createObjectURL(file),
+        file,
+      },
+    });
+  }, []);
+
+  const onPreviewRemove = useCallback(() => {
+    focusInputRef.current = true;
+    dispatch({
+      type: types.SET_PREVIEW_FILE_UPLOAD,
+      payload: {},
+    });
+  }, []);
+
   const onFileUpload = useCallback(
     file => {
       createMessage({
@@ -158,7 +195,16 @@ const ChatInput = React.memo(() => {
   const onEnterPress = e => {
     if (e.keyCode === 13 && e.shiftKey === false) {
       e.preventDefault();
-      onSave(e);
+
+      if (previewFile.file) {
+        onFileUpload(previewFile.file);
+        dispatch({
+          type: types.SET_PREVIEW_FILE_UPLOAD,
+          payload: {},
+        });
+      } else {
+        onSave(e);
+      }
     }
   };
 
@@ -169,7 +215,8 @@ const ChatInput = React.memo(() => {
           <LogoNova />
           <p>Powered by novachat!</p>
         </div>
-        <styles.Input className="Input">
+        <ImageUploadPreview onRemove={onPreviewRemove} />
+        <styles.Input className="Input" previewFile={previewFile.thumbUrl}>
           <form onSubmit={onSave}>
             <TextareaAutoSize
               ref={inputRef}
@@ -177,13 +224,16 @@ const ChatInput = React.memo(() => {
               placeholder="write a reply…"
               value={message}
               onChange={handleChange}
+              onBlur={() => {
+                focusInputRef.current = false;
+              }}
               onKeyDown={onEnterPress}
             />
           </form>
-          <CopyPasteImageUpload onFileUpload={onFileUpload} />
+          <CopyPasteImageUpload onFileUpload={onFileUploadPreview} />
           <div>
             <EmojiPicker onChange={handleEmoji} />
-            <FileUpload onFileUpload={onFileUpload} />
+            <FileUpload onFileUpload={onFileUploadPreview} />
           </div>
         </styles.Input>
       </styles.ChatInput>
@@ -219,7 +269,8 @@ styles.ChatInput = styled.div`
 styles.Input = styled.div`
   display: flex;
   padding: 10px 20px;
-  border-top: 1px solid #efefef;
+  ${({ previewFile }) => !previewFile && `border-top: 1px solid #efefef;`}
+
   form {
     flex: 1;
     width: 100%;

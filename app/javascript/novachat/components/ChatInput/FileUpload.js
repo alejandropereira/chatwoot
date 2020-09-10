@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
 import styled from 'styled-components';
 import IconPaperClip from '../../components/Svgs/IconPaperClip';
@@ -16,6 +17,10 @@ const FileUpload = ({ onFileUpload }) => {
       )}
     </Dropzone>
   );
+};
+
+FileUpload.propTypes = {
+  onFileUpload: PropTypes.func,
 };
 
 const styles = {};
