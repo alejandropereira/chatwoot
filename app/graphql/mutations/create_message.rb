@@ -9,18 +9,18 @@ class Mutations::CreateMessage < Mutations::BaseMutation
 
   field :message, Types::MessageType, null: true
 
-  def resolve(website_token:, uuid:, token:, content: nil, referer_url:, timestamp:, attachment: nil)
+  def resolve(website_token:, uuid:, content: nil, **options)
     @uuid = uuid
     set_web_widget(website_token)
-    set_token(token)
+    set_token(options[:token])
     set_contact
-    set_conversation({ referer_url: referer_url, timestamp: timestamp })
+    set_conversation({ referer_url: options[:referer_url], timestamp: options[:timestamp] })
     @message = conversation.messages.new(message_params(content))
     @message.save
-    build_attachment(attachment)
+    build_attachment(options[:attachment])
 
     {
-      message: @message,
+      message: @message
     }
   end
 
@@ -63,12 +63,12 @@ class Mutations::CreateMessage < Mutations::BaseMutation
   def conversation
     @conversation ||= @contact_inbox.conversations.find_by(
       inbox_id: @auth_token_params[:inbox_id],
-      uuid: @uuid,
+      uuid: @uuid
     )
   end
 
   def set_conversation(params)
-    @conversation = ::Conversation.create!(conversation_params(params)) if conversation.nil? || @uuid == "volatile"
+    @conversation = ::Conversation.create!(conversation_params(params)) if conversation.nil? || @uuid == 'volatile'
   end
 
   def conversation_params(params)

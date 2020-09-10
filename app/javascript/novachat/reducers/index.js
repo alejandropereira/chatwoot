@@ -154,7 +154,7 @@ const reducer = (state, action) => {
           messages: state.messages.map(m => {
             if (message.id === m.id) {
               return {
-                id: action.payload.id,
+                id: m.id,
                 createdAt: new Date(action.payload.created_at).toISOString(),
                 status: action.payload.status,
                 attachments:
