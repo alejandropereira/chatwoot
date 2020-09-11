@@ -1,9 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import Loading from './Loading';
+import ImageModal from './ImageModal';
 
 const Image = ({ thumbUrl, fileUrl, fileName }) => {
   const [isLoaded, setIsLoaded] = React.useState(false);
+  const [url, setUrl] = React.useState(null);
 
   return (
     <React.Fragment>
@@ -13,6 +16,15 @@ const Image = ({ thumbUrl, fileUrl, fileName }) => {
         src={thumbUrl}
         isLoaded={isLoaded}
       />
+      <Loading />
+      {url && (
+        <ImageModal
+          onClose={() => {
+            setUrl(null);
+          }}
+          src={url}
+        />
+      )}
       <styles.Img
         onLoad={() => {
           setIsLoaded(true);
@@ -21,6 +33,9 @@ const Image = ({ thumbUrl, fileUrl, fileName }) => {
           setIsLoaded(false);
           e.target.onerror = null;
           e.target.src = fileUrl;
+        }}
+        onClick={() => {
+          setUrl(fileUrl || thumbUrl);
         }}
         className="full"
         alt={fileName}
@@ -41,9 +56,11 @@ const styles = {};
 
 styles.Img = styled.img`
   width: 100%;
+  z-index: 2;
 
   &.full {
     transition: opacity 400ms ease 0ms;
+    cursor: pointer;
 
     ${({ isLoaded }) =>
       isLoaded

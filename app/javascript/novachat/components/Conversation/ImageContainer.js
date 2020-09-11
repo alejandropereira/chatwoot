@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useIntersectionObserver from '../../hooks/useIntersectionObserver';
 import Image from './Image';
+import Loading from './Loading';
 
 const ImageContainer = ({ attachment }) => {
   const ref = React.useRef();
@@ -36,7 +37,12 @@ const styles = {};
 
 styles.Wrapper = styled.div`
   width: 100%;
+  min-height: 100px;
   position: relative;
+  min-width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default ImageContainer;
