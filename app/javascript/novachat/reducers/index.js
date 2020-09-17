@@ -123,6 +123,7 @@ const reducer = (state, action) => {
         onMessages: false,
         onHome: true,
         onBackHome: true,
+        currentConversation: {},
       };
     case types.ON_BACK_CLICK_MESSAGES:
       return {
@@ -139,6 +140,7 @@ const reducer = (state, action) => {
         messages: action.payload.uuid === 'volatile' ? [] : state.messages,
         onHome: false,
         onMessages: true,
+        onBackHome: false,
       };
     case types.SET_MESSAGES:
       return {

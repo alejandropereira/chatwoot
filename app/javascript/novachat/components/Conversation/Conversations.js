@@ -31,8 +31,9 @@ const Conversations = ({
               onComplete: done,
             })
           : TweenLite.to(node, 0.5, {
+              opacity: 0,
               left: -variables.ChatWidth,
-              delay: onBackHome ? 0 : 1,
+              // delay: onBackHome ? 0 : 1,
               onComplete: done,
             })
       }

@@ -25,6 +25,11 @@ const WEB_WIDGET = gql`
       widget {
         welcomeTitle
         welcomeTagline
+        channel {
+          id
+          name
+          avatarUrl
+        }
         agents {
           id
           name

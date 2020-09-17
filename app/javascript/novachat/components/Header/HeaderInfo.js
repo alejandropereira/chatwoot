@@ -1,49 +1,64 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { TweenLite } from 'gsap';
 import { Transition } from 'react-transition-group';
 import Avatar from '../Avatar';
 import variables from '../../utils/variables';
 
-const HeaderInfo = ({ onMessages, agent }) => {
+const HeaderInfo = ({ onMessages, agent, webWidget }) => {
   return (
     <styles.HeaderInfo className="HeaderInfo">
       <Transition
         unmountOnExit
         in={onMessages}
-        addEndListener={(node, done) => {
+        addEndListener={(node, done) =>
           onMessages
             ? TweenLite.to(node, 0.3, {
                 bottom: 0,
                 opacity: 1,
+                delay: 1,
                 onComplete: done,
               })
             : TweenLite.to(node, 0.3, {
                 bottom: -30,
                 opacity: 0,
                 onComplete: done,
-              });
-        }}
+              })
+        }
       >
         <styles.UserInfo className="UserInfo">
-          {agent && (
+          {agent ? (
             <Avatar
               image={agent.avatarUrl}
               name={agent.name}
               active={agent.availabilityStatus}
               showIndicator
             />
+          ) : (
+            <Avatar
+              image={webWidget.widget.channel.avatarUrl}
+              name={webWidget.widget.channel.name}
+              showIndicator={false}
+            />
           )}
-          {agent && (
-            <div className="UserInfoLabel">
-              <div>{agent.name}</div>
+
+          <div className="UserInfoLabel">
+            <div>{agent ? agent.name : webWidget.widget.channel.name}</div>
+            {agent && (
               <div>{agent.availabilityStatus ? 'Active' : 'Inactive'}</div>
-            </div>
-          )}
+            )}
+          </div>
         </styles.UserInfo>
       </Transition>
     </styles.HeaderInfo>
   );
+};
+
+HeaderInfo.propTypes = {
+  agent: PropTypes.object,
+  webWidget: PropTypes.object,
+  onMessages: PropTypes.bool,
 };
 
 const styles = {};

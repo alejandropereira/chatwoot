@@ -28,7 +28,7 @@ const Header = () => {
   const headerRef = useRef();
 
   const onBackClick = () => {
-    if (onMessages && currentConversation.id === 'volatile') {
+    if (onMessages && currentConversation.uuid === 'volatile') {
       dispatch({ type: types.ON_BACK_CLICK });
     } else if (onMessages) {
       dispatch({ type: types.ON_BACK_CLICK_MESSAGES });
@@ -88,7 +88,7 @@ const Header = () => {
               TweenLite.to(node, 0.5, {
                 opacity: 1,
                 y: 0,
-                ease: Power2.easeOut,
+                // ease: Power2.easeOut,
                 onComplete: done,
               });
             }}
@@ -123,6 +123,7 @@ const Header = () => {
           <HeaderInfo
             agent={currentConversation.assignee}
             onMessages={onMessages}
+            webWidget={webWidget}
           />
         </styles.HeaderSmallContent>
       </div>

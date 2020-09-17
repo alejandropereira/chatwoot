@@ -44,7 +44,7 @@ const MessagesContainer = ({
           />
         )}
         {messages &&
-          messages.map((message, key) => {
+          messages.map(message => {
             return (
               <Message
                 key={message.id}

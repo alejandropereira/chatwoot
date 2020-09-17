@@ -76,7 +76,6 @@ const ChatInput = React.memo(() => {
     if (onHome) {
       TweenLite.to(chatInputRef.current, 1, {
         bottom: -48,
-        delay: 2.5,
         ease: Power4.easeInOut,
       });
     } else if (onChatList) {
@@ -90,11 +89,6 @@ const ChatInput = React.memo(() => {
         ease: Power4.easeInOut,
         delay: 1,
         onComplete: focusInput,
-      });
-    } else {
-      TweenLite.to(chatInputRef.current, 1, {
-        bottom: -48,
-        ease: Power4.easeInOut,
       });
     }
   }, [onMessages, onHome, onChatList]);
