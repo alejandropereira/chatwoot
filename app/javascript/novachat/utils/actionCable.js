@@ -7,9 +7,8 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
-      // 'message.updated': this.onMessageUpdated,
-      // 'conversation.typing_on': this.onTypingOn,
-      // 'conversation.typing_off': this.onTypingOff,
+      'conversation.typing_on': this.onTypingOn,
+      'conversation.typing_off': this.onTypingOff,
     };
   }
 
@@ -27,38 +26,42 @@ class ActionCableConnector extends BaseActionCableConnector {
     });
   };
 
-  // onMessageUpdated = data => {
-  //   this.app.dispatch('conversation/updateMessage', data);
-  // };
+  onTypingOn = data => {
+    this.clearTimer();
+    this.app.dispatch({
+      type: types.TOGGLE_AGENT_TYPING,
+      payload: {
+        status: 'on',
+        conversationId: data.conversation.id.toString(),
+      },
+    });
+    this.initTimer();
+  };
 
-  // onTypingOn = () => {
-  //   this.clearTimer();
-  //   this.app.$store.dispatch('conversation/toggleAgentTyping', {
-  //     status: 'on',
-  //   });
-  //   this.initTimer();
-  // };
+  onTypingOff = data => {
+    this.clearTimer();
+    this.app.dispatch({
+      type: types.TOGGLE_AGENT_TYPING,
+      payload: {
+        status: 'off',
+        conversationId: data.conversation.id.toString(),
+      },
+    });
+  };
 
-  // onTypingOff = () => {
-  //   this.clearTimer();
-  //   this.app.$store.dispatch('conversation/toggleAgentTyping', {
-  //     status: 'off',
-  //   });
-  // };
+  clearTimer = () => {
+    if (this.CancelTyping) {
+      clearTimeout(this.CancelTyping);
+      this.CancelTyping = null;
+    }
+  };
 
-  // clearTimer = () => {
-  //   if (this.CancelTyping) {
-  //     clearTimeout(this.CancelTyping);
-  //     this.CancelTyping = null;
-  //   }
-  // };
-
-  // initTimer = () => {
-  //   // Turn off typing automatically after 30 seconds
-  //   this.CancelTyping = setTimeout(() => {
-  //     this.onTypingOff();
-  //   }, 30000);
-  // };
+  initTimer = () => {
+    // Turn off typing automatically after 30 seconds
+    this.CancelTyping = setTimeout(() => {
+      this.onTypingOff();
+    }, 30000);
+  };
 }
 
 // export const refreshActionCableConnector = pubsubToken => {

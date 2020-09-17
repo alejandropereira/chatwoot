@@ -32,10 +32,9 @@ const MESSAGES = gql`
 
 const Messages = () => {
   const [
-    { messages, websiteToken, onMessages, currentConversation },
+    { messages, websiteToken, onMessages, currentConversation, senderTyping },
     dispatch,
   ] = useTracked();
-  const [typing] = useState(false);
   const [loadMessages] = useLazyQuery(MESSAGES, {
     variables: {
       websiteToken,
@@ -57,7 +56,7 @@ const Messages = () => {
 
   return (
     <MessagesContainer
-      typing={typing}
+      typing={senderTyping}
       currentConversation={currentConversation}
       messages={messages}
       toggle={onMessages}

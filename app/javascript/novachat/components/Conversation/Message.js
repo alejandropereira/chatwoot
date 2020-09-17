@@ -14,7 +14,6 @@ const DOTS_TIME = 1;
 class Message extends Component {
   static propTypes = {
     selectedUser: PropTypes.object,
-    senderTyping: PropTypes.bool.isRequired,
     sendUserData: PropTypes.func.isRequired,
   };
 

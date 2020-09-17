@@ -42,6 +42,7 @@ export const types = {
   APPEND_IP_MESSAGE: 'chat/APPEND_IP_MESSAGE',
   SET_WIDGET_TOKEN: 'chat/SET_WIDGET_TOKEN',
   SET_PREVIEW_FILE_UPLOAD: 'chat/SET_PREVIEW_FILE_UPLOAD',
+  TOGGLE_AGENT_TYPING: 'chat/TOGGLE_AGENT_TYPING',
 };
 
 const findUndeliveredMessage = (state, { content, attachments }) =>
@@ -128,6 +129,7 @@ const reducer = (state, action) => {
         ...state,
         onChatList: true,
         onMessages: false,
+        currentConversation: {},
       };
     case types.ON_LIST_ITEM_CLICK:
       return {
@@ -143,6 +145,14 @@ const reducer = (state, action) => {
         ...state,
         messages: action.payload,
       };
+    case types.TOGGLE_AGENT_TYPING:
+      if (action.payload.conversationId === state.currentConversation.id) {
+        return {
+          ...state,
+          senderTyping: action.payload.status === 'on',
+        };
+      }
+      return state;
     case types.APPEND_IP_MESSAGE:
       return {
         ...state,
@@ -154,6 +164,7 @@ const reducer = (state, action) => {
       if (message) {
         return {
           ...state,
+          senderTyping: false,
           currentConversation: {
             ...state.currentConversation,
             uuid: action.payload.conversation_uuid,
