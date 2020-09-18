@@ -39,6 +39,7 @@ export const types = {
   SET_MESSAGES: 'chat/SET_MESSAGES',
   APPEND_MESSAGE: 'chat/APPEND_MESSAGE',
   UPDATE_MESSAGE: 'chat/UPDATE_MESSAGE',
+  UPDATE_MESSAGE_DATA: 'chat/UPDATE_MESSAGE_DATA',
   APPEND_IP_MESSAGE: 'chat/APPEND_IP_MESSAGE',
   SET_WIDGET_TOKEN: 'chat/SET_WIDGET_TOKEN',
   SET_PREVIEW_FILE_UPLOAD: 'chat/SET_PREVIEW_FILE_UPLOAD',
@@ -160,6 +161,19 @@ const reducer = (state, action) => {
         ...state,
         messages: [...[action.payload], ...state.messages],
       };
+    case types.UPDATE_MESSAGE_DATA:
+      return {
+        ...state,
+        messages: state.messages.map(message => {
+          if (action.payload.id === message.id) {
+            return {
+              ...message,
+              ...action.payload,
+            };
+          }
+          return message;
+        }),
+      };
     case types.APPEND_MESSAGE: {
       const [message] = findUndeliveredMessage(state, action.payload);
 
@@ -233,6 +247,8 @@ const reducer = (state, action) => {
                   }
                 : null,
               content: action.payload.content,
+              contentAttributes: action.payload.content_attributes,
+              contentType: action.payload.content_type,
               messageType: messageTypes[action.payload.message_type],
             },
           ],
@@ -244,9 +260,9 @@ const reducer = (state, action) => {
       return {
         ...state,
         messages: state.messages.map(m => {
-          if (action.payload.id === m.id) {
+          if (action.payload.id.toString() === m.id.toString()) {
             return {
-              id: action.payload.id,
+              id: action.payload.id.toString(),
               createdAt: new Date(action.payload.created_at).toISOString(),
               status: action.payload.status,
               attachments:
@@ -268,6 +284,8 @@ const reducer = (state, action) => {
                   }
                 : null,
               content: action.payload.content,
+              contentAttributes: action.payload.content_attributes,
+              contentType: action.payload.content_type,
               messageType: messageTypes[action.payload.message_type],
             };
           }

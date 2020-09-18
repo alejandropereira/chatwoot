@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useLazyQuery, gql } from '@apollo/client';
 import PropTypes from 'prop-types';
@@ -13,7 +13,9 @@ const MESSAGES = gql`
         id
         content
         createdAt
+        contentType
         messageType
+        contentAttributes
         status
         attachments {
           id

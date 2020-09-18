@@ -28,7 +28,7 @@ function UserList({
               opacity: 1,
               top: 115,
               ease: Power4.easeOut,
-              delay: onBackHome ? 0 : 2.5,
+              delay: onBackHome ? 0 : 2,
               onComplete: done,
             })
           : TweenLite.to(node, 0.5, {

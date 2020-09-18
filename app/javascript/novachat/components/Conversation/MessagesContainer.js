@@ -48,12 +48,15 @@ const MessagesContainer = ({
             return (
               <Message
                 key={message.id}
+                id={message.id}
                 status={message.status}
                 avatar={message.assignee && message.assignee.avatarUrl}
                 text={message.content}
                 fromUser={message.messageType === 'incoming'}
                 typing={false}
                 attachments={message.attachments}
+                contentAttributes={message.contentAttributes}
+                contentType={message.contentType}
                 senderTyping={false}
                 type={null}
                 sendUserData={() => {}}

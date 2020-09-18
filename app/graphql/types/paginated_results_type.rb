@@ -4,7 +4,7 @@ class Types::PaginatedResultsType < Types::BaseObject
     field :collection, type: [inner_type_class], null: true
   end
 
-  field :meta, type: Types::JsonType, null: true
+  field :meta, type: Types::PaginationType, null: true
 
   def collection
     object

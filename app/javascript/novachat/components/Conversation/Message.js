@@ -51,9 +51,9 @@ class Message extends Component {
         ease: Power4.easeOut,
       });
     }
-    //Typing animation
+    // Typing animation
     if (typing) {
-      //Rotate dots left
+      // Rotate dots left
       this.tween1 = TweenLite.to(this.dotsLeft, DOTS_TIME, {
         rotation: 180,
         repeat: -1,
@@ -61,7 +61,7 @@ class Message extends Component {
         ease: Power4.easeOut,
         onRepeat: this.onRepeatLeft,
       });
-      //Rotate dots right
+      // Rotate dots right
       this.tween2 = TweenLite.to(this.dotsRight, DOTS_TIME, {
         rotation: -180,
         repeat: -1,
@@ -120,6 +120,7 @@ class Message extends Component {
 
   render() {
     const {
+      id,
       text,
       avatar,
       fromUser,
@@ -127,6 +128,8 @@ class Message extends Component {
       type,
       status,
       attachments,
+      contentType,
+      contentAttributes,
     } = this.props;
     const { sent } = this.state;
     return (
@@ -136,12 +139,14 @@ class Message extends Component {
         fromUser={fromUser}
       >
         {!fromUser && !type && avatar && <Avatar image={avatar} />}
-        {type === 'request' ? (
+        {contentType === 'input_email' ? (
           <RequestBubble
+            messageId={id}
             sent={sent}
             label={text}
             sendUserData={this.sendUserData}
             onChange={this.handleChange}
+            contentAttributes={contentAttributes}
           />
         ) : (
           <styles.Bubble
