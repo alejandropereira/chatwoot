@@ -38,7 +38,10 @@ const MessagesContainer = ({
           <Message
             key={currentConversation.key}
             typing={typing}
-            avatar={currentConversation.assignee.avatarUrl}
+            avatar={
+              currentConversation.assignee &&
+              currentConversation.assignee.avatarUrl
+            }
             type={null}
             sendUserData={() => {}}
           />

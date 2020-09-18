@@ -84,7 +84,7 @@ class ActionCableListener < BaseListener
 
   def assignee_changed(event)
     conversation, account = extract_conversation_and_account(event)
-    tokens = user_tokens(account, conversation.inbox.members)
+    tokens = user_tokens(account, conversation.inbox.members) + [conversation.contact.pubsub_token]
 
     broadcast(account, tokens, ASSIGNEE_CHANGED, conversation.push_event_data)
   end

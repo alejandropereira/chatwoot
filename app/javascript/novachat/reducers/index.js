@@ -44,6 +44,7 @@ export const types = {
   SET_WIDGET_TOKEN: 'chat/SET_WIDGET_TOKEN',
   SET_PREVIEW_FILE_UPLOAD: 'chat/SET_PREVIEW_FILE_UPLOAD',
   TOGGLE_AGENT_TYPING: 'chat/TOGGLE_AGENT_TYPING',
+  ASSIGNEE_CHANGED: 'chat/ASSIGNEE_CHANGED',
 };
 
 const findUndeliveredMessage = (state, { content, attachments }) =>
@@ -153,6 +154,17 @@ const reducer = (state, action) => {
         return {
           ...state,
           senderTyping: action.payload.status === 'on',
+        };
+      }
+      return state;
+    case types.ASSIGNEE_CHANGED:
+      if (action.payload.conversationId === state.currentConversation.uuid) {
+        return {
+          ...state,
+          currentConversation: {
+            ...state.currentConversation,
+            assignee: action.payload.assignee,
+          },
         };
       }
       return state;

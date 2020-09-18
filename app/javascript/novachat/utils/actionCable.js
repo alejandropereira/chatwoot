@@ -9,6 +9,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'message.updated': this.onMessageUpdated,
       'conversation.typing_on': this.onTypingOn,
       'conversation.typing_off': this.onTypingOff,
+      'assignee.changed': this.assigneeChanged,
     };
   }
 
@@ -45,6 +46,16 @@ class ActionCableConnector extends BaseActionCableConnector {
       payload: {
         status: 'off',
         conversationId: data.conversation.uuid,
+      },
+    });
+  };
+
+  assigneeChanged = data => {
+    this.app.dispatch({
+      type: types.ASSIGNEE_CHANGED,
+      payload: {
+        conversationId: data.uuid,
+        assignee: data.meta.assignee,
       },
     });
   };
