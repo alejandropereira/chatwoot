@@ -149,7 +149,7 @@ const reducer = (state, action) => {
         messages: action.payload,
       };
     case types.TOGGLE_AGENT_TYPING:
-      if (action.payload.conversationId === state.currentConversation.id) {
+      if (action.payload.conversationId === state.currentConversation.uuid) {
         return {
           ...state,
           senderTyping: action.payload.status === 'on',

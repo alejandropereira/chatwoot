@@ -32,7 +32,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       type: types.TOGGLE_AGENT_TYPING,
       payload: {
         status: 'on',
-        conversationId: data.conversation.id.toString(),
+        conversationId: data.conversation.uuid,
       },
     });
     this.initTimer();
@@ -44,7 +44,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       type: types.TOGGLE_AGENT_TYPING,
       payload: {
         status: 'off',
-        conversationId: data.conversation.id.toString(),
+        conversationId: data.conversation.uuid,
       },
     });
   };
