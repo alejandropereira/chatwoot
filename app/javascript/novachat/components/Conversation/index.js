@@ -30,6 +30,10 @@ const CONVERSATIONS = gql`
           collection {
             id
             content
+            attachments {
+              id
+              fileType
+            }
             createdAt
           }
         }
