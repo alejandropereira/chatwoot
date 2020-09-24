@@ -21,6 +21,7 @@
         :min-height="4"
         @focus="onFocus"
         @blur="onBlur"
+        @keyup="onKeyUp"
       />
       <file-upload
         v-if="showFileUpload"
@@ -120,6 +121,7 @@ export default {
       showEmojiPicker: false,
       showCannedResponsesList: false,
       isUploading: false,
+      typingRef: null,
     };
   },
   computed: {
@@ -309,6 +311,20 @@ export default {
     onFocus() {
       this.isFocused = true;
       this.toggleTyping('on');
+    },
+    typingOff() {
+      this.toggleTyping('off');
+      this.typingRef = null;
+    },
+    onKeyUp() {
+      if (this.typingRef) {
+        clearTimeout(this.typingRef);
+        this.typingRef = null;
+      } else {
+        this.toggleTyping('on');
+      }
+
+      this.typingRef = setTimeout(this.typingOff, 500);
     },
     toggleTyping(status) {
       if (this.isAWebWidgetInbox && !this.isPrivate) {

@@ -4,8 +4,7 @@
       v-model="userInput"
       :placeholder="$t('CHAT_PLACEHOLDER')"
       class="form-input user-message-input"
-      @focus="onFocus"
-      @blur="onBlur"
+      @keyup="onKeyUp"
     />
     <div class="button-wrap">
       <chat-attachment-button
@@ -66,6 +65,7 @@ export default {
     return {
       userInput: '',
       showEmojiPicker: false,
+      typingRef: null,
     };
   },
 
@@ -83,6 +83,9 @@ export default {
 
   destroyed() {
     document.removeEventListener('keypress', this.handleEnterKeyPress);
+    if (this.typingRef) {
+      clearTimeout(this.typingRef, this.typingOff);
+    }
   },
   mounted() {
     document.addEventListener('keypress', this.handleEnterKeyPress);
@@ -120,6 +123,20 @@ export default {
     },
     onFocus() {
       this.toggleTyping('on');
+    },
+    typingOff() {
+      this.toggleTyping('off');
+      this.typingRef = null;
+    },
+    onKeyUp() {
+      if (this.typingRef) {
+        clearTimeout(this.typingRef);
+        this.typingRef = null;
+      } else {
+        this.toggleTyping('on');
+      }
+
+      this.typingRef = setTimeout(this.typingOff, 500);
     },
     toggleTyping(typingStatus) {
       this.$store.dispatch('conversation/toggleUserTyping', { typingStatus });

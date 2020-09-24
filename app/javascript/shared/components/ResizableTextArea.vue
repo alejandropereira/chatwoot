@@ -6,6 +6,7 @@
     @input="onInput"
     @focus="onFocus"
     @blur="onBlur"
+    @keyup="onKeyUp"
   />
 </template>
 
@@ -47,6 +48,9 @@ export default {
     },
     onFocus() {
       this.$emit('focus');
+    },
+    onKeyUp() {
+      this.$emit('keyup');
     },
     focus() {
       this.$refs.textarea.focus();
