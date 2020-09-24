@@ -111,6 +111,8 @@ const reducer = (state, action) => {
       return {
         ...state,
         ...initialState,
+        webWidget: state.webWidget,
+        websiteToken: state.websiteToken,
         onLogoOutroComplete: true,
         startChatButtonVisible: true,
       };

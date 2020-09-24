@@ -83,16 +83,23 @@ const formattedHeaderSmall = `${variables.HeaderSmall}px`;
 
 styles.Messages = styled.div`
   box-sizing: border-box;
-  width: ${variables.ChatWidth}px;
   padding: 50px 25px 0px;
   overflow-y: scroll;
+  width: 100%;
   height: calc(
-    ${variables.ChatHeight} - ${formattedHeaderSmall} -
-      (${variables.ChatInputHeight}*2)
+    100vh - ${formattedHeaderSmall} - (${variables.ChatInputHeight}*2) + 7px
   );
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-start;
+
+  @media ${variables.device.tablet} {
+    height: calc(
+      ${variables.ChatHeight} - ${formattedHeaderSmall} -
+        (${variables.ChatInputHeight}*2)
+    );
+    width: ${variables.ChatWidth}px;
+  }
 `;
 
 export default MessagesContainer;

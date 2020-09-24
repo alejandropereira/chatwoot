@@ -12,7 +12,6 @@ import IntroAnimation from '../containers/IntroAnimation';
 import StartButtonAnimation from '../containers/StartButtonAnimation';
 import OutroAnimation from '../containers/OutroAnimation';
 import OutroLogo from '../containers/OutroLogo';
-
 import ActionCableConnector from '../utils/actionCable';
 import { useTracked } from '../App';
 import { types } from '../reducers';
@@ -109,13 +108,18 @@ const styles = {};
 
 styles.Chat = styled.div`
   position: fixed;
-  right: 10px;
   bottom: 0px;
   width: 0px;
   height: 0px;
   z-index: 0;
-  width: ${variables.ChatWidth}px;
-  height: 716px;
+  height: 100vh;
+  width: 100%;
+
+  @media ${variables.device.tablet} {
+    right: 10px;
+    height: 716px;
+    width: ${variables.ChatWidth}px;
+  }
 `;
 
 export default Chat;

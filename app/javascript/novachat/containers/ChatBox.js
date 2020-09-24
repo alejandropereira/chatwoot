@@ -51,22 +51,31 @@ const ChatBox = () => {
 const styles = {};
 
 styles.ChatBox = styled.div`
-  border-radius: ${variables.BorderRadius};
   background: #fcfcfc;
-  height: ${variables.ChatHeight};
   position: relative;
   opacity: 0;
+  height: 100vh;
   overflow: hidden;
   box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.05);
+
+  @media ${variables.device.tablet} {
+    border-radius: ${variables.BorderRadius};
+    height: ${variables.ChatHeight};
+  }
 `;
 
 styles.ChatBoxWrapper = styled.div`
   border-radius: ${variables.BorderRadius};
-  width: ${variables.ChatWidth}px;
-  height: calc(${variables.ChatHeight} - ${variables.HeaderSmall}px);
   bottom: 0;
   left: 0;
   position: absolute;
+  height: calc(100% - 76px);
+  width: 100%;
+
+  @media ${variables.device.tablet} {
+    width: ${variables.ChatWidth}px;
+    height: calc(${variables.ChatHeight} - ${variables.HeaderSmall}px);
+  }
 `;
 
 export default ChatBox;

@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import styled from "styled-components";
-import { TimelineMax, TweenLite, Power0, Power4 } from "gsap";
-import variables from "../utils/variables";
-import pathData from "../utils/pathData";
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import { TimelineMax, TweenLite, Power0, Power4 } from 'gsap';
+import variables from '../utils/variables';
+import pathData from '../utils/pathData';
 
 const morphTime = 0.5;
 const animTime = 2;
@@ -20,17 +20,17 @@ class SideTransition extends Component {
     const morphB = new TimelineMax({ paused: true });
 
     morphA
-      .to("#m0a", morphTime, { morphSVG: { shape: "#m1a", ease: morphEase } })
-      .to("#m0a", morphTime, { morphSVG: { shape: "#m2a", ease: morphEase } })
-      .to("#m0a", morphTime, { morphSVG: { shape: "#m3a", ease: morphEase } })
-      .to("#m0a", morphTime, { morphSVG: { shape: "#m4a", ease: morphEase } })
-      .to("#m0a", morphTime, { morphSVG: { shape: "#m5a", ease: morphEase } });
+      .to('#m0a', morphTime, { morphSVG: { shape: '#m1a', ease: morphEase } })
+      .to('#m0a', morphTime, { morphSVG: { shape: '#m2a', ease: morphEase } })
+      .to('#m0a', morphTime, { morphSVG: { shape: '#m3a', ease: morphEase } })
+      .to('#m0a', morphTime, { morphSVG: { shape: '#m4a', ease: morphEase } })
+      .to('#m0a', morphTime, { morphSVG: { shape: '#m5a', ease: morphEase } });
     morphB
-      .to("#m0b", morphTime, { morphSVG: { shape: "#m1b", ease: morphEase } })
-      .to("#m0b", morphTime, { morphSVG: { shape: "#m2b", ease: morphEase } })
-      .to("#m0b", morphTime, { morphSVG: { shape: "#m3b", ease: morphEase } })
-      .to("#m0b", morphTime, { morphSVG: { shape: "#m4b", ease: morphEase } })
-      .to("#m0b", morphTime, { morphSVG: { shape: "#m5b", ease: morphEase } });
+      .to('#m0b', morphTime, { morphSVG: { shape: '#m1b', ease: morphEase } })
+      .to('#m0b', morphTime, { morphSVG: { shape: '#m2b', ease: morphEase } })
+      .to('#m0b', morphTime, { morphSVG: { shape: '#m3b', ease: morphEase } })
+      .to('#m0b', morphTime, { morphSVG: { shape: '#m4b', ease: morphEase } })
+      .to('#m0b', morphTime, { morphSVG: { shape: '#m5b', ease: morphEase } });
 
     TweenLite.to(morphA, animTime, { progress: 1, ease: animEase });
     TweenLite.to(morphB, animTime, { progress: 1, ease: animEase });
@@ -63,8 +63,8 @@ class SideTransition extends Component {
         <div>
           <svg
             id="paths"
-            width="425px"
-            height="759px"
+            // width="425px"
+            // height="759px"
             viewBox="0 0 425 759"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
@@ -81,18 +81,32 @@ class SideTransition extends Component {
 const styles = {};
 
 styles.SideTransition = styled.div`
-  width: ${variables.ChatWidth}px;
-  height: ${variables.ChatHeight};
+  width: 100%;
+  height: 100vh;
   position: absolute;
   overflow: hidden;
   top: 0px;
   left: 50px;
+
+  @media ${variables.device.tablet} {
+    width: ${variables.ChatWidth}px;
+    height: ${variables.ChatHeight};
+  }
+
   #paths {
     position: absolute;
-    left: -150px;
-    top: -100px;
+    left: 0;
+    top: 0;
     transform: scaleX(1.5) scaleY(1.3);
   }
+
+  @media ${variables.device.tablet} {
+    #paths {
+      left: -150px;
+      top: -100px;
+    }
+  }
+
   #m1a,
   #m1b {
     visibility: hidden;

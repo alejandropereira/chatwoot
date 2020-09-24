@@ -287,13 +287,18 @@ const ChatInput = React.memo(() => {
 const styles = {};
 
 styles.ChatInput = styled.div`
-  border-bottom-left-radius: ${variables.BorderRadius};
-  border-bottom-right-radius: ${variables.BorderRadius};
   background: white;
   position: absolute;
   bottom: -100px;
-  width: ${variables.ChatWidth}px;
   color: ${variables.SecondaryFontColor};
+  width: 100%;
+
+  @media ${variables.device.tablet} {
+    border-bottom-left-radius: ${variables.BorderRadius};
+    border-bottom-right-radius: ${variables.BorderRadius};
+    width: ${variables.ChatWidth}px;
+  }
+
   .NovaElements {
     background: white;
     display: flex;

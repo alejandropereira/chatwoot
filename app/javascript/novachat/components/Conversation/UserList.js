@@ -88,7 +88,6 @@ styles.UserList = styled.div`
   opacity: 0;
   border-radius: ${variables.BorderRadius};
   background: white;
-  width: 346px;
   height: 216px;
   ${mixins.dropShadow}
   padding: 30px 26px;
@@ -96,6 +95,11 @@ styles.UserList = styled.div`
   top: 250px;
   position: absolute;
   left: 15px;
+  width: calc(100% - 30px);
+
+  @media ${variables.device.tablet} {
+    width: 346px;
+  }
 `;
 
 styles.Users = styled.div`

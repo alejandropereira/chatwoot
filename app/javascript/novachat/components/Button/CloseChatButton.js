@@ -1,9 +1,9 @@
-import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import variables from "../../utils/variables";
-import mixins from "../../utils/mixins";
-import IconClose from "../../components/Svgs/IconClose";
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import variables from '../../utils/variables';
+import mixins from '../../utils/mixins';
+import IconClose from '../../components/Svgs/IconClose';
 
 const CloseChatButton = ({ onCloseClick }) => (
   <styles.CloseButton onClick={onCloseClick}>
@@ -12,7 +12,7 @@ const CloseChatButton = ({ onCloseClick }) => (
 );
 
 CloseChatButton.propTypes = {
-  onCloseClick: PropTypes.func.isRequired
+  onCloseClick: PropTypes.func.isRequired,
 };
 
 const styles = {};
@@ -34,6 +34,8 @@ styles.CloseButton = styled.button`
   position: absolute;
   right: 0px;
   bottom: -90px;
+  display: none;
+
   .IconClose {
     width: 12px;
   }
@@ -41,6 +43,10 @@ styles.CloseButton = styled.button`
 
   &:focus {
     outline: none;
+  }
+
+  @media ${variables.device.tablet} {
+    display: block;
   }
 `;
 

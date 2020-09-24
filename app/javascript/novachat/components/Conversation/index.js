@@ -122,6 +122,7 @@ const styles = {};
 
 styles.Conversation = styled.div`
   position: absolute;
+  width: 100%;
   height: 100%;
   h3 {
     font-size: 18px;
@@ -134,13 +135,14 @@ styles.Conversation = styled.div`
     position: absolute;
     background: white;
     height: 100%;
+    width: 100%;
     overflow-y: scroll;
     left: 0;
     top: 100px;
     opacity: 0;
     .ListItem {
       height: 83px;
-      width: ${variables.ChatWidth}px;
+      width: 100%;
       border: none;
       outline: none;
       text-align: left;
@@ -152,6 +154,11 @@ styles.Conversation = styled.div`
       align-items: center;
       padding: 0 20px;
       box-sizing: border-box;
+
+      @media ${variables.device.tablet} {
+        width: ${variables.ChatWidth}px;
+      }
+
       &:hover {
         background: #fcfcfc;
       }

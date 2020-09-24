@@ -10,6 +10,7 @@ import IconLeft from '../../components/Svgs/IconLeft';
 import LogoNova from '../../components/Svgs/LogoNova';
 import { types } from '../../reducers';
 import { useTracked } from '../../App';
+import IconClose from '../Svgs/IconClose';
 
 const Header = () => {
   const [
@@ -39,6 +40,10 @@ const Header = () => {
 
   const onHomeOutDone = () => {
     dispatch({ type: types.ON_HOME_OUT_DONE });
+  };
+
+  const onCloseClick = () => {
+    dispatch({ type: types.ON_CLOSE_CLICK });
   };
 
   if (!webWidget) return null;
@@ -127,6 +132,12 @@ const Header = () => {
           />
         </styles.HeaderSmallContent>
       </div>
+      <Button
+        flat
+        icon={IconClose}
+        onClick={onCloseClick}
+        className="CloseButton"
+      />
     </styles.Header>
   );
 };
@@ -136,8 +147,6 @@ const formattedHeaderSmall = `${variables.HeaderSmall}px`;
 
 styles.Header = styled.div`
   background-image: linear-gradient(to right, #311e95, #1c046d);
-  border-top-left-radius: ${variables.BorderRadius};
-  border-top-right-radius: ${variables.BorderRadius};
   height: 247px;
   color: white;
   display: flex;
@@ -145,6 +154,7 @@ styles.Header = styled.div`
   overflow: hidden;
   .Container {
     position: relative;
+    width: 100%;
     h1 {
       font-size: 29px;
       line-height: 1.1;
@@ -170,6 +180,22 @@ styles.Header = styled.div`
     opacity: 0;
     top: 50px;
     pointer-events: none;
+  }
+
+  .CloseButton {
+    align-self: flex-start;
+    padding: 25px 15px;
+    display: block;
+    z-index: 10;
+  }
+
+  @media ${variables.device.tablet} {
+    border-top-left-radius: ${variables.BorderRadius};
+    border-top-right-radius: ${variables.BorderRadius};
+
+    .CloseButton {
+      display: none;
+    }
   }
 `;
 
