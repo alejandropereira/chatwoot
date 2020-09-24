@@ -163,7 +163,13 @@ const reducer = (state, action) => {
           ...state,
           currentConversation: {
             ...state.currentConversation,
-            assignee: action.payload.assignee,
+            assignee: {
+              ...state.currentConversation.assignee,
+              id: action.payload.assignee.id,
+              name: action.payload.assignee.name,
+              avatarUrl: action.payload.assignee.avatar_url,
+              availabilityStatus: action.payload.assignee.availability_status,
+            },
           },
         };
       }
