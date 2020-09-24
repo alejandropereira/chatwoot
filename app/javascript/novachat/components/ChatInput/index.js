@@ -42,6 +42,26 @@ const CREATE_MESSAGE = gql`
   }
 `;
 
+const TOGGLE_TYPING = gql`
+  mutation toggleCustomerTyping(
+    $websiteToken: String!
+    $uuid: String!
+    $token: String
+    $typingStatus: String
+  ) {
+    toggleCustomerTyping(
+      input: {
+        websiteToken: $websiteToken
+        uuid: $uuid
+        token: $token
+        typingStatus: $typingStatus
+      }
+    ) {
+      typing
+    }
+  }
+`;
+
 const ChatInput = React.memo(() => {
   const [
     {
@@ -57,8 +77,10 @@ const ChatInput = React.memo(() => {
   const [message, setMessage] = useState('');
   const chatInputRef = useRef();
   const inputRef = useRef();
+  const typingRef = useRef();
   const focusInputRef = useRef(false);
   const [createMessage] = useMutation(CREATE_MESSAGE);
+  const [toggleTyping] = useMutation(TOGGLE_TYPING);
 
   const focusInput = useCallback(() => {
     if (inputRef.current && onMessages) {
@@ -218,6 +240,33 @@ const ChatInput = React.memo(() => {
               placeholder="write a reply…"
               value={message}
               onChange={handleChange}
+              onKeyUp={() => {
+                if (typingRef.current) {
+                  clearTimeout(typingRef.current);
+                  typingRef.current = null;
+                } else {
+                  toggleTyping({
+                    variables: {
+                      typingStatus: 'on',
+                      websiteToken,
+                      uuid: currentConversation.uuid,
+                      token: Cookies.get('cw_conversation'),
+                    },
+                  });
+                }
+
+                typingRef.current = setTimeout(() => {
+                  toggleTyping({
+                    variables: {
+                      typingStatus: 'off',
+                      websiteToken,
+                      uuid: currentConversation.uuid,
+                      token: Cookies.get('cw_conversation'),
+                    },
+                  });
+                  typingRef.current = null;
+                }, 500);
+              }}
               onBlur={() => {
                 focusInputRef.current = false;
               }}
