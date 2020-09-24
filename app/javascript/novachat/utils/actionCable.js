@@ -5,6 +5,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
     super(app, pubsubToken);
     this.events = {
+      'conversation.created': this.onConversationCreated,
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
       'conversation.typing_on': this.onTypingOn,
@@ -12,6 +13,13 @@ class ActionCableConnector extends BaseActionCableConnector {
       'assignee.changed': this.assigneeChanged,
     };
   }
+
+  onConversationCreated = data => {
+    this.app.dispatch({
+      type: types.CONVERSATION_CREATED,
+      payload: data,
+    });
+  };
 
   onMessageCreated = data => {
     this.app.dispatch({

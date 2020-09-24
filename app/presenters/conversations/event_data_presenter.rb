@@ -9,7 +9,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       can_reply: can_reply?,
       channel: inbox.try(:channel_type),
       id: display_id,
-      uuid: uuid,
+      uuid: uuid || Conversation.where(id: id).pick(:uuid),
       inbox_id: inbox_id,
       messages: push_messages,
       meta: push_meta,

@@ -44,6 +44,7 @@ export const types = {
   SET_WIDGET_TOKEN: 'chat/SET_WIDGET_TOKEN',
   SET_PREVIEW_FILE_UPLOAD: 'chat/SET_PREVIEW_FILE_UPLOAD',
   TOGGLE_AGENT_TYPING: 'chat/TOGGLE_AGENT_TYPING',
+  CONVERSATION_CREATED: 'chat/CONVERSATION_CREATED',
   ASSIGNEE_CHANGED: 'chat/ASSIGNEE_CHANGED',
 };
 
@@ -157,6 +158,14 @@ const reducer = (state, action) => {
         };
       }
       return state;
+    case types.CONVERSATION_CREATED:
+      return {
+        ...state,
+        currentConversation: {
+          ...state.currentConversation,
+          uuid: action.payload.uuid,
+        },
+      };
     case types.ASSIGNEE_CHANGED:
       if (action.payload.conversationId === state.currentConversation.uuid) {
         return {

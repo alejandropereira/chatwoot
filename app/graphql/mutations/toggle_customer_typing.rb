@@ -14,6 +14,7 @@ class Mutations::ToggleCustomerTyping < Mutations::BaseMutation
     set_web_widget(website_token)
     set_token(token)
     set_contact
+    return unless conversation
 
     if typing
       trigger_typing_event(CONVERSATION_TYPING_ON)
@@ -28,34 +29,34 @@ class Mutations::ToggleCustomerTyping < Mutations::BaseMutation
   
   private
 
-    def trigger_typing_event(event)
-      Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: conversation, user: @contact)
-    end
+  def trigger_typing_event(event)
+    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: conversation, user: @contact)
+  end
 
-    def conversation
-      @conversation ||= @contact_inbox.conversations.find_by(
-        inbox_id: @auth_token_params[:inbox_id],
-        uuid: @uuid
-      )
-    end
+  def conversation
+    @conversation ||= @contact_inbox.conversations.find_by(
+      inbox_id: @auth_token_params[:inbox_id],
+      uuid: @uuid
+    )
+  end
 
-    def set_token(token)
-      @token = token
-      @auth_token_params = if @token.present?
-                              ::Widget::TokenService.new(token: @token).decode_token
-                            else
-                              {}
-                            end
-    end
+  def set_token(token)
+    @token = token
+    @auth_token_params = if @token.present?
+                            ::Widget::TokenService.new(token: @token).decode_token
+                          else
+                            {}
+                          end
+  end
 
-    def set_contact
-      @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(
-        source_id: @auth_token_params[:source_id]
-      )
-      @contact = @contact_inbox.contact
-    end
+  def set_contact
+    @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(
+      source_id: @auth_token_params[:source_id]
+    )
+    @contact = @contact_inbox.contact
+  end
 
-    def set_web_widget(website_token)
-      @web_widget = ::Channel::WebWidget.find_by!(website_token: website_token)
-    end
+  def set_web_widget(website_token)
+    @web_widget = ::Channel::WebWidget.find_by!(website_token: website_token)
+  end
 end
