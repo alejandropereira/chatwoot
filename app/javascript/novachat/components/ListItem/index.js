@@ -2,16 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '../Avatar';
 import styled from 'styled-components';
+import { useTracked } from '../../App';
 
 function ListItem({ text, onClick, agent, date, attachment }) {
+  const [{ webWidget }] = useTracked();
+
   return (
     <div className="ListItem" onClick={onClick}>
-      {agent && (
+      {agent ? (
         <Avatar
           big
           image={agent.avatarUrl || null}
           name={agent.name}
           key={agent.id}
+        />
+      ) : (
+        <Avatar
+          big
+          image={webWidget.widget.channel.avatarUrl}
+          name={webWidget.widget.channel.name}
+          key={webWidget.widget.channel.id}
         />
       )}
       <div className="ListItemInfo">

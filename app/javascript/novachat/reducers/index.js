@@ -174,13 +174,16 @@ const reducer = (state, action) => {
           ...state,
           currentConversation: {
             ...state.currentConversation,
-            assignee: {
-              ...state.currentConversation.assignee,
-              id: action.payload.assignee.id,
-              name: action.payload.assignee.name,
-              avatarUrl: action.payload.assignee.avatar_url,
-              availabilityStatus: action.payload.assignee.availability_status,
-            },
+            assignee: action.payload.assignee
+              ? {
+                  ...state.currentConversation.assignee,
+                  id: action.payload.assignee.id,
+                  name: action.payload.assignee.name,
+                  avatarUrl: action.payload.assignee.avatar_url,
+                  availabilityStatus:
+                    action.payload.assignee.availability_status,
+                }
+              : null,
           },
         };
       }

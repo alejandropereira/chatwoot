@@ -124,6 +124,8 @@ styles.Conversation = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
+  padding-bottom: ${variables.AvatarBigSize};
+
   h3 {
     font-size: 18px;
   }
