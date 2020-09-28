@@ -20,13 +20,13 @@
               field="name"
             />
           </div>
-          <a
-            v-if="contact.email"
-            :href="`mailto:${contact.email}`"
-            class="contact--email"
-          >
-            {{ contact.email }}
-          </a>
+          <div class="contact--email">
+            <editable-input
+              :value="contact.email"
+              :id="this.contactId"
+              field="email"
+            />
+          </div>
           <a
             v-if="contact.phone_number"
             :href="`tel:${contact.phone_number}`"
