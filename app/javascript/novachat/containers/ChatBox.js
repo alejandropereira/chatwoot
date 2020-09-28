@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { TweenLite } from 'gsap';
 import Conversation from '../components/Conversation';
@@ -6,8 +6,10 @@ import ChatInput from '../components/ChatInput';
 import Header from '../components/Header';
 import variables from '../utils/variables';
 import { useTracked } from '../App';
+import DragAndDropFile from '../components/ChatInput/DragAndDropFile';
 
 const ChatBox = () => {
+  const [dragOpen, setDragOpen] = useState(false);
   const [{ openChat, onClose }] = useTracked();
   const chatBoxRef = useRef();
 
@@ -38,17 +40,50 @@ const ChatBox = () => {
   }, [onClose, hide]);
 
   return (
-    <styles.ChatBox className="ChatBox" ref={chatBoxRef}>
+    <styles.ChatBox
+      onDragEnter={event => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (event.currentTarget.contains(event.relatedTarget) && !dragOpen) {
+          setDragOpen(true);
+        }
+      }}
+      onDragLeave={event => {
+        event.preventDefault();
+        event.stopPropagation();
+        if (!event.currentTarget.contains(event.relatedTarget) && dragOpen) {
+          setDragOpen(false);
+        }
+      }}
+      className="ChatBox"
+      ref={chatBoxRef}
+    >
       <Header />
-      <styles.ChatBoxWrapper>
+      <styles.ChatBoxWrapper className="ChatBoxWrapper">
         <Conversation />
         <ChatInput />
       </styles.ChatBoxWrapper>
+      <DragAndDropFile dragOpen={dragOpen} setDragOpen={setDragOpen} />
     </styles.ChatBox>
   );
 };
 
 const styles = {};
+
+styles.DragAndDrop = styled.div`
+  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2em;
+`;
 
 styles.ChatBox = styled.div`
   background: #fcfcfc;
