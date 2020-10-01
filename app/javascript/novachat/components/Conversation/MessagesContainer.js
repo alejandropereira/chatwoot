@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 import variables from '../../utils/variables';
 import Message from './Message';
+import MessagesSeparator from '../MessagesSeparator';
 
 const MessagesContainer = ({
   messages,
@@ -31,6 +32,22 @@ const MessagesContainer = ({
     }
   }, [messages]);
 
+  const groups = messages.reduce((group, message) => {
+    const date = message.createdAt.split('T')[0];
+    if (!group[date]) {
+      group[date] = [];
+    }
+    group[date].push(message);
+    return group;
+  }, {});
+
+  const groupArrays = Object.keys(groups).map(date => {
+    return {
+      date: new Date(date).toDateString(),
+      messages: groups[date],
+    };
+  });
+
   return (
     <animated.div style={transition}>
       <styles.Messages ref={messagesRef}>
@@ -47,25 +64,13 @@ const MessagesContainer = ({
           />
         )}
         {messages &&
-          messages.map(message => {
-            return (
-              <Message
-                key={message.id}
-                id={message.id}
-                status={message.status}
-                avatar={message.assignee && message.assignee.avatarUrl}
-                text={message.content}
-                fromUser={message.messageType === 'incoming'}
-                typing={false}
-                attachments={message.attachments}
-                contentAttributes={message.contentAttributes}
-                contentType={message.contentType}
-                senderTyping={false}
-                type={null}
-                sendUserData={() => {}}
-              />
-            );
-          })}
+          groupArrays.map(record => (
+            <MessagesSeparator
+              key={record.date}
+              date={record.date}
+              messages={record.messages}
+            />
+          ))}
       </styles.Messages>
     </animated.div>
   );
@@ -83,7 +88,7 @@ const formattedHeaderSmall = `${variables.HeaderSmall}px`;
 
 styles.Messages = styled.div`
   box-sizing: border-box;
-  padding: 50px 25px 0px;
+  padding: 0px 25px;
   overflow-y: scroll;
   width: 100%;
   height: calc(
