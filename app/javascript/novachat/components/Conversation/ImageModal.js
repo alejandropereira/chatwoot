@@ -67,10 +67,10 @@ styles.CloseBtn = styled.div`
   position: absolute;
   right: 0;
   top: 0;
-  background: #f4f6fb;
+  background: white;
 
   &:hover {
-    background: #eaecef;
+    background: #f4f6fb;
   }
 `;
 
