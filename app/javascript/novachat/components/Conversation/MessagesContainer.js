@@ -4,15 +4,13 @@ import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 import variables from '../../utils/variables';
 import { types } from '../../reducers';
-import Messages from './Messages';
 import MessagesSeparator from '../MessagesSeparator';
+import IsTyping from './IsTyping';
 
 const MessagesContainer = ({
   messages,
   toggle,
-  currentConversation,
   fetchMoreMessages,
-  typing,
   loading,
   dispatch,
 }) => {
@@ -71,18 +69,7 @@ const MessagesContainer = ({
   return (
     <animated.div style={transition}>
       <styles.Messages ref={messagesRef}>
-        {typing && (
-          <Messages
-            key={currentConversation.key}
-            typing={typing}
-            avatar={
-              currentConversation.assignee &&
-              currentConversation.assignee.avatarUrl
-            }
-            type={null}
-            sendUserData={() => {}}
-          />
-        )}
+        <IsTyping />
         {messages &&
           groupArrays.map(record => (
             <MessagesSeparator
