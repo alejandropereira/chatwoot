@@ -71,6 +71,7 @@ const ChatInput = React.memo(() => {
       websiteToken,
       currentConversation,
       previewFile,
+      messagesRef,
     },
     dispatch,
   ] = useTracked();
@@ -114,6 +115,18 @@ const ChatInput = React.memo(() => {
       });
     }
   }, [onMessages, onHome, onChatList]);
+
+  const scrollToBottom = useCallback(() => {
+    if (messagesRef.current) {
+      const scrollPosition = messagesRef.current.scrollHeight;
+      setTimeout(() => {
+        messagesRef.current.scrollTo({
+          top: scrollPosition,
+          behavior: 'smooth',
+        });
+      }, 300);
+    }
+  }, [messagesRef]);
 
   const handleChange = useCallback(event => {
     setMessage(event.target.value);
@@ -189,7 +202,6 @@ const ChatInput = React.memo(() => {
         type: types.APPEND_IP_MESSAGE,
         payload: {
           id: getUuid(),
-          createdAt: new Date().toISOString(),
           assignee: null,
           content: null,
           attachments: [
@@ -205,7 +217,7 @@ const ChatInput = React.memo(() => {
         },
       });
     },
-    [currentConversation.uuid]
+    [currentConversation.uuid, messagesRef]
   );
 
   const onEnterPress = e => {
@@ -221,6 +233,7 @@ const ChatInput = React.memo(() => {
       } else {
         onSave(e);
       }
+      scrollToBottom();
     }
   };
 

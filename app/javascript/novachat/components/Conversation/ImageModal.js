@@ -65,8 +65,8 @@ styles.CloseBtn = styled.div`
   line-height: 1.6rem;
   padding: 1rem;
   position: absolute;
-  right: -1.8rem;
-  top: -1.8rem;
+  right: 0;
+  top: 0;
   background: #f4f6fb;
 
   &:hover {
@@ -76,9 +76,13 @@ styles.CloseBtn = styled.div`
 
 styled.Container = styled.div`
   border-radius: 0.4rem;
-  max-height: 80%;
+  background: white;
   position: relative;
   text-align: center;
+
+  img {
+    max-width: 80%;
+  }
 `;
 
 export default ImageModal;

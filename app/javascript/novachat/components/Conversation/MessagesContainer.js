@@ -3,14 +3,18 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 import variables from '../../utils/variables';
-import Message from './Message';
+import { types } from '../../reducers';
+import Messages from './Messages';
 import MessagesSeparator from '../MessagesSeparator';
 
 const MessagesContainer = ({
   messages,
   toggle,
   currentConversation,
+  fetchMoreMessages,
   typing,
+  loading,
+  dispatch,
 }) => {
   const messagesRef = useRef();
   const transition = useSpring({
@@ -25,12 +29,28 @@ const MessagesContainer = ({
     background: toggle ? '#ffffff' : '#fcfcfc',
   });
 
-  useEffect(() => {
+  const scrollToBottom = React.useCallback(() => {
     if (messagesRef.current) {
       const scrollPosition = messagesRef.current.scrollHeight;
       messagesRef.current.scrollTo({ top: scrollPosition, behavior: 'smooth' });
     }
-  }, [messages]);
+  }, [messagesRef.current]);
+
+  useEffect(() => {
+    if (messagesRef.current) {
+      messagesRef.current.addEventListener('scroll', fetchMoreMessages);
+    }
+    return () =>
+      messagesRef.current.removeEventListener('scroll', fetchMoreMessages);
+  }, [messagesRef.current, loading]);
+
+  useEffect(() => {
+    scrollToBottom();
+    dispatch({
+      type: types.SET_MESSAGES_REF,
+      payload: messagesRef,
+    });
+  }, [messagesRef.current]);
 
   const groups = messages.reduce((group, message) => {
     const date = message.createdAt.split('T')[0];
@@ -52,7 +72,7 @@ const MessagesContainer = ({
     <animated.div style={transition}>
       <styles.Messages ref={messagesRef}>
         {typing && (
-          <Message
+          <Messages
             key={currentConversation.key}
             typing={typing}
             avatar={
@@ -71,6 +91,7 @@ const MessagesContainer = ({
               messages={record.messages}
             />
           ))}
+        {loading && <div>Loading...</div>}
       </styles.Messages>
     </animated.div>
   );
@@ -80,7 +101,10 @@ MessagesContainer.propTypes = {
   messages: PropTypes.array,
   toggle: PropTypes.bool,
   typing: PropTypes.bool,
+  loading: PropTypes.bool,
   currentConversation: PropTypes.object,
+  fetchMoreMessages: PropTypes.func,
+  dispatch: PropTypes.func,
 };
 
 const styles = {};

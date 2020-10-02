@@ -1,3 +1,5 @@
+import uniqBy from 'lodash.uniqby';
+
 export const initialState = {
   onIntro: false,
   onHome: false,
@@ -15,6 +17,7 @@ export const initialState = {
   messages: [],
   websiteToken: null,
   webWidget: null,
+  messagesRef: null,
   previewFile: {},
 };
 
@@ -46,6 +49,7 @@ export const types = {
   TOGGLE_AGENT_TYPING: 'chat/TOGGLE_AGENT_TYPING',
   CONVERSATION_CREATED: 'chat/CONVERSATION_CREATED',
   ASSIGNEE_CHANGED: 'chat/ASSIGNEE_CHANGED',
+  SET_MESSAGES_REF: 'chat/SET_MESSAGES_REF',
 };
 
 const findUndeliveredMessage = (state, { content, attachments }) =>
@@ -136,6 +140,7 @@ const reducer = (state, action) => {
         onChatList: true,
         onMessages: false,
         currentConversation: {},
+        messages: [],
       };
     case types.ON_LIST_ITEM_CLICK:
       return {
@@ -150,7 +155,7 @@ const reducer = (state, action) => {
     case types.SET_MESSAGES:
       return {
         ...state,
-        messages: action.payload,
+        messages: uniqBy(action.payload, 'id'),
       };
     case types.TOGGLE_AGENT_TYPING:
       if (action.payload.conversationId === state.currentConversation.uuid) {
@@ -160,6 +165,11 @@ const reducer = (state, action) => {
         };
       }
       return state;
+    case types.SET_MESSAGES_REF:
+      return {
+        ...state,
+        messagesRef: action.payload,
+      };
     case types.CONVERSATION_CREATED:
       return {
         ...state,
@@ -191,7 +201,15 @@ const reducer = (state, action) => {
     case types.APPEND_IP_MESSAGE:
       return {
         ...state,
-        messages: [...[action.payload], ...state.messages],
+        messages: [
+          ...[
+            {
+              ...action.payload,
+              createdAt: new Date().toISOString(),
+            },
+          ],
+          ...state.messages,
+        ],
       };
     case types.UPDATE_MESSAGE_DATA:
       return {
@@ -221,7 +239,9 @@ const reducer = (state, action) => {
             if (message.id === m.id) {
               return {
                 id: m.id,
-                createdAt: new Date(action.payload.created_at).toISOString(),
+                createdAt: Number.isInteger(action.payload.created_at)
+                  ? new Date(action.payload.created_at * 1000).toISOString()
+                  : new Date(action.payload.created_at).toISOString(),
                 status: action.payload.status,
                 attachments:
                   action.payload.attachments &&
