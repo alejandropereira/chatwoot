@@ -6,6 +6,7 @@ import variables from '../../utils/variables';
 import { types } from '../../reducers';
 import MessagesSeparator from '../MessagesSeparator';
 import IsTyping from './IsTyping';
+import Loading from './Loading';
 
 const MessagesContainer = ({
   messages,
@@ -61,7 +62,7 @@ const MessagesContainer = ({
 
   const groupArrays = Object.keys(groups).map(date => {
     return {
-      date: new Date(date).toDateString(),
+      date,
       messages: groups[date],
     };
   });
@@ -78,7 +79,11 @@ const MessagesContainer = ({
               messages={record.messages}
             />
           ))}
-        {loading && <div>Loading...</div>}
+        {loading && (
+          <styles.Loading>
+            <Loading color="#2A1688" />
+          </styles.Loading>
+        )}
       </styles.Messages>
     </animated.div>
   );
@@ -116,6 +121,13 @@ styles.Messages = styled.div`
     );
     width: ${variables.ChatWidth}px;
   }
+`;
+
+styles.Loading = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 60px;
 `;
 
 export default MessagesContainer;

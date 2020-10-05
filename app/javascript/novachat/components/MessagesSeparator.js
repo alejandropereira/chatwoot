@@ -1,5 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import format from 'date-fns/format';
+import parseISO from 'date-fns/parseISO';
 import Message from './Conversation/Message';
 
 const MessagesSeparator = ({ date, messages }) => (
@@ -24,11 +27,18 @@ const MessagesSeparator = ({ date, messages }) => (
           />
         );
       })}
-    <styles.Separator>{date}</styles.Separator>
+    <styles.Separator>
+      {format(parseISO(date), 'MMM dd, yyyy')}
+    </styles.Separator>
   </>
 );
 
 export default MessagesSeparator;
+
+MessagesSeparator.propTypes = {
+  messages: PropTypes.array,
+  date: PropTypes.string,
+};
 
 const styles = {};
 
