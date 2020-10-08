@@ -279,7 +279,9 @@ const reducer = (state, action) => {
           ...[
             {
               id: action.payload.id,
-              createdAt: new Date(action.payload.created_at).toISOString(),
+              createdAt: Number.isInteger(action.payload.created_at)
+                ? new Date(action.payload.created_at * 1000).toISOString()
+                : new Date(action.payload.created_at).toISOString(),
               status: action.payload.status,
               attachments:
                 action.payload.attachments &&

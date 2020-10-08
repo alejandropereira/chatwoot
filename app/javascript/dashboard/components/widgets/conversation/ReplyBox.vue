@@ -19,7 +19,6 @@
         class="input"
         :placeholder="messagePlaceHolder"
         :min-height="4"
-        @focus="onFocus"
         @blur="onBlur"
         @keyup="onKeyUp"
       />
@@ -307,10 +306,6 @@ export default {
     onBlur() {
       this.isFocused = false;
       this.toggleTyping('off');
-    },
-    onFocus() {
-      this.isFocused = true;
-      this.toggleTyping('on');
     },
     typingOff() {
       this.toggleTyping('off');

@@ -130,10 +130,20 @@ const actions = {
     }
   },
 
-  sendMessage: async ({ commit }, data) => {
+  sendMessage: async ({ commit, getters, dispatch }, data) => {
     try {
       const response = await MessageApi.create(data);
       commit(types.default.SEND_MESSAGE, response.data);
+      const selectedChat = getters.getSelectedChat;
+      if (
+        response.data.conversation_id === selectedChat.id &&
+        !selectedChat.meta.assignee
+      ) {
+        dispatch('assignAgent', {
+          conversationId: response.data.conversation_id,
+          agentId: getters.getCurrentUser.id,
+        });
+      }
     } catch (error) {
       // Handle error
     }
