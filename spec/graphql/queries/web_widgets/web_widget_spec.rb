@@ -21,7 +21,7 @@ module Queries
         it 'should return error with non existing web widget' do
           post '/graphql', params: { query: query(website_token: "no_id") }
           json = JSON.parse(response.body)
-          errors = json['errors']
+          errors = json['error']
 
           expect(errors).to be_present
         end

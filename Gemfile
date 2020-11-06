@@ -99,6 +99,7 @@ group :development do
   gem 'bullet'
   gem 'letter_opener'
   gem 'web-console'
+  gem 'spring-commands-rspec'
 
   # used in swagger build
   gem 'json_refs', git: 'https://github.com/tzmfreedom/json_refs', ref: 'e32deb0'

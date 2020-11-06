@@ -1,9 +1,9 @@
 <template>
   <div class="contact-conversation--panel">
-    <contact-details-item
+    <!-- <contact-details-item
       :title="$t('CONTACT_PANEL.CONVERSATIONS.TITLE')"
       icon="ion-chatboxes"
-    />
+    /> -->
     <div v-if="!uiFlags.isFetching">
       <p v-if="!previousConversations.length" class="no-results">
         {{ $t('CONTACT_PANEL.CONVERSATIONS.NO_RECORDS_FOUND') }}

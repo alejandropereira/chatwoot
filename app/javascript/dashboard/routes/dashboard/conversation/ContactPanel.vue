@@ -62,38 +62,163 @@
         {{ contact.additional_attributes.description }}
       </div>
     </div>
-    <div v-if="browser.browser_name" class="conversation--details">
-      <contact-details-item
-        v-if="browser.browser_name"
-        :title="$t('CONTACT_PANEL.BROWSER')"
-        :value="browserName"
-        icon="ion-ios-world-outline"
-      />
-      <contact-details-item
-        v-if="browser.platform_name"
-        :title="$t('CONTACT_PANEL.OS')"
-        :value="platformName"
-        icon="ion-laptop"
-      />
-      <contact-details-item
-        v-if="referer"
-        :title="$t('CONTACT_PANEL.INITIATED_FROM')"
-        :value="referer"
-        icon="ion-link"
-      />
-      <contact-details-item
-        v-if="initiatedAt"
-        :title="$t('CONTACT_PANEL.INITIATED_AT')"
-        :value="initiatedAt.timestamp"
-        icon="ion-clock"
-      />
-    </div>
-    <conversation-labels :conversation-id="conversationId" />
-    <contact-conversations
-      v-if="contact.id"
-      :contact-id="contact.id"
-      :conversation-id="conversationId"
-    />
+    <vsa-list>
+      <vsa-item v-if="browser.browser_name">
+        <vsa-heading>
+          <h4>About</h4>
+        </vsa-heading>
+        <vsa-icon>
+          <svg
+            class="open svg"
+            height="16"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            />
+          </svg>
+          <svg
+            class="close svg"
+            height="16"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
+        </vsa-icon>
+        <vsa-content>
+          <div class="conversation--details">
+            <contact-details-item
+              v-if="browser.browser_name"
+              :title="$t('CONTACT_PANEL.BROWSER')"
+              :value="browserName"
+              icon="ion-ios-world-outline"
+            />
+            <contact-details-item
+              v-if="browser.platform_name"
+              :title="$t('CONTACT_PANEL.OS')"
+              :value="platformName"
+              icon="ion-laptop"
+            />
+            <contact-details-item
+              v-if="referer"
+              :title="$t('CONTACT_PANEL.INITIATED_FROM')"
+              :value="referer"
+              icon="ion-link"
+            />
+            <contact-details-item
+              v-if="initiatedAt"
+              :title="$t('CONTACT_PANEL.INITIATED_AT')"
+              :value="initiatedAt.timestamp"
+              icon="ion-clock"
+            />
+          </div>
+        </vsa-content>
+      </vsa-item>
+      <vsa-item>
+        <vsa-heading>
+          <h4>Conversation Labels</h4>
+        </vsa-heading>
+        <vsa-icon>
+          <svg
+            class="open svg"
+            height="16"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            />
+          </svg>
+          <svg
+            class="close svg"
+            height="16"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
+        </vsa-icon>
+        <vsa-content>
+          <conversation-labels :conversation-id="conversationId" />
+        </vsa-content>
+      </vsa-item>
+      <vsa-item>
+        <vsa-heading>
+          <h4>{{ $t('CONTACT_PANEL.CONVERSATIONS.TITLE') }}</h4>
+        </vsa-heading>
+        <vsa-icon>
+          <svg
+            class="open svg"
+            height="16"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M14 5l7 7m0 0l-7 7m7-7H3"
+            />
+          </svg>
+          <svg
+            class="close svg"
+            height="16"
+            width="16"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
+          </svg>
+        </vsa-icon>
+        <vsa-content>
+          <contact-conversations
+            v-if="contact.id"
+            :contact-id="contact.id"
+            :conversation-id="conversationId"
+          />
+        </vsa-content>
+      </vsa-item>
+    </vsa-list>
   </div>
 </template>
 
@@ -104,6 +229,14 @@ import ContactConversations from './ContactConversations.vue';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import ConversationLabels from './labels/LabelBox.vue';
 import EditableInput from '../../../components/EditableInput.vue';
+import {
+  VsaList,
+  VsaItem,
+  VsaHeading,
+  VsaContent,
+  VsaIcon,
+} from 'vue-simple-accordion';
+import 'vue-simple-accordion/dist/vue-simple-accordion.css';
 
 export default {
   components: {
@@ -112,6 +245,11 @@ export default {
     ConversationLabels,
     Thumbnail,
     EditableInput,
+    VsaList,
+    VsaItem,
+    VsaHeading,
+    VsaContent,
+    VsaIcon,
   },
   props: {
     conversationId: {
@@ -266,7 +404,6 @@ export default {
 }
 
 .conversation--details {
-  border-top: 1px solid $color-border-light;
   padding: $space-large $space-normal;
 }
 
@@ -285,10 +422,6 @@ export default {
   }
 }
 
-.contact-conversation--panel {
-  border-top: 1px solid $color-border-light;
-}
-
 .contact--mute {
   color: $alert-color;
   display: block;
@@ -299,5 +432,49 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.vsa-list {
+  --vsa-min-width: 100%;
+  --vsa-default-icon-size: 0.4;
+  --vsa-border-color: #f0f4f5;
+  --vsa-highlight-color: #f4f6fb;
+  --vsa-text-color: #1f2d3d;
+  border-radius: 0.4rem;
+  margin-top: 10px;
+
+  h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  .vsa-item {
+    &__trigger {
+      cursor: pointer;
+    }
+  }
+}
+.vsa-item {
+  &--is-active {
+    .vsa-item__trigger__icon {
+      .open {
+        display: none;
+      }
+
+      .close {
+        display: block;
+      }
+    }
+  }
+  &__trigger__icon {
+    .open {
+      display: block;
+    }
+
+    .close {
+      display: none;
+    }
+  }
+}
+svg {
+  color: #1f2d3d !important;
 }
 </style>

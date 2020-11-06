@@ -46,8 +46,8 @@ class V2::ReportBuilder
 
   def conversations_count
     scope.conversations
-         .group_by_day(:created_at, range: range, default_value: 0)
-         .count
+      .group_by_day(:created_at, range: range, default_value: 0)
+      .count
   end
 
   # unscoped removes all scopes added to a model previously

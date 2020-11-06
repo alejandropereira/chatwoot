@@ -319,7 +319,8 @@ RSpec.describe Conversation, type: :model do
         channel: 'Channel::WebWidget',
         user_last_seen_at: conversation.user_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
-        unread_count: 0
+        unread_count: 0,
+        uuid: conversation.reload.uuid
       }
     end
 

@@ -27,7 +27,7 @@ RSpec.describe 'Reports API', type: :request do
         params = {
           metric: 'conversations_count',
           type: :account,
-          since: Time.zone.today.to_time.to_i.to_s,
+          since: Time.zone.yesterday.to_time.to_i.to_s,
           until: Time.zone.today.to_time.to_i.to_s
         }
 
@@ -41,6 +41,7 @@ RSpec.describe 'Reports API', type: :request do
 
         current_day_metric = json_response.select { |x| x['timestamp'] == Time.zone.today.to_time.to_i }
         expect(current_day_metric.length).to eq(1)
+        puts current_day_metric.inspect
         expect(current_day_metric[0]['value']).to eq(10)
       end
     end
@@ -61,7 +62,7 @@ RSpec.describe 'Reports API', type: :request do
       it 'returns summary metrics' do
         params = {
           type: :account,
-          since: Time.zone.today.to_time.to_i.to_s,
+          since: Time.zone.yesterday.to_time.to_i.to_s,
           until: Time.zone.today.to_time.to_i.to_s
         }
 
