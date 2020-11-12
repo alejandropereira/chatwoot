@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_02_170002) do
+ActiveRecord::Schema.define(version: 2020_11_12_215532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -49,6 +49,9 @@ ActiveRecord::Schema.define(version: 2020_08_02_170002) do
     t.integer "settings_flags", default: 0, null: false
     t.integer "feature_flags", default: 0, null: false
     t.jsonb "twilio_settings", default: "{}", null: false
+    t.string "subdomain"
+    t.index ["name"], name: "index_accounts_on_name", unique: true
+    t.index ["subdomain"], name: "index_accounts_on_subdomain", unique: true
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|

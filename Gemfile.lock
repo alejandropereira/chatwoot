@@ -203,6 +203,8 @@ GEM
     ffi (1.13.1)
     flag_shih_tzu (0.3.23)
     foreman (0.87.1)
+    friendly_id (5.4.1)
+      activerecord (>= 4.0.0)
     gli (2.19.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -596,6 +598,7 @@ DEPENDENCIES
   fcm
   flag_shih_tzu
   foreman
+  friendly_id (~> 5.4.0)
   google-cloud-storage
   graphiql-rails
   graphql (~> 1.10, >= 1.10.9)

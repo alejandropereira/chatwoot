@@ -8,14 +8,21 @@
 #  locale          :integer          default("en")
 #  name            :string           not null
 #  settings_flags  :integer          default(0), not null
+#  subdomain       :string
 #  support_email   :string(100)
 #  twilio_settings :jsonb            not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
+# Indexes
+#
+#  index_accounts_on_name       (name) UNIQUE
+#  index_accounts_on_subdomain  (subdomain) UNIQUE
+#
 
 class Account < ApplicationRecord
   # used for single column multi flags
+  extend FriendlyId
   include FlagShihTzu
 
   include Events::Types
@@ -55,10 +62,15 @@ class Account < ApplicationRecord
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
 
+  validates :name, uniqueness: true
+  validates :subdomain, uniqueness: true
+
   after_create :notify_creation
   after_destroy :notify_deletion
 
   store :twilio_settings, accessors: [:account_sid, :auth_token, :phone_number]
+
+  friendly_id :name, use: :slugged, slug_column: :subdomain
 
   def agents
     users.where(account_users: { role: :agent })
