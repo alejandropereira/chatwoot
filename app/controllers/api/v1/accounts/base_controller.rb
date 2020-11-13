@@ -9,7 +9,7 @@ class Api::V1::Accounts::BaseController < Api::BaseController
   end
 
   def ensure_current_account
-    account = Account.find(params[:account_id])
+    account = Account.friendly.find(request.subdomain)
     if current_user
       account_accessible_for_user?(account)
     elsif @resource&.is_a?(AgentBot)

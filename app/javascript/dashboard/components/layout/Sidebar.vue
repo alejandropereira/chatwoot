@@ -43,7 +43,7 @@
               </button>
             </li>
             <li>
-              <router-link :to="`/app/accounts/${accountId}/profile/settings`">
+              <router-link :to="`/app/accounts/profile/settings`">
                 {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
               </router-link>
             </li>
@@ -86,7 +86,7 @@
         :key="account.id"
         class="account-selector"
       >
-        <a :href="`/app/accounts/${account.id}/dashboard`">
+        <a :href="`/app/accounts/dashboard`">
           <i v-if="account.id === accountId" class="ion ion-ios-checkmark" />
           <label :for="account.name" class="account--details">
             <div class="account--name">{{ account.name }}</div>
@@ -246,12 +246,12 @@ export default {
         newLink: true,
         key: 'inbox',
         cssClass: 'menu-title align-justify',
-        toState: frontendURL(`accounts/${this.accountId}/settings/inboxes`),
+        toState: frontendURL(`accounts/settings/inboxes`),
         toStateName: 'settings_inbox_list',
         children: this.inboxes.map(inbox => ({
           id: inbox.id,
           label: inbox.name,
-          toState: frontendURL(`accounts/${this.accountId}/inbox/${inbox.id}`),
+          toState: frontendURL(`accounts/inbox/${inbox.id}`),
           type: inbox.channel_type,
         })),
       };
@@ -263,20 +263,18 @@ export default {
         hasSubMenu: true,
         key: 'label',
         cssClass: 'menu-title align-justify',
-        toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
+        toState: frontendURL(`accounts/settings/labels`),
         toStateName: 'labels_list',
         children: this.accountLabels.map(label => ({
           id: label.id,
           label: label.title,
           color: label.color,
-          toState: frontendURL(
-            `accounts/${this.accountId}/label/${label.title}`
-          ),
+          toState: frontendURL(`accounts/label/${label.title}`),
         })),
       };
     },
     dashboardPath() {
-      return frontendURL(`accounts/${this.accountId}/dashboard`);
+      return frontendURL(`accounts/dashboard`);
     },
     shouldShowStatusBox() {
       return (
@@ -343,12 +341,12 @@ export default {
     },
     async addAccount() {
       try {
-        const account_id = await this.$store.dispatch('accounts/create', {
+        await this.$store.dispatch('accounts/create', {
           account_name: this.accountName,
         });
         this.onClose();
         this.showAlert(this.$t('CREATE_ACCOUNT.API.SUCCESS_MESSAGE'));
-        window.location = `/app/accounts/${account_id}/dashboard`;
+        window.location = `/app/accounts/dashboard`;
       } catch (error) {
         if (error.response.status === 422) {
           this.showAlert(this.$t('CREATE_ACCOUNT.API.EXIST_MESSAGE'));

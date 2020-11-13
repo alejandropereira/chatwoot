@@ -5,7 +5,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL('accounts/:accountId/reports'),
+      path: frontendURL('accounts/reports'),
       component: SettingsContent,
       props: {
         headerTitle: 'REPORT.HEADER',

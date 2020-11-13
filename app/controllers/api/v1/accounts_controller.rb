@@ -53,7 +53,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def fetch_account
-    @account = current_user.accounts.find(params[:id])
+    @account = current_user.accounts.friendly.find(params[:id])
     @current_account_user = @account.account_users.find_by(user_id: current_user.id)
   end
 

@@ -11,7 +11,7 @@
 import Vue from 'vue';
 import { mapGetters } from 'vuex';
 import WootSnackbarBox from './components/SnackbarContainer';
-import { accountIdFromPathname } from './helper/URLHelper';
+import { subdomainFromHost } from './helper/URLHelper';
 
 export default {
   name: 'App',
@@ -33,12 +33,12 @@ export default {
 
   methods: {
     async initializeAccount() {
-      const { pathname } = window.location;
-      const accountId = accountIdFromPathname(pathname);
+      const { host } = window.location;
+      const subdomain = subdomainFromHost(host);
 
-      if (accountId) {
+      if (subdomain) {
         await this.$store.dispatch('accounts/get');
-        const { locale } = this.getAccount(accountId);
+        const { locale } = this.getAccount(subdomain);
         Vue.config.lang = locale;
       }
     },

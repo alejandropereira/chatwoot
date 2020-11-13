@@ -15,8 +15,8 @@ const state = {
 };
 
 export const getters = {
-  getAccount: $state => id => {
-    return $state.records.find(record => record.id === Number(id));
+  getAccount: $state => subdomain => {
+    return $state.records.find(record => record.subdomain === subdomain);
   },
   getUIFlags($state) {
     return $state.uiFlags;

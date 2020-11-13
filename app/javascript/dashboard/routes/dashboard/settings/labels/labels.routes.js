@@ -5,7 +5,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL('accounts/:accountId/settings/labels'),
+      path: frontendURL('accounts/settings/labels'),
       component: SettingsContent,
       props: {
         headerTitle: 'LABEL_MGMT.HEADER',

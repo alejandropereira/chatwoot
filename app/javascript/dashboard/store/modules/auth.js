@@ -46,7 +46,7 @@ export const getters = {
   getCurrentRole(_state) {
     const { accounts = [] } = _state.currentUser;
     const [currentAccount = {}] = accounts.filter(
-      account => account.id === _state.currentAccountId
+      account => account.subdomain === _state.currentAccountId
     );
     return currentAccount.role;
   },
@@ -137,7 +137,7 @@ const mutations = {
     Vue.set(_state, 'currentUser', currentUser);
   },
   [types.default.SET_CURRENT_ACCOUNT_ID](_state, accountId) {
-    Vue.set(_state, 'currentAccountId', Number(accountId));
+    Vue.set(_state, 'currentAccountId', accountId);
   },
 };
 

@@ -9,7 +9,9 @@
 
 <script>
 /* global bus */
+import { mapGetters } from 'vuex';
 import Sidebar from '../../components/layout/Sidebar';
+import { subdomainFromHost } from '../../helper/URLHelper';
 
 export default {
   components: {
@@ -45,7 +47,9 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('setCurrentAccountId', this.$route.params.accountId);
+    const { host } = window.location;
+    const subdomain = subdomainFromHost(host);
+    this.$store.dispatch('setCurrentAccountId', subdomain);
     window.addEventListener('resize', this.handleResize);
     this.handleResize();
     bus.$on('sidemenu_icon_click', () => {

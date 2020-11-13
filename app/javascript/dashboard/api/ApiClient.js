@@ -1,5 +1,7 @@
 /* global axios */
 
+import { subdomainFromHost } from '../helper/URLHelper';
+
 const DEFAULT_API_VERSION = 'v1';
 
 class ApiClient {
@@ -21,8 +23,9 @@ class ApiClient {
       );
 
       if (isInsideAccountScopedURLs) {
-        const accountId = window.location.pathname.split('/')[3];
-        url = `${url}/accounts/${accountId}`;
+        const { host } = window.location;
+        const subdomain = subdomainFromHost(host);
+        url = `${url}/accounts/${subdomain}`;
       }
     }
 

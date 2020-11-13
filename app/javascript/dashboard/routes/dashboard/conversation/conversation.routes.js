@@ -5,7 +5,7 @@ import { frontendURL } from '../../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL('accounts/:accountId/dashboard'),
+      path: frontendURL('accounts/dashboard'),
       name: 'home',
       roles: ['administrator', 'agent'],
       component: ConversationView,
@@ -14,7 +14,7 @@ export default {
       },
     },
     {
-      path: frontendURL('accounts/:accountId/inbox/:inbox_id'),
+      path: frontendURL('accounts/inbox/:inbox_id'),
       name: 'inbox_dashboard',
       roles: ['administrator', 'agent'],
       component: ConversationView,
@@ -23,7 +23,7 @@ export default {
       },
     },
     {
-      path: frontendURL('accounts/:accountId/conversations/:conversation_id'),
+      path: frontendURL('accounts/conversations/:conversation_id'),
       name: 'inbox_conversation',
       roles: ['administrator', 'agent'],
       component: ConversationView,
@@ -33,7 +33,7 @@ export default {
     },
     {
       path: frontendURL(
-        'accounts/:accountId/inbox/:inbox_id/conversations/:conversation_id'
+        'accounts/inbox/:inbox_id/conversations/:conversation_id'
       ),
       name: 'conversation_through_inbox',
       roles: ['administrator', 'agent'],
@@ -46,16 +46,14 @@ export default {
       },
     },
     {
-      path: frontendURL('accounts/:accountId/label/:label'),
+      path: frontendURL('accounts/label/:label'),
       name: 'label_conversations',
       roles: ['administrator', 'agent'],
       component: ConversationView,
       props: route => ({ label: route.params.label }),
     },
     {
-      path: frontendURL(
-        'accounts/:accountId/label/:label/conversations/:conversation_id'
-      ),
+      path: frontendURL('accounts/label/:label/conversations/:conversation_id'),
       name: 'conversations_through_label',
       roles: ['administrator', 'agent'],
       component: ConversationView,

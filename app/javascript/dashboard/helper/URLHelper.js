@@ -23,3 +23,7 @@ export const accountIdFromPathname = pathname => {
   const accountId = isScoped ? Number(urlParam) : '';
   return accountId;
 };
+
+export const subdomainFromHost = host => {
+  return host.split('.')[0];
+};

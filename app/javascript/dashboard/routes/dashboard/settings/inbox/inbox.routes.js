@@ -12,7 +12,7 @@ import { frontendURL } from '../../../../helper/URLHelper';
 export default {
   routes: [
     {
-      path: frontendURL('accounts/:accountId/settings/inboxes'),
+      path: frontendURL('accounts/settings/inboxes'),
       component: SettingsContent,
       props: params => {
         const showBackButton = params.name !== 'settings_inbox_list';

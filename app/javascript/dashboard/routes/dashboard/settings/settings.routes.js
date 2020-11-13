@@ -12,14 +12,14 @@ import store from '../../../store';
 export default {
   routes: [
     {
-      path: frontendURL('accounts/:accountId/settings'),
+      path: frontendURL('accounts/settings'),
       name: 'settings_home',
       roles: ['administrator', 'agent'],
       redirect: () => {
         if (store.getters.getCurrentRole === 'administrator') {
-          return frontendURL('accounts/:accountId/settings/agents');
+          return frontendURL('accounts/settings/agents');
         }
-        return frontendURL('accounts/:accountId/settings/canned-response');
+        return frontendURL('accounts/settings/canned-response');
       },
     },
     ...account.routes,
