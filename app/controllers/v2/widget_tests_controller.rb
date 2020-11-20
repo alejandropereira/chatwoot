@@ -9,7 +9,8 @@ module V2
     private
 
     def set_web_widget
-      @web_widget = Channel::WebWidget.first
+      account = Account.friendly.find(request.subdomain)
+      @web_widget = account.web_widgets.first
     end
   end
 end

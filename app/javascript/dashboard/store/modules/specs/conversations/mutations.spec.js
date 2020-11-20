@@ -40,7 +40,7 @@ describe('#mutations', () => {
   describe('#SET_CURRENT_CHAT_WINDOW', () => {
     it('set current chat window', () => {
       const state = { selectedChatId: 1 };
-      mutations[types.SET_CURRENT_CHAT_WINDOW](state, { id: 2 });
+      mutations[types.SET_CURRENT_CHAT_WINDOW](state, { id: 2, meta: {} });
       expect(state.selectedChatId).toEqual(2);
     });
 

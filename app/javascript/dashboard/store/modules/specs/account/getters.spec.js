@@ -4,6 +4,7 @@ const accountData = {
   id: 1,
   name: 'Company one',
   locale: 'en',
+  subdomain: 'company-one',
 };
 
 describe('#getters', () => {
@@ -11,7 +12,7 @@ describe('#getters', () => {
     const state = {
       records: [accountData],
     };
-    expect(getters.getAccount(state)(1)).toEqual(accountData);
+    expect(getters.getAccount(state)('company-one')).toEqual(accountData);
   });
   it('getUIFlags', () => {
     const state = {

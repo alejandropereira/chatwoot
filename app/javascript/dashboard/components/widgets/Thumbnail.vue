@@ -5,6 +5,7 @@
       id="image"
       :src="src"
       :class="thumbnailClass"
+      data-testid="image"
       @error="onImgError()"
     />
     <Avatar
@@ -12,6 +13,7 @@
       :username="username"
       :class="thumbnailClass"
       color="white"
+      data-testid="avatar"
       :size="avatarSize"
     />
     <img

@@ -4,6 +4,7 @@ process.env.VUE_CLI_BABEL_TRANSPILE_MODULES = true;
 module.exports = {
   moduleDirectories: ['node_modules', 'app/javascript'],
   moduleFileExtensions: ['js', 'jsx', 'json', 'vue', 'ts', 'tsx'],
+  setupFilesAfterEnv: ['./jest.setup.js'],
   automock: false,
   resetMocks: true,
   transform: {

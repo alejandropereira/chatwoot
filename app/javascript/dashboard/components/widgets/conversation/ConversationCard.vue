@@ -135,7 +135,6 @@ export default {
     cardClick(chat) {
       const { activeInbox } = this;
       const path = conversationUrl({
-        accountId: this.accountId,
         activeInbox,
         id: chat.id,
         label: this.activeLabel,
