@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     sessions: 'devise_overrides/sessions',
     token_validations: 'devise_overrides/token_validations'
   }, via: [:get, :post]
+  resources :auths, only: :create
 
   root to: 'dashboard#index'
 
