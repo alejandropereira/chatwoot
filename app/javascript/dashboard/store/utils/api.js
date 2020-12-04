@@ -6,7 +6,9 @@ import { frontendURL } from '../../helper/URLHelper';
 Cookies.defaults = { sameSite: 'Lax' };
 
 const hostname = window.location.hostname.split('.');
-const cookieDomain = '.' + hostname[1] + '.' + hostname[2];
+const cookieDomain = hostname[2]
+  ? '.' + hostname[1] + '.' + hostname[2]
+  : '.' + window.location.hostname;
 
 export const getLoadingStatus = state => state.fetchAPIloadingStatus;
 export const setLoadingStatus = (state, status) => {

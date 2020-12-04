@@ -2,7 +2,7 @@
 
 class AccountBuilder
   include CustomExceptions::Account
-  pattr_initialize [:account_name!, :email!, :confirmed!, :user]
+  pattr_initialize [:account_name!, :email!, :confirmed!, :user, :password, :name]
 
   def perform
     if @user.nil?
@@ -67,11 +67,11 @@ class AccountBuilder
   end
 
   def create_user
-    password = Time.now.to_i
+    generated_password = Time.now.to_i
     @user = User.new(email: @email,
-                     password: password,
-                     password_confirmation: password,
-                     name: email_to_name(@email))
+                     password: @password || generated_password,
+                     password_confirmation: @password || generated_password,
+                     name: @name || email_to_name(@email))
     @user.confirm if @confirmed
     @user.save!
   end

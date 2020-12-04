@@ -17,8 +17,8 @@ class ApplicationController < ActionController::Base
   def set_raven_context
     return if Rails.env.development?
     
-    Raven.user_context(id: current_user&.id, account_id: current_account&.id)
-    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
+    Raven.user_context({ id: current_user&.id, account_id: current_account&.id })
+    Raven.extra_context({ params: params.to_unsafe_h, url: request.url })
   end
 
   def current_account

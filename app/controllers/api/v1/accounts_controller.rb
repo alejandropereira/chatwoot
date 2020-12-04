@@ -16,6 +16,8 @@ class Api::V1::AccountsController < Api::BaseController
   def create
     @user, @account = AccountBuilder.new(
       account_name: account_params[:account_name],
+      name: params[:name],
+      password: params[:password],
       email: account_params[:email],
       confirmed: confirmed?,
       user: current_user
