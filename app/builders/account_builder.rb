@@ -41,6 +41,8 @@ class AccountBuilder
 
   def create_account
     @account = Account.create!(name: @account_name)
+    @account.twilio_settings = {}
+    @account.subscribe(name: ENV['FREE_PLAN_NAME'], plan: ENV['FREE_PLAN_ID'])
     Current.account = @account
   end
 

@@ -30,6 +30,10 @@ class AccountUser < ApplicationRecord
   belongs_to :user
   belongs_to :inviter, class_name: 'User', optional: true
 
+  delegate :first_name, to: :user
+  delegate :last_name, to: :user
+  delegate :email, to: :user
+
   enum role: { agent: 0, administrator: 1 }
   accepts_nested_attributes_for :account
 

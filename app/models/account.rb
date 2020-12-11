@@ -2,17 +2,25 @@
 #
 # Table name: accounts
 #
-#  id              :integer          not null, primary key
-#  domain          :string(100)
-#  feature_flags   :integer          default(0), not null
-#  locale          :integer          default("en")
-#  name            :string           not null
-#  settings_flags  :integer          default(0), not null
-#  subdomain       :string
-#  support_email   :string(100)
-#  twilio_settings :jsonb            not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                 :integer          not null, primary key
+#  card_exp_month     :string
+#  card_exp_year      :string
+#  card_last4         :string
+#  card_type          :string
+#  domain             :string(100)
+#  extra_billing_info :text
+#  feature_flags      :integer          default(0), not null
+#  locale             :integer          default("en")
+#  name               :string           not null
+#  processor          :string
+#  settings_flags     :integer          default(0), not null
+#  subdomain          :string
+#  support_email      :string(100)
+#  trial_ends_at      :datetime
+#  twilio_settings    :jsonb            not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  processor_id       :string
 #
 # Indexes
 #
@@ -21,6 +29,7 @@
 #
 
 class Account < ApplicationRecord
+  include Pay::Billable
   # used for single column multi flags
   extend FriendlyId
   include FlagShihTzu
@@ -73,11 +82,23 @@ class Account < ApplicationRecord
   friendly_id :name, use: :slugged, slug_column: :subdomain
 
   def agents
-    users.where(account_users: { role: :agent })
+    @agents ||= users.where(account_users: { role: :agent })
   end
 
   def administrators
-    users.where(account_users: { role: :administrator })
+    @administrators ||= users.where(account_users: { role: :administrator })
+  end
+
+  def first_name
+    administrators.first.first_name
+  end
+
+  def last_name
+    administrators.first.last_name
+  end
+
+  def email
+    administrators.first.email
   end
 
   def all_conversation_tags

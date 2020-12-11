@@ -38,6 +38,12 @@ gem 'google-cloud-storage', require: false
 gem 'mini_magick'
 gem 'image_processing'
 
+##-- subscriptions --##
+gem 'pay', '~> 2.0'
+gem 'stripe', '< 6.0', '>= 2.8'
+gem 'stripe_event', '~> 2.3'
+gem 'receipts', '~> 1.0.0'
+
 ##-- gems for database --#
 gem 'groupdate'
 gem 'pg'

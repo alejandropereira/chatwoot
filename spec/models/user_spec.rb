@@ -26,4 +26,44 @@ RSpec.describe User do
     it { expect(user.pubsub_token).not_to eq(nil) }
     it { expect(user.saved_changes.keys).not_to eq('pubsub_token') }
   end
+
+  describe '#first_name' do
+    it 'should get first_name from name attribute' do
+      user = create(:user, name: 'John Doe')
+
+      expect(user.first_name).to eq 'John'
+    end
+
+    it 'should work with larger names' do
+      user = create(:user, name: 'John Doe Kent')
+
+      expect(user.first_name).to eq 'John'
+    end
+
+    it 'should work with spaces' do
+      user = create(:user, name: ' John Doe Kent ')
+
+      expect(user.first_name).to eq 'John'
+    end
+  end
+
+  describe '#last_name' do
+    it 'should get last_name from name attribute' do
+      user = create(:user, name: 'John Doe')
+
+      expect(user.last_name).to eq 'Doe'
+    end
+
+    it 'should work with larger names' do
+      user = create(:user, name: 'John Doe Kent')
+
+      expect(user.last_name).to eq 'Kent'
+    end
+
+    it 'should work with spaces' do
+      user = create(:user, name: ' John Doe Kent ')
+
+      expect(user.last_name).to eq 'Kent'
+    end
+  end
 end

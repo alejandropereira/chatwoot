@@ -2,8 +2,14 @@
 
 require 'rails_helper'
 
-RSpec.describe User do
+RSpec.describe AccountUser do
   let!(:account_user) { create(:account_user) }
+
+  context 'delegate' do
+    it { is_expected.to delegate_method(:first_name).to(:user) }
+    it { is_expected.to delegate_method(:last_name).to(:user) }
+    it { is_expected.to delegate_method(:email).to(:user) }
+  end
 
   describe 'notification_settings' do
     it 'gets created with the right default settings' do

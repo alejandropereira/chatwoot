@@ -102,6 +102,14 @@ class User < ApplicationRecord
     self[:display_name].presence || name
   end
 
+  def first_name
+    name.split(' ').first
+  end
+
+  def last_name
+    name.split(' ').last
+  end
+
   def account
     current_account_user&.account
   end
