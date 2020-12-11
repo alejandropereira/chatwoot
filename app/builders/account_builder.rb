@@ -15,7 +15,7 @@ class AccountBuilder
     end
     [@user, @account]
   rescue StandardError => e
-    @account&.destroy
+    @account&.destroy if @account.persisted?
     puts e.inspect
     raise e
   end
@@ -41,9 +41,6 @@ class AccountBuilder
 
   def create_account
     @account = Account.create!(name: @account_name)
-    @account.twilio_settings = {}
-    @account.processor = 'stripe'
-    @account.subscribe(name: ENV['FREE_PLAN_NAME'], plan: ENV['FREE_PLAN_ID'])
     Current.account = @account
   end
 
@@ -62,6 +59,9 @@ class AccountBuilder
       user_id: user.id,
       role: AccountUser.roles['administrator']
     )
+    account.twilio_settings = {}
+    account.processor = 'stripe'
+    account.subscribe(name: ENV['FREE_PLAN_NAME'], plan: ENV['FREE_PLAN_ID'])
   end
 
   def email_to_name(email)
