@@ -5,14 +5,20 @@ import { TweenLite } from 'gsap';
 import { Transition } from 'react-transition-group';
 import Avatar from '../Avatar';
 import variables from '../../utils/variables';
+import { SecureContext } from '../../context/SecureContext';
 
 const SecureMode = () => {
-  const [secure, setSecure] = React.useState(false);
+  const [state, send] = React.useContext(SecureContext);
 
   return (
-    <styles.SecureMode onClick={() => setSecure(s => !s)}>
-      {secure ? (
-        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <styles.SecureMode>
+      {state.matches('secure') ? (
+        <svg
+          onClick={() => send('CLOSE')}
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
           <g clipPath="url(#clip0)">
             <path fill="#3C269A" d="M6 4.8h12v14.4H6z" />
             <path fill="#fff" d="M6 4.8h12v14.4H6z" />
@@ -32,7 +38,12 @@ const SecureMode = () => {
           </defs>
         </svg>
       ) : (
-        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <svg
+          onClick={() => send('OPEN')}
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
           <g opacity=".3" clipPath="url(#clip0)">
             <path fill="#3C269A" d="M6 4.8h12v14.4H6z" />
             <path

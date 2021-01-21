@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import InputMask from 'react-input-mask';
 import Button from '../Button';
+import { SecureContext } from '../../context/SecureContext';
 
-export const Start = () => (
+export const Start = ({ onContinue, onClose }) => (
   <styles.Wrapper>
     <styles.Box>
       <h3>You are attempting to enter our Security Mode</h3>
@@ -11,16 +12,25 @@ export const Start = () => (
         In order to proceed we are going to verify you’re the one who we should
         talk to.
       </p>
-      <Button fWidth>Continue</Button>
+      <Button onClick={onContinue} fWidth>
+        Continue
+      </Button>
     </styles.Box>
-    <Button flat fWidth>
+    <Button flat fWidth onClick={onClose}>
       Cancel Security Mode
     </Button>
   </styles.Wrapper>
 );
 
-export const SelectSmsOrEmail = () => {
+export const SelectSmsOrEmail = ({ onClose, onSms, onEmail }) => {
   const [selected, setSelected] = useState('');
+  const onContinue = () => {
+    if (selected === 'sms') {
+      onSms();
+    } else {
+      onEmail();
+    }
+  };
   return (
     <styles.Wrapper>
       <styles.Box>
@@ -169,19 +179,27 @@ export const SelectSmsOrEmail = () => {
             <h4>Email</h4>
           </styles.CheckBox>
         </styles.CheckBoxes>
-        <Button disabled={selected === ''} fWidth>
+        <Button disabled={selected === ''} onClick={onContinue} fWidth>
           Continue
         </Button>
       </styles.Box>
-      <Button flat fWidth>
+      <Button flat fWidth onClick={onClose}>
         Cancel Security Mode
       </Button>
     </styles.Wrapper>
   );
 };
 
-export const SelectPhone = () => {
+export const SelectPhone = ({ onClose, onSuccess, onEmail }) => {
+  const inputRef = React.useRef();
   const [phone, setPhone] = React.useState('515-223-2345');
+
+  React.useEffect(() => {
+    const length = inputRef.current.value.length;
+    inputRef.current.focus();
+    inputRef.current.setSelectionRange(length, length);
+  }, []);
+
   return (
     <styles.Wrapper>
       <styles.Box>
@@ -199,23 +217,38 @@ export const SelectPhone = () => {
           <h3>Enter your phone number</h3>
         </styles.HeadingWithIcon>
         <InputMask
+          ref={inputRef}
           mask="999-999-9999"
+          className="input"
           onChange={e => setPhone(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              onSuccess();
+            }
+          }}
           value={phone}
         />
       </styles.Box>
-      <Button flat fWidth>
+      <Button flat fWidth onClick={onEmail}>
         Try with email activation?
       </Button>
-      <Button flat fWidth>
+      <Button flat fWidth onClick={onClose}>
         Cancel Security Mode
       </Button>
     </styles.Wrapper>
   );
 };
 
-export const SelectEmail = () => {
+export const SelectEmail = ({ onSuccess, onSms, onClose }) => {
+  const inputRef = React.useRef();
   const [email, setEmail] = React.useState('john@email.com');
+
+  React.useEffect(() => {
+    const length = inputRef.current.value.length;
+    inputRef.current.focus();
+    inputRef.current.setSelectionRange(length, length);
+  }, []);
+
   return (
     <styles.Wrapper>
       <styles.Box>
@@ -237,22 +270,29 @@ export const SelectEmail = () => {
           <h3>Confirm your email</h3>
         </styles.HeadingWithIcon>
         <input
+          ref={inputRef}
           type="text"
+          className="input"
           onChange={e => setEmail(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              onSuccess();
+            }
+          }}
           value={email}
         />
       </styles.Box>
-      <Button flat fWidth>
+      <Button flat fWidth onClick={onSms}>
         Try with SMS activation?
       </Button>
-      <Button flat fWidth>
+      <Button flat fWidth onClick={onClose}>
         Cancel Security Mode
       </Button>
     </styles.Wrapper>
   );
 };
 
-export const SecurePin = () => {
+export const SecurePin = ({ onClose, onSuccess }) => {
   const [first, setFirst] = useState('');
   const [second, setSecond] = useState('');
   const [third, setThird] = useState('');
@@ -262,9 +302,9 @@ export const SecurePin = () => {
   const thirdInputRef = useRef(null);
   const fourthInputRef = useRef(null);
 
-  // useEffect(() => {
-  //       firstInputRef.current.focus();
-  // }, [firstInputRef]);
+  useEffect(() => {
+    firstInputRef.current.focus();
+  }, [firstInputRef]);
 
   return (
     <styles.Wrapper>
@@ -309,6 +349,7 @@ export const SecurePin = () => {
               setFourth(e.target.value);
               fourthInputRef.current.blur();
             }}
+            onBlur={onSuccess}
             type="text"
             maxLength="1"
           />
@@ -317,7 +358,7 @@ export const SecurePin = () => {
       <Button flat fWidth>
         Didn’t get the code?
       </Button>
-      <Button flat fWidth>
+      <Button flat fWidth onClick={onClose}>
         Cancel Security Mode
       </Button>
     </styles.Wrapper>
@@ -383,7 +424,49 @@ export const End = () => (
 );
 
 export default function SecureChat() {
-  return <SelectEmail />;
+  const [state, send] = React.useContext(SecureContext);
+
+  if (state.matches('start'))
+    return (
+      <Start
+        onContinue={() => send('CONTINUE')}
+        onClose={() => send('CLOSE')}
+      />
+    );
+  if (state.matches('method'))
+    return (
+      <SelectSmsOrEmail
+        onSms={() => send('SMS')}
+        onEmail={() => send('EMAIL')}
+        onClose={() => send('CLOSE')}
+      />
+    );
+  if (state.matches('sms'))
+    return (
+      <SelectPhone
+        onSuccess={() => send('PIN')}
+        onEmail={() => send('EMAIL')}
+        onClose={() => send('CLOSE')}
+      />
+    );
+  if (state.matches('email'))
+    return (
+      <SelectEmail
+        onSuccess={() => send('PIN')}
+        onSms={() => send('SMS')}
+        onClose={() => send('CLOSE')}
+      />
+    );
+  if (state.matches('pin') || state.matches('retrypin'))
+    return (
+      <SecurePin
+        onSuccess={() => send('SECURE')}
+        onClose={() => send('CLOSE')}
+      />
+    );
+  if (state.matches('secure')) return <SecureMode />;
+  if (state.matches('close')) return <End />;
+  return null;
 }
 
 const styles = {};
@@ -431,7 +514,7 @@ styles.Box = styled.div`
     margin-bottom: 20px;
   }
 
-  input {
+  input.input {
     border: 1.35577px solid rgba(44, 24, 140, 0.1);
     height: 45px;
     width: 100%;

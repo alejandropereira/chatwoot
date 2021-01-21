@@ -15,6 +15,7 @@ import OutroLogo from '../containers/OutroLogo';
 import ActionCableConnector from '../utils/actionCable';
 import { useTracked } from '../App';
 import { types } from '../reducers';
+import { SecureProvider } from '../context/SecureContext';
 
 const WEB_WIDGET = gql`
   query webWidget($websiteToken: String!, $authToken: String) {
@@ -87,15 +88,17 @@ const Chat = ({ websiteToken }) => {
         dispatch,
       }}
     >
-      <styles.Chat className="Chat">
-        <IntroAnimation />
-        <ChatBox />
-        <OutroAnimation />
-        <CloseButton />
-        <StartButtonAnimation />
-        <StartChatButton />
-        <OutroLogo />
-      </styles.Chat>
+      <SecureProvider>
+        <styles.Chat className="Chat">
+          <IntroAnimation />
+          <ChatBox />
+          <OutroAnimation />
+          <CloseButton />
+          <StartButtonAnimation />
+          <StartChatButton />
+          <OutroLogo />
+        </styles.Chat>
+      </SecureProvider>
     </AppContext.Provider>
   );
 };
