@@ -6,6 +6,55 @@ import { Transition } from 'react-transition-group';
 import Avatar from '../Avatar';
 import variables from '../../utils/variables';
 
+const SecureMode = () => {
+  const [secure, setSecure] = React.useState(false);
+
+  return (
+    <styles.SecureMode onClick={() => setSecure(s => !s)}>
+      {secure ? (
+        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <g clipPath="url(#clip0)">
+            <path fill="#3C269A" d="M6 4.8h12v14.4H6z" />
+            <path fill="#fff" d="M6 4.8h12v14.4H6z" />
+            <path
+              d="M12 8.25a1.5 1.5 0 00-1.5 1.5v1.5h3v-1.5a1.5 1.5 0 00-1.5-1.5z"
+              fill="#65A322"
+            />
+            <path
+              d="M21.182 3.023l-9-2.25a.732.732 0 00-.364 0l-9 2.25a.75.75 0 00-.568.727v10.5a9.75 9.75 0 0019.5 0V3.75a.75.75 0 00-.568-.727zM16.5 17.25a.75.75 0 01-.75.75h-7.5a.75.75 0 01-.75-.75V12a.75.75 0 01.75-.75H9v-1.5a3 3 0 116 0v1.5h.75a.75.75 0 01.75.75v5.25z"
+              fill="#65A322"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0">
+              <path fill="#fff" d="M0 0h24v24H0z" />
+            </clipPath>
+          </defs>
+        </svg>
+      ) : (
+        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <g opacity=".3" clipPath="url(#clip0)">
+            <path fill="#3C269A" d="M6 4.8h12v14.4H6z" />
+            <path
+              d="M12 8.25a1.5 1.5 0 00-1.5 1.5v1.5h3v-1.5a1.5 1.5 0 00-1.5-1.5z"
+              fill="#F1F8FF"
+            />
+            <path
+              d="M21.182 3.023l-9-2.25a.732.732 0 00-.364 0l-9 2.25a.75.75 0 00-.568.727v10.5a9.75 9.75 0 0019.5 0V3.75a.75.75 0 00-.568-.727zM16.5 17.25a.75.75 0 01-.75.75h-7.5a.75.75 0 01-.75-.75V12a.75.75 0 01.75-.75H9v-1.5a3 3 0 116 0v1.5h.75a.75.75 0 01.75.75v5.25z"
+              fill="#F1F8FF"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0">
+              <path fill="#fff" d="M0 0h24v24H0z" />
+            </clipPath>
+          </defs>
+        </svg>
+      )}
+    </styles.SecureMode>
+  );
+};
+
 const HeaderInfo = ({ onMessages, agent, webWidget }) => {
   return (
     <styles.HeaderInfo className="HeaderInfo">
@@ -42,13 +91,13 @@ const HeaderInfo = ({ onMessages, agent, webWidget }) => {
               showIndicator={false}
             />
           )}
-
           <div className="UserInfoLabel">
             <div>{agent ? agent.name : webWidget.widget.channel.name}</div>
             {agent && (
               <div>{agent.availabilityStatus ? 'Active' : 'Inactive'}</div>
             )}
           </div>
+          <SecureMode />
         </styles.UserInfo>
       </Transition>
     </styles.HeaderInfo>
@@ -69,7 +118,7 @@ styles.HeaderInfo = styled.div`
   position: absolute;
   left: 0;
   width: 100%;
-  pointer-events: none;
+  ${'' /* pointer-events: none; */}
 `;
 
 styles.UserInfo = styled.div`
@@ -83,6 +132,22 @@ styles.UserInfo = styled.div`
   align-items: center;
   .UserInfoLabel {
     margin: 0 13px;
+  }
+`;
+
+styles.SecureMode = styled.button`
+  margin-left: auto;
+  margin-right: 25px;
+  background: none;
+  border: none;
+
+  &:focus {
+    outline: none;
+  }
+
+  svg {
+    width: 25px;
+    cursor: pointer;
   }
 `;
 

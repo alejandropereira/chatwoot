@@ -7,6 +7,7 @@ import { types } from '../../reducers';
 import MessagesSeparator from '../MessagesSeparator';
 import IsTyping from './IsTyping';
 import Loading from './Loading';
+import SecureChat from './SecureChat';
 
 const MessagesContainer = ({
   messages,
@@ -69,6 +70,7 @@ const MessagesContainer = ({
 
   return (
     <animated.div style={transition}>
+      <SecureChat />
       <styles.Messages ref={messagesRef}>
         <IsTyping />
         {messages &&
