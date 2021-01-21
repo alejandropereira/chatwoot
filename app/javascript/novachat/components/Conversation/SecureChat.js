@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import InputMask from 'react-input-mask';
+import Loader from 'react-loader-spinner';
 import Button from '../Button';
 import { SecureContext } from '../../context/SecureContext';
 
@@ -214,7 +215,7 @@ export const SelectPhone = ({ onClose, onSuccess, onEmail }) => {
               fill="#2A1688"
             />
           </svg>
-          <h3>Enter your phone number</h3>
+          <h3>Confirm your phone number</h3>
         </styles.HeadingWithIcon>
         <InputMask
           ref={inputRef}
@@ -292,7 +293,7 @@ export const SelectEmail = ({ onSuccess, onSms, onClose }) => {
   );
 };
 
-export const SecurePin = ({ onClose, onSuccess }) => {
+export const SecurePin = ({ onClose, onSuccess, onRetry, isRetrying }) => {
   const [first, setFirst] = useState('');
   const [second, setSecond] = useState('');
   const [third, setThird] = useState('');
@@ -303,8 +304,9 @@ export const SecurePin = ({ onClose, onSuccess }) => {
   const fourthInputRef = useRef(null);
 
   useEffect(() => {
+    if (isRetrying) return;
     firstInputRef.current.focus();
-  }, [firstInputRef]);
+  }, [firstInputRef, isRetrying]);
 
   return (
     <styles.Wrapper>
@@ -355,9 +357,16 @@ export const SecurePin = ({ onClose, onSuccess }) => {
           />
         </styles.VerificationCode>
       </styles.Box>
-      <Button flat fWidth>
-        Didn’t get the code?
-      </Button>
+      {isRetrying && (
+        <styles.Center>
+          <Loader type="Oval" color="#2A1688" height={50} width={50} />
+        </styles.Center>
+      )}
+      {!isRetrying && (
+        <Button flat fWidth onClick={onRetry}>
+          Didn’t get the code?
+        </Button>
+      )}
       <Button flat fWidth onClick={onClose}>
         Cancel Security Mode
       </Button>
@@ -460,6 +469,8 @@ export default function SecureChat() {
   if (state.matches('pin') || state.matches('retrypin'))
     return (
       <SecurePin
+        isRetrying={state.matches('retrypin')}
+        onRetry={() => send('RETRYPIN')}
         onSuccess={() => send('SECURE')}
         onClose={() => send('CLOSE')}
       />
@@ -607,6 +618,8 @@ styles.SecureGreenBox = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
+  position: absolute;
+  width: 90%;
 
   &:before {
     content: '';
@@ -624,4 +637,10 @@ styles.SecureGreenBox = styled.div`
   span {
     opacity: 0.7;
   }
+`;
+
+styles.Center = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 `;

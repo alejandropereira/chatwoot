@@ -61,6 +61,7 @@
     "react-dropzone": "^11.0.2",
     "react-input-mask": "^3.0.0-alpha.2",
     "react-is": "^16.13.1",
+    "react-loader-spinner": "^3.1.14",
     "react-perfect-scrollbar": "^1.5.8",
     "react-spring": "^8.0.27",
     "react-textarea-autosize": "^8.2.0",
