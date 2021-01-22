@@ -223,6 +223,7 @@ styles.HeaderSmallContent = styled.div`
     margin: 0 0 0 10px;
     opacity: 0;
     transform: translateY(20px);
+    z-index: 1;
   }
 `;
 

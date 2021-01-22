@@ -42,61 +42,17 @@ export const SelectSmsOrEmail = ({ onClose, onSms, onEmail }) => {
             onClick={() => setSelected('sms')}
           >
             <svg
-              fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 51 48"
-              width="48"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
               <path
-                d="M25.13 23.71H12.354"
-                stroke="url(#paint0_linear)"
-                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"
               />
-              <path
-                d="M37.904 12.355H12.355"
-                stroke="url(#paint1_linear)"
-                strokeWidth="2"
-              />
-              <path
-                d="M1 6.677A5.677 5.677 0 016.678 1H43.58a5.677 5.677 0 015.678 5.677v22.71a5.677 5.677 0 01-5.678 5.678H13.775L1 45V6.677z"
-                stroke="url(#paint2_linear)"
-                strokeWidth="2"
-              />
-              <defs>
-                <linearGradient
-                  id="paint0_linear"
-                  x1="18.742"
-                  y1="23.71"
-                  x2="18.742"
-                  y2="24.71"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="currentColor" />
-                  <stop offset="1" stopColor="currentColor" />
-                </linearGradient>
-                <linearGradient
-                  id="paint1_linear"
-                  x1="25.13"
-                  y1="12.355"
-                  x2="25.13"
-                  y2="13.355"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="currentColor" />
-                  <stop offset="1" stopColor="currentColor" />
-                </linearGradient>
-                <linearGradient
-                  id="paint2_linear"
-                  x1="25.13"
-                  y1="1"
-                  x2="25.13"
-                  y2="45"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="currentColor" />
-                  <stop offset="1" stopColor="currentColor" />
-                </linearGradient>
-              </defs>
             </svg>
             <h4>Text message</h4>
           </styles.CheckBox>
@@ -105,77 +61,17 @@ export const SelectSmsOrEmail = ({ onClose, onSms, onEmail }) => {
             onClick={() => setSelected('email')}
           >
             <svg
-              fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 50 41"
-              width="48"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
               <path
-                d="M6.586 6.422l18.22 17.39 18.218-17.39"
-                stroke="currentColor"
-                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
               />
-              <path
-                d="M6.586 32.922l8.282-10.766"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <path
-                d="M34.743 22.156l8.28 10.766"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <path
-                d="M.79 4.766v31.468a4.14 4.14 0 004.14 4.141h39.75a4.14 4.14 0 004.14-4.14V4.764a4.14 4.14 0 00-4.14-4.14H4.93a4.14 4.14 0 00-4.14 4.14v0z"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <defs>
-                <linearGradient
-                  id="paint0_linear"
-                  x1="24.805"
-                  y1="6.422"
-                  x2="24.805"
-                  y2="23.813"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="currentColor" />
-                  <stop offset="1" stopColor="currentColor" />
-                </linearGradient>
-                <linearGradient
-                  id="paint1_linear"
-                  x1="10.727"
-                  y1="22.156"
-                  x2="10.727"
-                  y2="32.922"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="currentColor" />
-                  <stop offset="1" stopColor="currentColor" />
-                </linearGradient>
-                <linearGradient
-                  id="paint2_linear"
-                  x1="38.883"
-                  y1="22.156"
-                  x2="38.883"
-                  y2="32.922"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="currentColor" />
-                  <stop offset="1" stopColor="currentColor" />
-                </linearGradient>
-                <linearGradient
-                  id="paint3_linear"
-                  x1="24.805"
-                  y1=".625"
-                  x2="24.805"
-                  y2="40.375"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="currentColor" />
-                  <stop offset="1" stopColor="currentColor" />
-                </linearGradient>
-              </defs>
             </svg>
             <h4>Email</h4>
           </styles.CheckBox>
