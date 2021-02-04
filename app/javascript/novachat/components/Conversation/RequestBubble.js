@@ -9,7 +9,6 @@ import IconRight from '../../img/IconRight.svg';
 import IconCheck from '../../img/IconCheck.svg';
 import Spinner from '../shared/Spinner';
 import { useTracked } from '../../App';
-import { types } from '../../reducers';
 
 const UPDATE_CONTACT_EMAIL = gql`
   mutation updateContactEmail(

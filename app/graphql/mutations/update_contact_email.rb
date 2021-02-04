@@ -23,7 +23,7 @@ class Mutations::UpdateContactEmail < Mutations::BaseMutation
   private
 
   def thanks_email_input_box_template_message_params
-    # TODO add content message to i18n
+    # TODO: add content message to i18n
     {
       account_id: @message.conversation.account.id,
       inbox_id: @message.conversation.inbox_id,

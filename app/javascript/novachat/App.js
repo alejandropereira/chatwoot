@@ -8,6 +8,7 @@ import reducer, { initialState } from './reducers';
 import useReducerWithLogger from './hooks/useReducerWithLogger';
 import Chat from './components/Chat';
 import GlobalStyle from './GlobalStyle';
+import { QueryClient, QueryClientProvider } from 'react-query';
 
 const client = new ApolloClient({
   ssrMode: typeof window !== 'undefined',
@@ -21,13 +22,17 @@ const useValue = () =>
     : useReducer(reducer, initialState);
 const { Provider, useTracked } = createContainer(useValue);
 
+const queryClient = new QueryClient();
+
 const App = ({ websiteToken }) => (
-  <ApolloProvider client={client}>
-    <GlobalStyle />
-    <Provider>
-      <Chat websiteToken={websiteToken} />
-    </Provider>
-  </ApolloProvider>
+  <QueryClientProvider client={queryClient}>
+    <ApolloProvider client={client}>
+      <GlobalStyle />
+      <Provider>
+        <Chat websiteToken={websiteToken} />
+      </Provider>
+    </ApolloProvider>
+  </QueryClientProvider>
 );
 
 App.propTypes = {

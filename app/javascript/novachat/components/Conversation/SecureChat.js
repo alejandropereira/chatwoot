@@ -2,17 +2,29 @@ import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import InputMask from 'react-input-mask';
 import Loader from 'react-loader-spinner';
+import { request, gql } from 'graphql-request';
+import Cookies from 'js-cookie';
+import { useQuery } from 'react-query';
 import Button from '../Button';
 import { SecureContext } from '../../context/SecureContext';
+import { useTracked } from '../../App';
 
-export const Start = ({ onContinue, onClose }) => (
+export const Start = ({ onContinue, onClose, isLoading }) => (
   <styles.Wrapper>
     <styles.Box>
-      <h3>You are attempting to enter our Security Mode</h3>
-      <p>
-        In order to proceed we are going to verify you’re the one who we should
-        talk to.
-      </p>
+      {isLoading ? (
+        <styles.Center>
+          <Loader type="Oval" color="#2A1688" height={50} width={50} />
+        </styles.Center>
+      ) : (
+        <>
+          <h3>You are attempting to enter our Security Mode</h3>
+          <p>
+            In order to proceed we are going to verify you’re the one who we
+            should talk to.
+          </p>
+        </>
+      )}
       <Button onClick={onContinue} fWidth>
         Continue
       </Button>
@@ -330,12 +342,32 @@ export const End = () => (
 
 export default function SecureChat() {
   const [state, send] = React.useContext(SecureContext);
+  const [{ websiteToken }] = useTracked();
+
+  const query = gql`
+    query getContact($websiteToken: String!, $token: String!) {
+      contact(websiteToken: $websiteToken, token: $token) {
+        id
+        name
+        email
+        phoneNumber
+      }
+    }
+  `;
+
+  const contactInfo = useQuery('Contact', () =>
+    request('/graphql', query, {
+      websiteToken,
+      token: Cookies.get('cw_conversation'),
+    })
+  );
 
   if (state.matches('start'))
     return (
       <Start
         onContinue={() => send('CONTINUE')}
         onClose={() => send('CLOSE')}
+        isLoading={contactInfo.isLoading}
       />
     );
   if (state.matches('method'))

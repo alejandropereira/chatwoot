@@ -6,6 +6,7 @@ class Types::QueryType < Types::BaseObject
   field :message, Types::MessageType, null: false do
     argument :id, ID, required: true
   end
+  field :contact, resolver: Queries::Contact
 
   def message(id:)
     Message.find(id)
