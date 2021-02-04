@@ -11,20 +11,8 @@ import Spinner from '../shared/Spinner';
 import { useTracked } from '../../App';
 
 const UPDATE_CONTACT_EMAIL = gql`
-  mutation updateContactEmail(
-    $websiteToken: String!
-    $token: String!
-    $messageId: ID!
-    $email: String!
-  ) {
-    updateContactEmail(
-      input: {
-        websiteToken: $websiteToken
-        token: $token
-        messageId: $messageId
-        email: $email
-      }
-    ) {
+  mutation updateContactEmail($messageId: ID!, $email: String!) {
+    updateContactEmail(input: { messageId: $messageId, email: $email }) {
       message {
         contentAttributes
       }

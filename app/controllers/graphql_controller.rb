@@ -10,7 +10,9 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       request: request,
-      browser: browser
+      browser: browser,
+      widget: widget,
+      token: request.headers['X-Auth-Token']
       # Query context goes here, for example:
       # current_user: current_user,
     }
@@ -22,6 +24,10 @@ class GraphqlController < ApplicationController
   end
 
   private
+
+  def widget
+    @widget ||= ::Channel::WebWidget.find_by!(website_token: request.headers['X-Widget-Token']) if request.headers['X-Widget-Token']
+  end
 
   # Handle form data, JSON body, or a blank value
   def ensure_hash(ambiguous_param)

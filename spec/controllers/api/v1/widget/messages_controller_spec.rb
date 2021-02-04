@@ -18,8 +18,7 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
       it 'returns messages in conversation' do
         get api_v1_widget_messages_url,
             params: { website_token: web_widget.website_token },
-            headers: { 'X-Auth-Token' => token },
-            as: :json
+            headers: { 'X-Auth-Token' => token }
 
         expect(response).to have_http_status(:success)
         json_response = JSON.parse(response.body)

@@ -1,15 +1,13 @@
 class Mutations::UpdateContactEmail < Mutations::BaseMutation
-  argument :website_token, String, required: true
-  argument :token, String, required: true
   argument :message_id, ID, required: true
   argument :email, String, required: true
 
   field :message, Types::MessageType, null: true
 
-  def resolve(website_token:, message_id:, email:, token:)
-    set_web_widget(website_token)
+  def resolve(message_id:, email:)
+    set_web_widget
+    set_token
     set_message(message_id)
-    set_token(token)
     set_contact
     @message.update!(submitted_email: email)
     update_contact(email)
@@ -28,12 +26,12 @@ class Mutations::UpdateContactEmail < Mutations::BaseMutation
       account_id: @message.conversation.account.id,
       inbox_id: @message.conversation.inbox_id,
       message_type: :template,
-      content: "Thanks, we will back with you shortly"
+      content: 'Thanks, we will back with you shortly'
     }
   end
 
-  def set_token(token)
-    @token = token
+  def set_token
+    @token = context[:token]
     @auth_token_params = if @token.present?
                            ::Widget::TokenService.new(token: @token).decode_token
                          else
@@ -64,8 +62,8 @@ class Mutations::UpdateContactEmail < Mutations::BaseMutation
     end
   end
 
-  def set_web_widget(website_token)
-    @web_widget = ::Channel::WebWidget.find_by!(website_token: website_token)
+  def set_web_widget
+    @web_widget = context[:widget]
   end
 
   def set_message(id)

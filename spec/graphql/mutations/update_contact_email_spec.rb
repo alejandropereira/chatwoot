@@ -13,15 +13,13 @@ RSpec.describe Mutations::UpdateContactEmail, type: :request do
     message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
     email = Faker::Internet.email
 
-    post '/graphql', params: { 
+    post '/graphql', params: {
       query: query,
-      variables: { 
-        websiteToken: web_widget.website_token,
+      variables: {
         messageId: message.id,
         email: email,
-        token: token
       }
-    }
+    }, headers: { 'X-Auth-Token' => token, 'X-Widget-Token': web_widget.website_token }, as: :json
 
     message.reload
     expect(message.submitted_email).to eq(email)
@@ -32,15 +30,11 @@ RSpec.describe Mutations::UpdateContactEmail, type: :request do
   def query
     <<~GQL
       mutation updateContactEmail(
-        $websiteToken: String!
-        $token: String!
         $messageId: ID!
         $email: String!
       ) {
         updateContactEmail(
           input: {
-            websiteToken: $websiteToken
-            token: $token
             messageId: $messageId
             email: $email
           }
