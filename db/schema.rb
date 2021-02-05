@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_11_052210) do
+ActiveRecord::Schema.define(version: 2021_02_04_220522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -492,6 +492,15 @@ ActiveRecord::Schema.define(version: 2020_12_11_052210) do
     t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+  end
+
+  create_table "verification_pins", force: :cascade do |t|
+    t.string "code"
+    t.string "verificable_type", null: false
+    t.bigint "verificable_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["verificable_type", "verificable_id"], name: "index_verification_pins_on_verificable_type_and_verificable_id"
   end
 
   create_table "webhooks", force: :cascade do |t|
