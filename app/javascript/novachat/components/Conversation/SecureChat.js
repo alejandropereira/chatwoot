@@ -1,13 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import InputMask from 'react-input-mask';
 import Loader from 'react-loader-spinner';
+import { useForm } from 'react-hook-form';
 import { request, gql } from 'graphql-request';
 import Cookies from 'js-cookie';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
+import clsx from 'clsx';
 import Button from '../Button';
 import { SecureContext } from '../../context/SecureContext';
 import { useTracked } from '../../App';
+import AppContext from '../../context/AppContext';
 
 export const Start = ({ onContinue, onClose, isLoading }) => (
   <styles.Wrapper>
@@ -148,55 +151,86 @@ export const SelectPhone = ({ onClose, onSuccess, onEmail }) => {
   );
 };
 
-export const SelectEmail = ({ onSuccess, onSms, onClose }) => {
-  const inputRef = React.useRef();
-  const [email, setEmail] = React.useState('john@email.com');
+export const SelectEmail = ({ onSuccess, onSms, onClose, email }) => {
+  const { register, handleSubmit, errors } = useForm();
+  const {
+    state: { graphqlClient },
+  } = useContext(AppContext);
 
-  React.useEffect(() => {
-    const length = inputRef.current.value.length;
-    inputRef.current.focus();
-    inputRef.current.setSelectionRange(length, length);
-  }, []);
+  const mutation = useMutation(variables =>
+    graphqlClient.request(
+      gql`
+        mutation confirmEmailSendPin($email: String!) {
+          confirmEmailSendPin(input: { email: $email }) {
+            contact {
+              email
+            }
+          }
+        }
+      `,
+      variables
+    )
+  );
+  const onSubmit = async data => {
+    await mutation.mutateAsync(data);
+    onSuccess();
+  };
+
+  // React.useEffect(() => {
+  //   const length = inputRef.current.value.length;
+  //   inputRef.current.focus();
+  //   inputRef.current.setSelectionRange(length, length);
+  // }, []);
 
   return (
     <styles.Wrapper>
-      <styles.Box>
-        <styles.HeadingWithIcon>
-          <svg
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M15 1H1c-.6 0-1 .4-1 1v1.4l8 4.5 8-4.4V2c0-.6-.4-1-1-1z"
-              fill="#2A1688"
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <styles.Box>
+          <styles.HeadingWithIcon>
+            <svg
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M15 1H1c-.6 0-1 .4-1 1v1.4l8 4.5 8-4.4V2c0-.6-.4-1-1-1z"
+                fill="#2A1688"
+              />
+              <path
+                d="M7.5 9.9L0 5.7V14c0 .6.4 1 1 1h14c.6 0 1-.4 1-1V5.7L8.5 9.9c-.28.14-.72.14-1 0z"
+                fill="#2A1688"
+              />
+            </svg>
+            <h3>Confirm your email</h3>
+          </styles.HeadingWithIcon>
+          <div className="field-group">
+            <input
+              name="email"
+              ref={register({
+                required: 'Required',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: 'invalid email address',
+                },
+              })}
+              type="text"
+              className={clsx('input', errors.email && 'error')}
             />
-            <path
-              d="M7.5 9.9L0 5.7V14c0 .6.4 1 1 1h14c.6 0 1-.4 1-1V5.7L8.5 9.9c-.28.14-.72.14-1 0z"
-              fill="#2A1688"
-            />
-          </svg>
-          <h3>Confirm your email</h3>
-        </styles.HeadingWithIcon>
-        <input
-          ref={inputRef}
-          type="text"
-          className="input"
-          onChange={e => setEmail(e.target.value)}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              onSuccess();
-            }
-          }}
-          value={email}
-        />
-      </styles.Box>
-      <Button flat fWidth onClick={onSms}>
-        Try with SMS activation?
-      </Button>
-      <Button flat fWidth onClick={onClose}>
-        Cancel Security Mode
-      </Button>
+            {errors.email && (
+              <span className="error">{errors.email.message}</span>
+            )}
+          </div>
+          <Button disabled={mutation.isLoading} type="submit" fWidth>
+            {mutation.isLoading ? 'Loading...' : 'Continue'}
+          </Button>
+        </styles.Box>
+        <Button flat fWidth onClick={onSms}>
+          Try with SMS activation?
+        </Button>
+        <Button flat fWidth onClick={onClose}>
+          Cancel Security Mode
+        </Button>
+      </form>
     </styles.Wrapper>
   );
 };
@@ -389,6 +423,7 @@ export default function SecureChat() {
   if (state.matches('email'))
     return (
       <SelectEmail
+        email={contactInfo.data.contact.email}
         onSuccess={() => send('PIN')}
         onSms={() => send('SMS')}
         onClose={() => send('CLOSE')}
@@ -423,6 +458,10 @@ styles.Box = styled.div`
   margin-bottom: 25px;
 
   ${({ center }) => center && `text-align: center;`}
+
+  .field-group {
+    margin-bottom: 35px;
+  }
 
   h3 {
     font-style: normal;
@@ -462,6 +501,16 @@ styles.Box = styled.div`
     font-size: 14px;
     color: #253256;
     padding: 0 20px;
+
+    &.error {
+      border-color: red;
+      outline-color: red;
+    }
+  }
+
+  span.error {
+    color: red;
+    font-size: 11px;
   }
 `;
 

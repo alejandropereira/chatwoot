@@ -1,4 +1,5 @@
 import './utils/wdyr';
+import 'regenerator-runtime/runtime';
 import React, { useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { createContainer } from 'react-tracked';

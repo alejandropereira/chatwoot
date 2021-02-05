@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useQuery, gql } from '@apollo/client';
 import Cookies from 'js-cookie';
 import styled from 'styled-components';
+import { GraphQLClient } from 'graphql-request';
 import AppContext from '../context/AppContext';
 import variables from '../utils/variables';
 import StartChatButton from '../containers/StartChatButton';
@@ -81,10 +82,22 @@ const Chat = ({ websiteToken }) => {
 
   if (loading || error || !authToken) return null;
 
+  const graphqlClient = new GraphQLClient('/graphql', {
+    headers: {
+      'X-Widget-Token': websiteToken,
+      'X-Auth-Token': Cookies.get('cw_conversation'),
+    },
+  });
+
   return (
     <AppContext.Provider
       value={{
-        state: { ...state, websiteToken, webWidget: data.webWidget },
+        state: {
+          ...state,
+          websiteToken,
+          webWidget: data.webWidget,
+          graphqlClient,
+        },
         dispatch,
       }}
     >
