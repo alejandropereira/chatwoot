@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_04_220522) do
+ActiveRecord::Schema.define(version: 2021_02_05_163714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -237,6 +237,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_220522) do
     t.bigint "contact_inbox_id"
     t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.string "identifier"
+    t.boolean "secured", default: false
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
@@ -338,6 +339,7 @@ ActiveRecord::Schema.define(version: 2021_02_04_220522) do
     t.json "content_attributes", default: {}
     t.string "sender_type"
     t.bigint "sender_id"
+    t.boolean "secured", default: false
     t.index ["account_id"], name: "index_messages_on_account_id"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"

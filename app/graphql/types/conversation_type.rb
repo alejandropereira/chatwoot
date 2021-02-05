@@ -3,6 +3,7 @@ module Types
     field :id, ID, null: false
     field :uuid, ID, null: false
     field :assignee, Types::UserType, null: true
+    field :secured, Boolean, null: false
     field :messages, Types::PaginatedMessagesType, null: true do
       argument :page, Integer, required: false, default_value: 1
       argument :per, Integer, required: false, default_value: 20

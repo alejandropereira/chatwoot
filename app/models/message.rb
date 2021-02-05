@@ -8,6 +8,7 @@
 #  content_type       :integer          default("text")
 #  message_type       :integer          not null
 #  private            :boolean          default(FALSE)
+#  secured            :boolean          default(FALSE)
 #  sender_type        :string
 #  status             :integer          default("sent")
 #  created_at         :datetime         not null

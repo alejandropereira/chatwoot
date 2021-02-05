@@ -7,6 +7,7 @@
 #  agent_last_seen_at    :datetime
 #  identifier            :string
 #  locked                :boolean          default(FALSE)
+#  secured               :boolean          default(FALSE)
 #  status                :integer          default("open"), not null
 #  user_last_seen_at     :datetime
 #  uuid                  :uuid             not null
