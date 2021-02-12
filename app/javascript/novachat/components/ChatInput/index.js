@@ -157,6 +157,7 @@ const ChatInput = React.memo(() => {
         createdAt: new Date().toISOString(),
         assignee: null,
         content: message,
+        secured: currentConversation.secured,
         status: 'in_progress',
         messageType: 'incoming',
       },
@@ -204,6 +205,7 @@ const ChatInput = React.memo(() => {
           id: getUuid(),
           assignee: null,
           content: null,
+          secured: currentConversation.secured,
           attachments: [
             {
               id: getUuid(),

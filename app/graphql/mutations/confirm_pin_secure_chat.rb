@@ -9,10 +9,10 @@ class Mutations::ConfirmPinSecureChat < Mutations::BaseMutation
     set_token
     set_contact
 
-    raise GraphQL::ExecutionError, "Can't continue with this query" unless @contact.verification_pins.last.check_pin(verification_pin)
-    conversation = @contact.conversations.find(conversation_id)
+    raise GraphQL::ExecutionError, "Can't continue with this query #{verification_pin}" unless @contact.verification_pins.last.check_pin(verification_pin)
+
+    conversation = @contact.conversations.find_by(uuid: conversation_id)
     conversation.update!(secured: true)
-    
 
     {
       conversation: conversation

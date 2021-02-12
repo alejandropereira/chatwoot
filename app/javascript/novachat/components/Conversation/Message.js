@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { TweenLite, Power4 } from 'gsap';
+import add from 'date-fns/add';
+import isPast from 'date-fns/isPast';
 import variables from '../../utils/variables';
 import Avatar from '../Avatar';
 import RequestBubble from './RequestBubble';
@@ -10,42 +11,93 @@ import ImageContainer from './ImageContainer';
 
 const ANIM_TIME = 2;
 const DOTS_TIME = 1;
+const SECS = 5;
 
-class Message extends Component {
-  static propTypes = {
-    selectedUser: PropTypes.object,
-    sendUserData: PropTypes.func.isRequired,
+export default function Message({
+  id,
+  text,
+  avatar,
+  fromUser,
+  typing,
+  type,
+  status,
+  attachments,
+  contentType,
+  contentAttributes,
+  secured,
+  createdAt,
+}) {
+  const [sent, setSent] = useState(false);
+  const [isSecured, setIsSecured] = useState(
+    () =>
+      secured &&
+      isPast(
+        add(new Date(createdAt), {
+          seconds: SECS,
+        })
+      )
+  );
+  const securedRef = useRef(null);
+  const maskRight = useRef(null);
+  const maskLeft = useRef(null);
+  const dotsLeft = useRef(null);
+  const dotsRight = useRef(null);
+  const lastDotRight = useRef(null);
+  const firstDotLeft = useRef(null);
+  const firstDotRight = useRef(null);
+  const tween1 = useRef(null);
+  const tween2 = useRef(null);
+
+  const onRepeatLeft = () => {
+    TweenLite.to(lastDotRight.current, 0, {
+      opacity: 0,
+    });
+    TweenLite.to(firstDotLeft.current, 0, {
+      opacity: 1,
+    });
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      userData: '',
-      sent: false,
-    };
-    this.tween1 = null;
-    this.tween2 = null;
-    this.maskRight = null;
-    this.maskLeft = null;
-    this.dotsLeft = null;
-    this.dotsRight = null;
-    this.lastDotRight = null;
-    this.firstDotLeft = null;
-    this.firstDotRight = null;
-  }
+  const onRepeatRight = () => {
+    TweenLite.to(lastDotRight.current, 0, {
+      opacity: 1,
+    });
+    TweenLite.to(firstDotLeft.current, 0, {
+      opacity: 0,
+    });
+  };
 
-  componentDidMount() {
-    const { fromUser, typing } = this.props;
+  const onRightStart = () => {
+    TweenLite.to(firstDotRight.current, 0, {
+      opacity: 1,
+    });
+    TweenLite.to(firstDotLeft.current, 0, {
+      opacity: 0,
+    });
+  };
+
+  useEffect(() => {
+    if (secured && !isSecured) {
+      securedRef.current = setTimeout(() => {
+        setIsSecured(true);
+      }, SECS * 1000);
+    }
+
+    return () => {
+      clearTimeout(securedRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
     if (fromUser) {
       // For user bubble: Move path from right to left
-      TweenLite.to(this.maskRight, ANIM_TIME, {
+      TweenLite.to(maskRight.current, ANIM_TIME, {
         left: -500,
         top: -130,
         ease: Power4.easeOut,
       });
     } else {
       // For sender bubble: Move path from left to right
-      TweenLite.to(this.maskLeft, ANIM_TIME, {
+      TweenLite.to(maskLeft.current, ANIM_TIME, {
         left: 200,
         top: -200,
         ease: Power4.easeOut,
@@ -54,150 +106,87 @@ class Message extends Component {
     // Typing animation
     if (typing) {
       // Rotate dots left
-      this.tween1 = TweenLite.to(this.dotsLeft, DOTS_TIME, {
+      tween1.current = TweenLite.to(dotsLeft.current, DOTS_TIME, {
         rotation: 180,
         repeat: -1,
         repeatDelay: DOTS_TIME / 2,
         ease: Power4.easeOut,
-        onRepeat: this.onRepeatLeft,
+        onRepeat: onRepeatLeft,
       });
       // Rotate dots right
-      this.tween2 = TweenLite.to(this.dotsRight, DOTS_TIME, {
+      tween2.current = TweenLite.to(dotsRight.current, DOTS_TIME, {
         rotation: -180,
         repeat: -1,
         delay: DOTS_TIME,
         repeatDelay: DOTS_TIME / 2,
         ease: Power4.easeOut,
-        onStart: this.onRightStart,
-        onRepeat: this.onRepeatRight,
+        onStart: onRightStart,
+        onRepeat: onRepeatRight,
       });
     }
-  }
+    return () => {
+      if (tween1.current) tween1.current.kill();
+      if (tween2.current) tween2.current.kill();
+    };
+  }, [fromUser, typing]);
 
-  componentWillUnmount() {
-    this.tween1 && this.tween1.kill();
-    this.tween2 && this.tween2.kill();
-  }
-
-  onRepeatLeft = () => {
-    TweenLite.to(this.lastDotRight, 0, {
-      opacity: 0,
-    });
-    TweenLite.to(this.firstDotLeft, 0, {
-      opacity: 1,
-    });
-  };
-
-  onRepeatRight = () => {
-    TweenLite.to(this.lastDotRight, 0, {
-      opacity: 1,
-    });
-    TweenLite.to(this.firstDotLeft, 0, {
-      opacity: 0,
-    });
-  };
-
-  onRightStart = () => {
-    TweenLite.to(this.firstDotRight, 0, {
-      opacity: 1,
-    });
-    TweenLite.to(this.firstDotLeft, 0, {
-      opacity: 0,
-    });
-  };
-
-  sendUserData = event => {
-    event.preventDefault();
-    const { sendUserData, text } = this.props;
-    const { userData } = this.state;
-    sendUserData(`${text}: ${userData}`);
-    this.setState({ sent: true });
-  };
-
-  handleChange = event => {
-    this.setState({ userData: event.target.value });
-  };
-
-  render() {
-    const {
-      id,
-      text,
-      avatar,
-      fromUser,
-      typing,
-      type,
-      status,
-      attachments,
-      contentType,
-      contentAttributes,
-    } = this.props;
-    const { sent } = this.state;
-    return (
-      <styles.Message
-        inProgress={status === 'in_progress'}
-        className="Message"
-        fromUser={fromUser}
-      >
-        {!fromUser && !type && avatar && <Avatar image={avatar} />}
-        {contentType === 'input_email' ? (
-          <RequestBubble
-            messageId={id}
-            sent={sent}
-            label={text}
-            sendUserData={this.sendUserData}
-            onChange={this.handleChange}
-            contentAttributes={contentAttributes}
-          />
-        ) : (
-          <styles.Bubble
-            fromUser={fromUser}
-            hasAttachment={attachments && attachments[0]}
-          >
-            {typing && (
-              <styles.Typing>
-                <div className="Dots" ref={div => (this.dotsLeft = div)}>
-                  <span
-                    className="Dot"
-                    ref={div => (this.firstDotLeft = div)}
-                  />
-                  <span className="Dot" />
-                </div>
-                <div className="Dots Right" ref={div => (this.dotsRight = div)}>
-                  <span
-                    className="Dot firstDotRight"
-                    ref={div => (this.firstDotRight = div)}
-                  />
-                  <span
-                    className="Dot"
-                    ref={div => (this.lastDotRight = div)}
-                  />
-                </div>
-              </styles.Typing>
-            )}
-            <div dangerouslySetInnerHTML={{ __html: text }} />
-            {attachments && attachments[0] && (
-              <ImageContainer attachment={attachments[0]} />
-            )}
-            {fromUser ? (
-              <img
-                src={PathMessage}
-                alt="Path Message"
-                ref={div => (this.maskRight = div)}
-                id="maskRight"
-              />
-            ) : (
-              <img
-                src={PathMessage}
-                alt="Path Message"
-                ref={div => (this.maskLeft = div)}
-                id="maskLeft"
-              />
-            )}
-          </styles.Bubble>
-        )}
-      </styles.Message>
-    );
-  }
+  return (
+    <styles.Message
+      inProgress={status === 'in_progress'}
+      className="Message"
+      fromUser={fromUser}
+      secured={isSecured}
+    >
+      {!fromUser && !type && avatar && <Avatar image={avatar} />}
+      {contentType === 'input_email' ? (
+        <RequestBubble
+          messageId={id}
+          sent={sent}
+          label={text}
+          sendUserData={() => {}}
+          onChange={() => {}}
+          contentAttributes={contentAttributes}
+        />
+      ) : (
+        <styles.Bubble
+          fromUser={fromUser}
+          hasAttachment={attachments && attachments[0]}
+        >
+          {typing && (
+            <styles.Typing>
+              <div className="Dots" ref={dotsLeft}>
+                <span className="Dot" ref={firstDotLeft} />
+                <span className="Dot" />
+              </div>
+              <div className="Dots Right" ref={dotsRight}>
+                <span className="Dot firstDotRight" ref={firstDotRight} />
+                <span className="Dot" ref={lastDotRight} />
+              </div>
+            </styles.Typing>
+          )}
+          <div dangerouslySetInnerHTML={{ __html: text }} />
+          {attachments && attachments[0] && (
+            <ImageContainer attachment={attachments[0]} />
+          )}
+          {fromUser ? (
+            <img
+              src={PathMessage}
+              alt="Path Message"
+              ref={maskRight}
+              id="maskRight"
+            />
+          ) : (
+            <img
+              src={PathMessage}
+              alt="Path Message"
+              ref={maskLeft}
+              id="maskLeft"
+            />
+          )}
+        </styles.Bubble>
+      )}
+    </styles.Message>
+  );
 }
 
 const styles = {};
@@ -210,6 +199,12 @@ styles.Message = styled.div`
     props.inProgress &&
     `
     opacity: 0.75;
+  `}
+
+  ${props =>
+    props.secured &&
+    `
+    filter: blur(5px);
   `}
 
   ${props =>
@@ -274,5 +269,3 @@ styles.Typing = styled.div`
     opacity: 0;
   }
 `;
-
-export default Message;

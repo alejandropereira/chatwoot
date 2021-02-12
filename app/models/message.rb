@@ -72,6 +72,8 @@ class Message < ApplicationRecord
 
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
 
+  before_create :set_secured_flag
+
   after_create :reopen_conversation,
                :notify_via_mail
 
@@ -140,6 +142,10 @@ class Message < ApplicationRecord
 
   def send_reply
     ::SendReplyJob.perform_later(id)
+  end
+
+  def set_secured_flag
+    self.secured = conversation.secured
   end
 
   def reopen_conversation

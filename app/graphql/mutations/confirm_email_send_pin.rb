@@ -34,19 +34,9 @@ class Mutations::ConfirmEmailSendPin < Mutations::BaseMutation
   end
 
   def update_contact(email)
-    @account = @web_widget.account
-    contact_with_email = @account.contacts.find_by(email: email)
-    if contact_with_email
-      @contact = ::ContactMergeAction.new(
-        account: @account,
-        base_contact: contact_with_email,
-        mergee_contact: @contact
-      ).perform
-    else
-      @contact.update!(
-        email: email
-      )
-    end
+    @contact.update!(
+      email: email
+    ) unless @contact.email == email
   end
 
   def set_web_widget

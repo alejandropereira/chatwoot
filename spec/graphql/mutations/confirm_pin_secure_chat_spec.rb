@@ -14,7 +14,7 @@ RSpec.describe Mutations::ConfirmPinSecureChat, type: :request do
     post '/graphql', params: {
       query: query,
       variables: {
-        conversationId: conversation.id,
+        conversationId: conversation.reload.uuid,
         verificationPin: verification_pin.code
       }
     }, headers: { 'X-Auth-Token' => token, 'X-Widget-Token': web_widget.website_token }, as: :json
@@ -27,7 +27,7 @@ RSpec.describe Mutations::ConfirmPinSecureChat, type: :request do
     post '/graphql', params: {
       query: query,
       variables: {
-        conversationId: conversation.id,
+        conversationId: conversation.reload.uuid,
         verificationPin: '1234'
       }
     }, headers: { 'X-Auth-Token' => token, 'X-Widget-Token': web_widget.website_token }, as: :json

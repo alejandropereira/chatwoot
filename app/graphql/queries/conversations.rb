@@ -20,7 +20,7 @@ module Queries
     private
 
     def set_web_widget(website_token)
-      @web_widget = ::Channel::WebWidget.find_by!(website_token: website_token)
+      @web_widget ||= ::Channel::WebWidget.find_by!(website_token: website_token)
     end
   
     def auth_token_params(token)
@@ -31,6 +31,10 @@ module Queries
       @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(
         source_id: auth_token_params(token)[:source_id]
       )
+      puts auth_token_params(token)[:source_id]
+      puts @contact_inbox
+      puts token
+      puts @web_widget
       @contact = @contact_inbox.contact
     end
   end

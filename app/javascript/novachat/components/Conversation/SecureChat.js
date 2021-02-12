@@ -244,74 +244,116 @@ export const SecurePin = ({ onClose, onSuccess, onRetry, isRetrying }) => {
   const secondInputRef = useRef(null);
   const thirdInputRef = useRef(null);
   const fourthInputRef = useRef(null);
+  const {
+    state: { graphqlClient, currentConversation },
+  } = useContext(AppContext);
+
+  const mutation = useMutation(variables =>
+    graphqlClient.request(
+      gql`
+        mutation confirmPinSecureChat(
+          $conversationId: ID!
+          $verificationPin: String!
+        ) {
+          confirmPinSecureChat(
+            input: {
+              conversationId: $conversationId
+              verificationPin: $verificationPin
+            }
+          ) {
+            conversation {
+              secured
+            }
+          }
+        }
+      `,
+      variables
+    )
+  );
+  const onSubmit = React.useCallback(async () => {
+    await mutation.mutateAsync({
+      conversationId: currentConversation.uuid,
+      verificationPin: [first, second, third, fourth].join(''),
+    });
+    onSuccess();
+  }, [first, second, third, fourth, currentConversation.id]);
 
   useEffect(() => {
     if (isRetrying) return;
     firstInputRef.current.focus();
   }, [firstInputRef, isRetrying]);
 
+  console.log({ mutation });
+
   return (
     <styles.Wrapper>
-      <styles.Box>
-        <h3>Your PIN has been sent at:</h3>
-        <p>+1 202-555-0142</p>
-        <styles.VerificationCode>
-          <input
-            ref={firstInputRef}
-            value={first}
-            onChange={e => {
-              setFirst(e.target.value);
-              secondInputRef.current.focus();
-            }}
-            type="text"
-            maxLength="1"
-          />
-          <input
-            ref={secondInputRef}
-            value={second}
-            onChange={e => {
-              setSecond(e.target.value);
-              thirdInputRef.current.focus();
-            }}
-            type="text"
-            maxLength="1"
-          />
-          <input
-            ref={thirdInputRef}
-            value={third}
-            onChange={e => {
-              setThird(e.target.value);
-              fourthInputRef.current.focus();
-            }}
-            type="text"
-            maxLength="1"
-          />
-          <input
-            ref={fourthInputRef}
-            value={fourth}
-            onChange={e => {
-              setFourth(e.target.value);
-              fourthInputRef.current.blur();
-            }}
-            onBlur={onSuccess}
-            type="text"
-            maxLength="1"
-          />
-        </styles.VerificationCode>
-      </styles.Box>
-      {isRetrying && (
-        <styles.Center>
-          <Loader type="Oval" color="#2A1688" height={50} width={50} />
-        </styles.Center>
-      )}
-      {!isRetrying && (
-        <Button flat fWidth onClick={onRetry}>
-          Didn’t get the code?
+      <form>
+        <styles.Box>
+          <h3>Your PIN has been sent at:</h3>
+          <p>+1 202-555-0142</p>
+          <styles.VerificationCode>
+            <input
+              ref={firstInputRef}
+              value={first}
+              onChange={e => {
+                setFirst(e.target.value);
+                secondInputRef.current.focus().select();
+              }}
+              type="text"
+              maxLength="1"
+            />
+            <input
+              ref={secondInputRef}
+              value={second}
+              onChange={e => {
+                setSecond(e.target.value);
+                thirdInputRef.current.focus().select();
+              }}
+              type="text"
+              maxLength="1"
+            />
+            <input
+              ref={thirdInputRef}
+              value={third}
+              onChange={e => {
+                setThird(e.target.value);
+                fourthInputRef.current.focus().select();
+              }}
+              type="text"
+              maxLength="1"
+            />
+            <input
+              ref={fourthInputRef}
+              value={fourth}
+              onChange={e => {
+                setFourth(e.target.value);
+                onSubmit();
+              }}
+              type="text"
+              maxLength="1"
+            />
+          </styles.VerificationCode>
+          {mutation.isError && (
+            <span className="error" tw="mt-10">
+              {mutation.error.message.split(':')[0]}
+            </span>
+          )}
+        </styles.Box>
+        {isRetrying ||
+          (mutation.isLoading && (
+            <styles.Center>
+              <Loader type="Oval" color="#2A1688" height={50} width={50} />
+            </styles.Center>
+          ))}
+        {!isRetrying && (
+          <Button flat fWidth onClick={onRetry}>
+            Didn’t get the code?
+          </Button>
+        )}
+        <Button flat fWidth onClick={onClose}>
+          Cancel Security Mode
         </Button>
-      )}
-      <Button flat fWidth onClick={onClose}>
-        Cancel Security Mode
-      </Button>
+      </form>
     </styles.Wrapper>
   );
 };
@@ -320,7 +362,14 @@ export const SecureMode = () => {
   return (
     <styles.SecureGreenBox>
       <strong>Secure Mode</strong>
-      <span>Click to leave</span>
+      {/* <span>Click to leave</span> */}
+      <span
+        css={`
+          margin-right: 12px;
+        `}
+      >
+        <Loader type="Oval" color="#ffffff" height={20} width={20} />
+      </span>
     </styles.SecureGreenBox>
   );
 };
@@ -376,7 +425,8 @@ export const End = () => (
 
 export default function SecureChat() {
   const [state, send] = React.useContext(SecureContext);
-  const [{ websiteToken }] = useTracked();
+  const [{ websiteToken, currentConversation }] = useTracked();
+  console.log({ currentConversation });
 
   const query = gql`
     query getContact($websiteToken: String!, $token: String!) {
@@ -395,6 +445,12 @@ export default function SecureChat() {
       token: Cookies.get('cw_conversation'),
     })
   );
+
+  useEffect(() => {
+    if (currentConversation.secured) {
+      send('SECURE');
+    }
+  }, [currentConversation.secured]);
 
   if (state.matches('start'))
     return (
@@ -596,6 +652,7 @@ styles.SecureGreenBox = styled.div`
   align-items: center;
   padding: 0 20px;
   position: absolute;
+  z-index: 10;
   width: 90%;
 
   &:before {

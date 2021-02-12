@@ -6,6 +6,7 @@ class Types::MessageType < Types::BaseObject
   field :content_attributes, GraphQL::Types::JSON, null: true
   field :status, String, null: true
   field :assignee, Types::UserType, null: true
+  field :secured, Boolean, null: false
   field :attachments, [Types::AttachmentType], null: true
   field :created_at, GraphQL::Types::ISO8601DateTime, null: true
 

@@ -14,6 +14,7 @@ export const secureMachine = Machine({
     closed: {
       on: {
         OPEN: 'start',
+        SECURE: 'secure',
       },
     },
     start: {

@@ -23,6 +23,8 @@ const MessagesSeparator = ({ date, messages }) => (
             contentType={message.contentType}
             senderTyping={false}
             type={null}
+            createdAt={message.createdAt}
+            secured={message.secured}
             sendUserData={() => {}}
           />
         );

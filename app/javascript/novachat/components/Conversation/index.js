@@ -20,6 +20,7 @@ const CONVERSATIONS = gql`
       collection {
         id
         uuid
+        secured
         assignee {
           id
           avatarUrl

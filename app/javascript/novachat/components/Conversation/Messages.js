@@ -27,6 +27,7 @@ const MESSAGES = gql`
         contentType
         messageType
         contentAttributes
+        secured
         status
         attachments {
           id
