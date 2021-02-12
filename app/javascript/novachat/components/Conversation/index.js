@@ -31,6 +31,7 @@ const CONVERSATIONS = gql`
           collection {
             id
             content
+            secured
             attachments {
               id
               fileType

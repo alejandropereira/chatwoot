@@ -10,6 +10,10 @@ const List = ({ onListItemClick, conversations }) => {
         return (
           <ListItem
             agent={conversation.assignee}
+            secured={
+              conversation.messages.collection[0] &&
+              conversation.messages.collection[0].secured
+            }
             text={
               conversation.messages.collection[0] &&
               conversation.messages.collection[0].content

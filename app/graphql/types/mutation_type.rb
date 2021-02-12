@@ -4,5 +4,6 @@ class Types::MutationType < Types::BaseObject
   field :confirm_email_send_pin, mutation: Mutations::ConfirmEmailSendPin
   field :confirm_pin_secure_chat, mutation: Mutations::ConfirmPinSecureChat
   field :toggle_customer_typing, mutation: Mutations::ToggleCustomerTyping
+  field :unsecure_conversation, mutation: Mutations::UnsecureConversation
 end
 

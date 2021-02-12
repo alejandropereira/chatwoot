@@ -283,8 +283,6 @@ export const SecurePin = ({ onClose, onSuccess, onRetry, isRetrying }) => {
     firstInputRef.current.focus();
   }, [firstInputRef, isRetrying]);
 
-  console.log({ mutation });
-
   return (
     <styles.Wrapper>
       <form>
@@ -358,18 +356,53 @@ export const SecurePin = ({ onClose, onSuccess, onRetry, isRetrying }) => {
   );
 };
 
-export const SecureMode = () => {
+export const SecureMode = ({ onSuccess }) => {
+  const {
+    state: { graphqlClient, currentConversation },
+  } = useContext(AppContext);
+
+  const mutation = useMutation(variables =>
+    graphqlClient.request(
+      gql`
+        mutation unsecureConversation($conversationId: ID!) {
+          unsecureConversation(input: { conversationId: $conversationId }) {
+            conversation {
+              secured
+            }
+          }
+        }
+      `,
+      variables
+    )
+  );
+
   return (
     <styles.SecureGreenBox>
       <strong>Secure Mode</strong>
-      {/* <span>Click to leave</span> */}
-      <span
-        css={`
-          margin-right: 12px;
-        `}
-      >
-        <Loader type="Oval" color="#ffffff" height={20} width={20} />
-      </span>
+      {!mutation.isLoading && (
+        <span
+          css={`
+            cursor: pointer;
+          `}
+          onClick={async () => {
+            await mutation.mutateAsync({
+              conversationId: currentConversation.uuid,
+            });
+            onSuccess();
+          }}
+        >
+          Click to leave
+        </span>
+      )}
+      {mutation.isLoading && (
+        <span
+          css={`
+            margin-right: 12px;
+          `}
+        >
+          <Loader type="Oval" color="#ffffff" height={20} width={20} />
+        </span>
+      )}
     </styles.SecureGreenBox>
   );
 };
@@ -426,7 +459,6 @@ export const End = () => (
 export default function SecureChat() {
   const [state, send] = React.useContext(SecureContext);
   const [{ websiteToken, currentConversation }] = useTracked();
-  console.log({ currentConversation });
 
   const query = gql`
     query getContact($websiteToken: String!, $token: String!) {
@@ -494,7 +526,8 @@ export default function SecureChat() {
         onClose={() => send('CLOSE')}
       />
     );
-  if (state.matches('secure')) return <SecureMode />;
+  if (state.matches('secure'))
+    return <SecureMode onSuccess={() => send('CLOSE')} />;
   if (state.matches('close')) return <End />;
   return null;
 }

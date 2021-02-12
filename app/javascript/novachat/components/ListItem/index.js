@@ -4,7 +4,7 @@ import Avatar from '../Avatar';
 import styled from 'styled-components';
 import { useTracked } from '../../App';
 
-function ListItem({ text, onClick, agent, date, attachment }) {
+function ListItem({ text, onClick, agent, date, attachment, secured }) {
   const [{ webWidget }] = useTracked();
 
   return (
@@ -28,12 +28,13 @@ function ListItem({ text, onClick, agent, date, attachment }) {
         {agent && <h5>{agent.name}</h5>}
         {text && (
           <styles.LastMessage
+            secured={secured}
             className="LastMessage"
             dangerouslySetInnerHTML={{ __html: text }}
           />
         )}
         {attachment && attachment.fileType === 'image' && (
-          <styles.LastMessage className="LastMessage">
+          <styles.LastMessage secured={secured} className="LastMessage">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -69,6 +70,12 @@ const styles = {};
 styles.LastMessage = styled.div`
   display: flex;
   align-items: center;
+
+  ${({ secured }) =>
+    secured &&
+    `
+  filter: blur(3px);
+  `}
 
   svg {
     width: 17px;
