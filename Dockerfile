@@ -44,7 +44,7 @@ COPY package.json yarn.lock ./
 RUN mkdir -p /app/app/javascript/novachat/gsap
 COPY app/javascript/novachat/gsap/gsap-bonus.tgz \
   ./app/javascript/novachat/gsap/
-RUN yarn install
+RUN yarn config set registry "http://registry.npmjs.org" && yarn install
 
 COPY . /app
 
