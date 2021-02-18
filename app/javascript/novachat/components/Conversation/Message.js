@@ -85,7 +85,7 @@ export default function Message({
     return () => {
       clearTimeout(securedRef.current);
     };
-  }, []);
+  }, [secured]);
 
   useEffect(() => {
     if (fromUser) {

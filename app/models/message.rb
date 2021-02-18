@@ -80,6 +80,7 @@ class Message < ApplicationRecord
   after_create_commit :execute_after_create_commit_callbacks
 
   after_update :dispatch_update_event
+  before_destroy :dispatch_destroy_event
 
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
@@ -138,6 +139,10 @@ class Message < ApplicationRecord
 
   def dispatch_update_event
     Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self)
+  end
+
+  def dispatch_destroy_event
+    Rails.configuration.dispatcher.dispatch(MESSAGE_DESTROYED, Time.zone.now, message: self)
   end
 
   def send_reply

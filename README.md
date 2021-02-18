@@ -95,3 +95,12 @@ Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contri
 
 
 *Chatwoot* &copy; 2017-2020, ThoughtWoot Inc - Released under the MIT License.
+
+### SSL
+
+certbot certonly --manual --preferred-challenges=dns
+cp privkey.pem server.key
+cp fullchain.pem server.crt
+rm certs.tar
+tar cvf certs.tar server.key server.crt
+dokku certs:add 00-default < certs.tar

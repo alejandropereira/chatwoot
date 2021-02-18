@@ -8,6 +8,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.created': this.onConversationCreated,
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
+      'message.destroyed': this.onMessageDestroyed,
       'conversation.typing_on': this.onTypingOn,
       'conversation.typing_off': this.onTypingOff,
       'assignee.changed': this.assigneeChanged,
@@ -31,6 +32,13 @@ class ActionCableConnector extends BaseActionCableConnector {
   onMessageUpdated = data => {
     this.app.dispatch({
       type: types.UPDATE_MESSAGE,
+      payload: data,
+    });
+  };
+
+  onMessageDestroyed = data => {
+    this.app.dispatch({
+      type: types.DESTROY_MESSAGE,
       payload: data,
     });
   };

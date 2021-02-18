@@ -43,6 +43,7 @@ export const types = {
   APPEND_MESSAGE: 'chat/APPEND_MESSAGE',
   UPDATE_MESSAGE: 'chat/UPDATE_MESSAGE',
   UPDATE_MESSAGE_DATA: 'chat/UPDATE_MESSAGE_DATA',
+  DESTROY_MESSAGE: 'chat/DESTROY_MESSAGE',
   APPEND_IP_MESSAGE: 'chat/APPEND_IP_MESSAGE',
   SET_WIDGET_TOKEN: 'chat/SET_WIDGET_TOKEN',
   SET_PREVIEW_FILE_UPLOAD: 'chat/SET_PREVIEW_FILE_UPLOAD',
@@ -198,6 +199,15 @@ const reducer = (state, action) => {
         };
       }
       return state;
+    case types.DESTROY_MESSAGE:
+      return {
+        ...state,
+        messages: state.messages.filter(
+          m =>
+            Number(m.id) !== Number(action.payload.id) &&
+            Number(m.uuid) !== Number(action.payload.id)
+        ),
+      };
     case types.APPEND_IP_MESSAGE:
       return {
         ...state,
@@ -239,10 +249,12 @@ const reducer = (state, action) => {
             if (message.id === m.id) {
               return {
                 id: m.id,
+                uuid: action.payload.id,
                 createdAt: Number.isInteger(action.payload.created_at)
                   ? new Date(action.payload.created_at * 1000).toISOString()
                   : new Date(action.payload.created_at).toISOString(),
                 status: action.payload.status,
+                secured: action.payload.secured,
                 attachments:
                   action.payload.attachments &&
                   action.payload.attachments.length > 0
@@ -283,6 +295,7 @@ const reducer = (state, action) => {
                 ? new Date(action.payload.created_at * 1000).toISOString()
                 : new Date(action.payload.created_at).toISOString(),
               status: action.payload.status,
+              secured: action.payload.secured,
               attachments:
                 action.payload.attachments &&
                 action.payload.attachments.length > 0
@@ -319,6 +332,7 @@ const reducer = (state, action) => {
               id: action.payload.id.toString(),
               createdAt: new Date(action.payload.created_at).toISOString(),
               status: action.payload.status,
+              secured: action.payload.secured,
               attachments:
                 action.payload.attachments &&
                 action.payload.attachments.length > 0

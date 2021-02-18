@@ -7,7 +7,7 @@ import { types } from '../../reducers';
 import MessagesSeparator from '../MessagesSeparator';
 import IsTyping from './IsTyping';
 import Loading from './Loading';
-import SecureChat from './SecureChat';
+import SecureChat from './SecureChat/index';
 
 const MessagesContainer = ({
   messages,
