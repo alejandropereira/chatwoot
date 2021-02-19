@@ -13,12 +13,7 @@ const SecureMode = () => {
   return (
     <styles.SecureMode>
       {state.matches('secure') ? (
-        <svg
-          onClick={() => send('CLOSE')}
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-        >
+        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <g clipPath="url(#clip0)">
             <path fill="#3C269A" d="M6 4.8h12v14.4H6z" />
             <path fill="#fff" d="M6 4.8h12v14.4H6z" />

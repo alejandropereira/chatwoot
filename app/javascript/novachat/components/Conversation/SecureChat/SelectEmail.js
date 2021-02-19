@@ -33,7 +33,7 @@ export default function SelectEmail({ onSuccess, onSms, onClose, email }) {
   );
   const onSubmit = async data => {
     await mutation.mutateAsync(data);
-    onSuccess();
+    onSuccess(data.email);
   };
 
   // React.useEffect(() => {
@@ -74,10 +74,19 @@ export default function SelectEmail({ onSuccess, onSms, onClose, email }) {
                 },
               })}
               type="text"
-              className={clsx('input', errors.email && 'error')}
+              className={clsx(
+                'input',
+                errors.email && 'error',
+                mutation.isError && 'error'
+              )}
             />
             {errors.email && (
               <span className="error">{errors.email.message}</span>
+            )}
+            {mutation.isError && (
+              <span className="error">
+                This email address is already used by other contact.
+              </span>
             )}
           </div>
           <Button disabled={mutation.isLoading} type="submit" fWidth>

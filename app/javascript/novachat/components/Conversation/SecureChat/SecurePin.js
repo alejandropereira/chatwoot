@@ -8,7 +8,7 @@ import AppContext from '../../../context/AppContext';
 import Button from '../../Button';
 import styles from './styles';
 
-const SecurePin = ({ onClose, onSuccess, onRetry, isRetrying }) => {
+const SecurePin = ({ onClose, onSuccess, onRetry, isRetrying, data }) => {
   const { register, handleSubmit } = useForm();
   const formRef = useRef();
   const firstInputRef = useRef();
@@ -64,7 +64,7 @@ const SecurePin = ({ onClose, onSuccess, onRetry, isRetrying }) => {
       <form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
         <styles.Box>
           <h3>Your PIN has been sent at:</h3>
-          <p>+1 202-555-0142</p>
+          <p>{data}</p>
           <styles.VerificationCode>
             <input
               name="first"

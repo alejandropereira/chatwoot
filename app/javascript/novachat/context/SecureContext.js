@@ -9,6 +9,7 @@ export const secureMachine = Machine({
   initial: 'closed',
   context: {
     secure: false,
+    data: '',
   },
   states: {
     closed: {
@@ -32,14 +33,24 @@ export const secureMachine = Machine({
     },
     sms: {
       on: {
-        PIN: 'pin',
+        PIN: {
+          target: 'pin',
+          actions: assign({
+            data: (context, event) => event.data,
+          }),
+        },
         EMAIL: 'email',
         CLOSE: 'closed',
       },
     },
     email: {
       on: {
-        PIN: 'pin',
+        PIN: {
+          target: 'pin',
+          actions: assign({
+            data: (context, event) => event.data,
+          }),
+        },
         SMS: 'sms',
         CLOSE: 'closed',
       },

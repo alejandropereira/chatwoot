@@ -307,7 +307,7 @@ export default function SecureChat() {
     return (
       <SelectEmail
         email={contactInfo.data.contact.email}
-        onSuccess={() => send('PIN')}
+        onSuccess={data => send({ type: 'PIN', data })}
         onSms={() => send('SMS')}
         onClose={() => send('CLOSE')}
       />
@@ -315,6 +315,7 @@ export default function SecureChat() {
   if (state.matches('pin') || state.matches('retrypin'))
     return (
       <SecurePin
+        data={state.context.data}
         isRetrying={state.matches('retrypin')}
         onRetry={() => send('RETRYPIN')}
         onSuccess={() => send('SECURE')}

@@ -166,6 +166,7 @@ const ChatInput = React.memo(() => {
   };
 
   const onFileUploadPreview = useCallback(file => {
+    if (!file.name) return;
     focusInputRef.current = true;
     dispatch({
       type: types.SET_PREVIEW_FILE_UPLOAD,
