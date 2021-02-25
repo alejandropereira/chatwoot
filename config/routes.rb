@@ -205,6 +205,11 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    root to: 'conversations#index'
+    resources :conversations, only: [:index]
+  end
+
   # ---------------------------------------------------------------------
   # Routes for swagger docs
   get '/swagger/*path', to: 'swagger#respond'
