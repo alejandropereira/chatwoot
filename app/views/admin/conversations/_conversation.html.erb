@@ -1,0 +1,16 @@
+<div class="px-3 py-6 border-b border-gray-200">
+<div class="flex justify-between mb-2">
+  <div>
+    <h4 class="text-base font-semibold"><%= conversation.contact.name %></h4>
+    <span class="text-sm"><%= conversation.contact.email %></span>
+  </div>
+  <div>
+    <span class="text-sm text-gray-400">
+      <%= time_ago_in_words(conversation.messages.last.created_at) %> ago
+    </span>
+  </div>
+</div>
+  <p class="text-sm text-gray-300">
+    <%= conversation.messages.last.content %>
+  </p>
+</div>

@@ -1,0 +1,17 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+
+.sidebar {
+  background: linear-gradient(0deg, #1c046d 0%, #311e95 100%);
+}
+
+.bg {
+  background: #f1eeff;
+}
+
+.menu-item {
+  color: #b6a8f2;
+  @apply py-5 flex flex-col items-center w-full cursor-pointer;
+}
+
+@import 'tailwindcss/utilities';
