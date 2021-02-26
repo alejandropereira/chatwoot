@@ -207,7 +207,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root to: 'conversations#index'
-    resources :conversations, only: [:index]
+    resources :conversations, only: [:index, :show]
   end
 
   # ---------------------------------------------------------------------

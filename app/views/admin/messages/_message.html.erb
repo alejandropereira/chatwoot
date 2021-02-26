@@ -1,0 +1,3 @@
+<div class="w-2/3 p-4 text-sm border border-gray-200 rounded bg-blue-50 <%= 'self-end' if message.message_type == 'incoming' %>">
+  <%= message.content || message.id %>
+</div>
