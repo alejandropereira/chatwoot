@@ -1,5 +1,6 @@
 class ActionCableListener < BaseListener
   include Events::Types
+  include CableReady::Broadcaster
 
   def conversation_created(event)
     conversation, account = extract_conversation_and_account(event)
@@ -19,6 +20,16 @@ class ActionCableListener < BaseListener
     message, account = extract_message_and_account(event)
     conversation = message.conversation
     tokens = user_tokens(account, conversation.inbox.members) + contact_token(conversation.contact, message)
+
+    cable_ready[ConversationChannel]
+      .insert_adjacent_html({
+        selector: "#messages",
+        position: "beforeend",
+        html: ApplicationController.render(partial: 'admin/messages/message', locals: { message: message })
+      })
+      .dispatch_event(name: "message:added")
+      .broadcast_to(conversation)
+
     broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
   end
 

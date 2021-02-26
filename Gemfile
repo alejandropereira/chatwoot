@@ -143,3 +143,5 @@ group :development, :test do
   gem 'webmock'
   gem 'database_cleaner-active_record'
 end
+
+gem "stimulus_reflex", "~> 3.4"

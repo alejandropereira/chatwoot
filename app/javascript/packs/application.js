@@ -51,7 +51,7 @@ Vue.component('multiselect', Multiselect);
 Vue.component('woot-switch', WootSwitch);
 Vue.component('woot-wizard', WootWizard);
 
-Object.keys(i18n).forEach((lang) => {
+Object.keys(i18n).forEach(lang => {
   Vue.locale(lang, i18n[lang]);
 });
 
@@ -77,10 +77,10 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker
       .register('/sw.js')
-      .then((registration) => {
+      .then(registration => {
         console.log('SW registered: ', registration);
       })
-      .catch((registrationError) => {
+      .catch(registrationError => {
         console.log('SW registration failed: ', registrationError);
       });
   });
