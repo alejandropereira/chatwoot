@@ -12,8 +12,10 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= action_cable_meta_tag %>
+  <%= render 'magic_test/support' if Rails.env.test? %>
 </head>
 <body class="bg">
   <%= yield %>
+
 </body>
 </html>

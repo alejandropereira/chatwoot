@@ -117,6 +117,9 @@ group :test do
   gem 'cypress-on-rails', '~> 1.0'
   # fast cleaning of database
   gem 'database_cleaner'
+  gem 'capybara'
+  gem 'webdrivers'
+  gem 'magic_test'
 end
 
 group :development, :test do
