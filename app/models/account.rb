@@ -75,6 +75,7 @@ class Account < ApplicationRecord
   validates :subdomain, uniqueness: true
 
   after_create :notify_creation
+  after_commit :setup_and_subscribe_stripe_subscription, on: :create
   after_destroy :notify_deletion
 
   store :twilio_settings, accessors: [:account_sid, :auth_token, :phone_number]
@@ -119,6 +120,11 @@ class Account < ApplicationRecord
   end
 
   private
+
+  def setup_and_subscribe_stripe_subscription
+    self.processor = 'stripe'
+    subscribe(name: ENV['FREE_PLAN_NAME'], plan: ENV['FREE_PLAN_ID'])
+  end
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)

@@ -205,9 +205,12 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :admin do
-    root to: 'conversations#index'
-    resources :conversations, only: [:index, :show]
+  devise_for :admins, class_name: 'User', module: 'admin', controllers: { registrations: 'admins/registrations' }
+  devise_scope :admin do
+    namespace :admin do
+      root to: 'conversations#index'
+      resources :conversations, only: [:index, :show]
+    end
   end
 
   # ---------------------------------------------------------------------
