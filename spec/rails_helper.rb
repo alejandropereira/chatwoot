@@ -74,6 +74,10 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+Capybara.configure do |config|
+  config.always_include_port = true
+end
+
 # Required for fixture_file_upload
 FactoryBot::SyntaxRunner.class_eval do
   include ActionDispatch::TestProcess

@@ -7,7 +7,7 @@ class Admins::RegistrationsController < Devise::RegistrationsController
   # GET /resource/sign_up
   def new
     super do
-      resource.account_users.build(role: AccountUser.roles['administrator']).build_account
+      resource.account_users.build(role: 'administrator').build_account
     end
   end
 
@@ -44,7 +44,7 @@ class Admins::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, account_users_attributes: [ account_attributes: [:name]]])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, account_users_attributes: [ :role, account_attributes: [:name]]])
   end
 
   # If you have extra params to permit, append them to the sanitizer.
@@ -58,7 +58,7 @@ class Admins::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up for inactive accounts.
-  # def after_inactive_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+  def after_inactive_sign_up_path_for(resource)
+    new_admin_session_path
+  end
 end

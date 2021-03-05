@@ -1,5 +1,6 @@
 require 'simplecov'
 require 'webmock/rspec'
+require 'capybara/email/rspec'
 
 SimpleCov.start 'rails'
 WebMock.allow_net_connect!

@@ -4,6 +4,7 @@
   <%= render "admins/shared/error_messages", resource: resource %>
 
   <%= f.fields_for(:account_users) do |account_users_form| %>
+    <%= account_users_form.hidden_field :role %>
     <%= account_users_form.fields_for(:account) do |account_form| %>
       <div class="field">
         <%= account_form.label :name, "Account Name" %><br />

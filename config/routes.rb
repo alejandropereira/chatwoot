@@ -205,7 +205,7 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :admins, class_name: 'User', module: 'admin', controllers: { registrations: 'admins/registrations' }
+  devise_for :admins, class_name: 'User', module: 'admin', controllers: { registrations: 'admins/registrations', sessions: 'admins/sessions', confirmations: 'admins/confirmations' }
   devise_scope :admin do
     namespace :admin do
       root to: 'conversations#index'

@@ -20,8 +20,9 @@ Rails.application.configure do
   config.public_file_server.headers = {
     'Cache-Control' => "public, max-age=#{1.hour.to_i}"
   }
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-  Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
+  # config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  # Rails.application.routes.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.default_url_options = { host: 'lvh.me' }
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -43,7 +44,7 @@ Rails.application.configure do
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
-  config.active_job.queue_adapter = :test
+  config.active_job.queue_adapter = :sidekiq
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr

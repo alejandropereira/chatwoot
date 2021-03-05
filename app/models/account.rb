@@ -122,6 +122,8 @@ class Account < ApplicationRecord
   private
 
   def setup_and_subscribe_stripe_subscription
+    return if Rails.env.test?
+    
     self.processor = 'stripe'
     subscribe(name: ENV['FREE_PLAN_NAME'], plan: ENV['FREE_PLAN_ID'])
   end

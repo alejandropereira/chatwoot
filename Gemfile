@@ -113,13 +113,13 @@ group :development do
 end
 
 group :test do
-  # Cypress in rails.
   gem 'cypress-on-rails', '~> 1.0'
-  # fast cleaning of database
   gem 'database_cleaner'
   gem 'capybara'
   gem 'webdrivers'
   gem 'magic_test'
+  gem 'capybara-email'
+  gem 'launchy'
 end
 
 group :development, :test do
