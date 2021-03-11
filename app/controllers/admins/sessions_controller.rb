@@ -9,9 +9,11 @@ class Admins::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+  def create
+    super do
+      sign_in(:admin, resource) if resource.errors.empty?
+    end
+  end
 
   # DELETE /resource/sign_out
   # def destroy
@@ -24,6 +26,10 @@ class Admins::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
+  def after_sign_out_path_for(resource)
+    admin_root_path
+  end
+
   def after_sign_in_path_for(resource)
     admin_conversations_path
   end

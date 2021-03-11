@@ -101,6 +101,9 @@ gem 'sidekiq-failures'
 gem 'fcm'
 gem 'webpush'
 
+##-- A framework for building reusable, testable & encapsulated view components --##
+gem "view_component", require: "view_component/engine"
+
 group :development do
   gem 'annotate'
   gem 'bullet'
