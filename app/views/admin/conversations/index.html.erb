@@ -28,4 +28,4 @@
 
 </div>
 
-<%= render "admin/inboxes/new", widget: @widget %>
+<%= render "admin/inboxes/new", widget: @widget unless current_tenant.web_widgets.any? %>

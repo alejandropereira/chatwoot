@@ -13,7 +13,7 @@ class Channel::Api < ApplicationRecord
   self.table_name = 'channel_api'
 
   validates :account_id, presence: true
-  belongs_to :account
+  acts_as_tenant(:account)
 
   has_one :inbox, as: :channel, dependent: :destroy
 

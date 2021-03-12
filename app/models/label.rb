@@ -18,7 +18,7 @@
 #
 class Label < ApplicationRecord
   include RegexHelper
-  belongs_to :account
+  acts_as_tenant(:account)
 
   validates :title,
             presence: { message: 'must not be blank' },

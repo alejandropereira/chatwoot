@@ -27,7 +27,7 @@ class Inbox < ApplicationRecord
   validates :name, presence: true
   validates :account_id, presence: true
 
-  belongs_to :account
+  acts_as_tenant(:account)
 
   # TODO: should add associations for the channel types
   belongs_to :channel, polymorphic: true, dependent: :destroy

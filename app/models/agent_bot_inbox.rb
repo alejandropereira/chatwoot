@@ -18,7 +18,7 @@ class AgentBotInbox < ApplicationRecord
 
   belongs_to :inbox
   belongs_to :agent_bot
-  belongs_to :account
+  acts_as_tenant(:account)
   enum status: { active: 0, inactive: 1 }
 
   private

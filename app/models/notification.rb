@@ -23,7 +23,7 @@
 #
 
 class Notification < ApplicationRecord
-  belongs_to :account
+  acts_as_tenant(:account)
   belongs_to :user
 
   belongs_to :primary_actor, polymorphic: true

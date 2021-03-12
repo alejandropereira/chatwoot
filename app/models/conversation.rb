@@ -43,7 +43,7 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
 
-  belongs_to :account
+  acts_as_tenant(:account)
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true
   belongs_to :contact

@@ -26,7 +26,7 @@ class Channel::WebWidget < ApplicationRecord
   validates :website_url, presence: true
   validates :widget_color, presence: true
 
-  belongs_to :account
+  acts_as_tenant(:account)
   has_one :inbox, as: :channel, dependent: :destroy
   has_secure_token :website_token
   has_flags 1 => :attachments,

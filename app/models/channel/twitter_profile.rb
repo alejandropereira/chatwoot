@@ -20,7 +20,7 @@ class Channel::TwitterProfile < ApplicationRecord
 
   validates :account_id, presence: true
   validates :profile_id, uniqueness: { scope: :account_id }
-  belongs_to :account
+  acts_as_tenant(:account)
 
   has_one :inbox, as: :channel, dependent: :destroy
 

@@ -60,6 +60,9 @@ GEM
       zeitwerk (~> 2.2, >= 2.2.2)
     acts-as-taggable-on (6.5.0)
       activerecord (>= 5.0, < 6.1)
+    acts_as_tenant (0.5.0)
+      rails (>= 5.2)
+      request_store (>= 1.0.5)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     administrate (0.13.0)
@@ -419,6 +422,8 @@ GEM
       declarative (< 0.1.0)
       declarative-option (< 0.2.0)
       uber (< 0.2.0)
+    request_store (1.5.0)
+      rack (>= 1.4)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -631,6 +636,7 @@ PLATFORMS
 DEPENDENCIES
   action-cable-testing
   acts-as-taggable-on
+  acts_as_tenant
   administrate
   annotate
   apollo_upload_server (= 2.0.1)

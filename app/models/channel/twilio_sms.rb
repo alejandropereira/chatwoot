@@ -26,7 +26,7 @@ class Channel::TwilioSms < ApplicationRecord
 
   enum medium: { sms: 0, whatsapp: 1 }
 
-  belongs_to :account
+  acts_as_tenant(:account)
 
   has_one :inbox, as: :channel, dependent: :destroy
 

@@ -20,7 +20,7 @@ class Integrations::Hook < ApplicationRecord
 
   enum status: { disabled: 0, enabled: 1 }
 
-  belongs_to :account
+  acts_as_tenant(:account)
   belongs_to :inbox, optional: true
   has_secure_token :access_token
 

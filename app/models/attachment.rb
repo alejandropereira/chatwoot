@@ -17,7 +17,7 @@
 
 class Attachment < ApplicationRecord
   include Rails.application.routes.url_helpers
-  belongs_to :account
+  acts_as_tenant(:account)
   belongs_to :message
   has_one_attached :file
 

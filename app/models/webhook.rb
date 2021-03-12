@@ -16,7 +16,7 @@
 #
 
 class Webhook < ApplicationRecord
-  belongs_to :account
+  acts_as_tenant(:account)
   belongs_to :inbox, optional: true
 
   validates :account_id, presence: true

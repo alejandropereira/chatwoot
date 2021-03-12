@@ -19,7 +19,7 @@ class Channel::Email < ApplicationRecord
   self.table_name = 'channel_email'
 
   validates :account_id, presence: true
-  belongs_to :account
+  acts_as_tenant(:account)
   validates :email, uniqueness: true
   validates :forward_to_address, uniqueness: true
 

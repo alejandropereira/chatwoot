@@ -31,7 +31,7 @@ class Contact < ApplicationRecord
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false }
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
 
-  belongs_to :account
+  acts_as_tenant(:account)
   has_many :conversations, dependent: :destroy
   has_many :contact_inboxes, dependent: :destroy
   has_many :inboxes, through: :contact_inboxes

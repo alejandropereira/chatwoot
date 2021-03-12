@@ -107,6 +107,8 @@ gem "view_component", require: "view_component/engine"
 gem 'simple_form'
 gem 'simple_form-tailwind'
 
+gem 'acts_as_tenant'
+
 group :development do
   gem 'annotate'
   gem 'bullet'

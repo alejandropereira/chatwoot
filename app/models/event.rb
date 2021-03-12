@@ -26,7 +26,7 @@ class Event < ApplicationRecord
   validates :name, presence: true
   validates :value, presence: true
 
-  belongs_to :account
+  acts_as_tenant(:account)
   belongs_to :user, optional: true
   belongs_to :inbox, optional: true
   belongs_to :conversation, optional: true
