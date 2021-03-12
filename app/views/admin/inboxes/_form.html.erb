@@ -1,0 +1,12 @@
+<%= simple_form_for [:admin, widget], remote: true do |f| %>
+  <%= f.simple_fields_for :inbox do |inbox_fields| %>
+    <%= inbox_fields.input :name, placeholder: "Widget Name" %>
+    <%= inbox_fields.input :account_id, as: :hidden %>
+  <% end %>
+  <%= f.input :website_url, placeholder: "Website Url" %>
+  <%= f.input :welcome_title, label: "Welcome Heading", placeholder: "Hi there !" %>
+  <%= f.input :welcome_tagline, placeholder: "We make it simple to connect with us. Ask us anything, or share your feedback." %>
+  <div class="flex justify-end items-center flex-wrap mt-6">
+    <%= f.button :submit %>
+  </div>
+<% end %>

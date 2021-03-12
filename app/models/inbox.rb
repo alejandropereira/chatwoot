@@ -24,6 +24,7 @@ class Inbox < ApplicationRecord
   include Reportable
   include Avatarable
 
+  validates :name, presence: true
   validates :account_id, presence: true
 
   belongs_to :account

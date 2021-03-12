@@ -33,6 +33,8 @@ class Channel::WebWidget < ApplicationRecord
             2 => :emoji_picker,
             :column => 'feature_flags'
 
+  accepts_nested_attributes_for :inbox
+
   def has_24_hour_messaging_window?
     false
   end
@@ -49,6 +51,24 @@ class Channel::WebWidget < ApplicationRecord
             websiteToken: '#{website_token}',
             baseUrl: BASE_URL
           })
+        }
+      })(document,\"script\");
+    </script>"
+  end
+
+  def web_widget_script_v2
+    "<script>
+      (function(d,t) {
+        var BASE_URL = \"#{ENV.fetch('FRONTEND_URL', '')}\";
+        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+        g.src= BASE_URL + \"/packs/js/novachat.js\";
+        s.parentNode.insertBefore(g,s);
+        g.onload=function(){
+          const messenger = new window.NovachatMessenger({
+            websiteToken: '#{website_token}',
+            baseUrl: BASE_URL
+          })
+          messenger.render()
         }
       })(document,\"script\");
     </script>"

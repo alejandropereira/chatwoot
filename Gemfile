@@ -104,6 +104,9 @@ gem 'webpush'
 ##-- A framework for building reusable, testable & encapsulated view components --##
 gem "view_component", require: "view_component/engine"
 
+gem 'simple_form'
+gem 'simple_form-tailwind'
+
 group :development do
   gem 'annotate'
   gem 'bullet'

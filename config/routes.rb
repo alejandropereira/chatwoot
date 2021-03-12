@@ -210,6 +210,9 @@ Rails.application.routes.draw do
     namespace :admin do
       root to: 'conversations#index'
       resources :conversations, only: [:index, :show]
+      namespace :channel do
+        resources :web_widgets, only: [:create]
+      end
     end
   end
 
