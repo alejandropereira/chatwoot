@@ -47,7 +47,8 @@ gem 'receipts', '~> 1.0.0'
 ##-- gems for database --#
 gem 'groupdate'
 gem 'pg'
-gem 'redis'
+gem "redis", ">= 4.0", :require => ["redis", "redis/connection/hiredis"]
+gem "hiredis"
 gem 'redis-namespace'
 gem 'redis-rack-cache'
 

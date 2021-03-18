@@ -8,7 +8,7 @@ class ApplicationCable::Connection < ActionCable::Connection::Base
   protected
 
   def find_verified_user
-    if (current_user = env["warden"].user)
+    if (current_user = env["warden"].user(:admin))
       current_user
     else
       reject_unauthorized_connection

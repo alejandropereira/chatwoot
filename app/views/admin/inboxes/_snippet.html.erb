@@ -1,0 +1,21 @@
+<div data-controller="modal" data-modal-allow-background-close="false" id="widget-snippet">
+  <!-- Modal Container -->
+  <div data-modal-target="container" data-action="load@window->modal#open click->modal#closeBackground keyup@window->modal#closeWithKeyboard" class="hidden animated fadeIn fixed inset-0 overflow-y-auto flex items-center justify-center" style="z-index: 9999;">
+    <!-- Modal Inner Container -->
+    <div class="max-h-screen w-full max-w-lg relative">
+      <!-- Modal Card -->
+      <div class="m-1 bg-white rounded shadow">
+        <div class="p-8">
+          <h2 class="text-xl mb-4">Insert this custom html on your website</h2>
+          <div class="bg-gray-100 text-sm p-4 rounded">
+            <code><%= widget.web_widget_script_v2 %></code>
+          </div>
+          <%= link_to "Test your widget here", v2_widget_tests_path,target: "_blank", class: "block text-blue-400 mt-4 text-sm" %>
+          <div class="flex justify-end items-center flex-wrap mt-6">
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" data-action="click->modal#close">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

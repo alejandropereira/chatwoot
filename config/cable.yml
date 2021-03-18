@@ -8,8 +8,9 @@ development:
   <<: *default
 
 test:
-  adapter: test
-  channel_prefix: <%= "chatwoot_#{Rails.env}_action_cable"  %>
+  adapter: redis
+  url: <%= Rails.application.credentials.redis_url %>
+  channel_prefix: <%= "chatwoot_#{Rails.env}_action_cable_test"  %>
 
 staging:
   <<: *default
