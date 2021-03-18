@@ -1,0 +1,14 @@
+<div class="mt-6">
+  <div class="my-3 mb-6 text-3xl font-semibold text-gray-700 dark:text-gray-200">
+    Find Workspace
+  </div>
+  <%= form_for [:admin, @workspace], builder: DeviseFormBuilder do |f| %>
+    <div class="field">
+      <%= f.label :name_or_subdomain %><br />
+      <%= f.text_field :name_or_subdomain, autofocus: true %>
+    </div>
+    <div class="actions">
+      <%= f.submit "Check" %>
+    </div>
+  <% end %>
+</div>

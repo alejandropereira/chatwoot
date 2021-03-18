@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class Admins::SessionsController < Devise::SessionsController
+  before_action :check_subdomain, only: :new
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
-  # def new
-  #   super
-  # end
+  def new
+    super
+  end
 
   # POST /resource/sign_in
   def create
@@ -32,5 +33,13 @@ class Admins::SessionsController < Devise::SessionsController
 
   def after_sign_in_path_for(resource)
     admin_conversations_path
+  end
+
+  private
+  
+  def check_subdomain
+    if request.subdomain.blank?
+      redirect_to new_admin_workspace_path, notice: "Lets find your workspace."
+    end
   end
 end

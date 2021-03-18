@@ -12,7 +12,8 @@ Rails.application.routes.draw do
   }, via: [:get, :post]
   resources :auths, only: :create
 
-  root to: 'dashboard#index'
+  # root to: 'dashboard#index'
+  root to: redirect('/admin')
 
   get '/app', to: 'dashboard#index'
   get '/app/*params', to: 'dashboard#index'
@@ -205,11 +206,12 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :admins, class_name: 'User', module: 'admin', controllers: { registrations: 'admins/registrations', sessions: 'admins/sessions', confirmations: 'admins/confirmations' }
+  devise_for :admins, class_name: 'User', module: 'admin', controllers: { registrations: 'admins/registrations', sessions: 'admins/sessions', confirmations: 'admins/confirmations', passwords: 'admins/passwords' }
   devise_scope :admin do
     namespace :admin do
       root to: 'conversations#index'
       resources :conversations, only: [:index, :show]
+      resources :workspaces, only: [:new, :create]
       namespace :channel do
         resources :web_widgets, only: [:create]
       end

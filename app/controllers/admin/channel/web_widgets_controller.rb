@@ -5,12 +5,15 @@ class Admin::Channel::WebWidgetsController < Admin::BaseController
         if @widget.save
             cable_ready[UserChannel].remove(
                 selector: "#setup-widget"
-            ).insert_adjecent_html(
-                selector: "body",
+            ).insert_adjacent_html(
+                selector: "#conversations",
                 position: "beforeend",
                 html: render(partial: "admin/inboxes/snippet", locals: { widget: @widget })
-            )
-            .broadcast_to(current_admin)
+            ).broadcast_to(current_admin)
+            
+            cable_ready[UserChannel].dispatch_event(
+                name: "modal:open"
+            ).broadcast_to(current_admin)
         else
             cable_ready[UserChannel]
                 .inner_html(

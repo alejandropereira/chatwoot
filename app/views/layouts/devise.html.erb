@@ -1,24 +1,34 @@
 <!DOCTYPE html>
 <html lang="<%= I18n.locale %>">
-<head>
-  <meta charset="utf-8">
-  <meta name="ROBOTS" content="NOODP">
-  <meta name="viewport" content="initial-scale=1">
-  <title>
-    Novachat
-  </title>
-  <%= stylesheet_pack_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'admin', 'data-turbolinks-track': 'reload' %>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-  <%= action_cable_meta_tag %>
-  <%= render 'magic_test/support' if Rails.env.test? %>
-</head>
-<body class="bg">
-<% flash.each do |message_type, message| %>
-  <%= content_tag(:div, message,  class: "alert alert-#{message_type}", role: "alert") %>
-<% end %>
-  <%= yield %>
-
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="ROBOTS" content="NOODP">
+    <meta name="viewport" content="initial-scale=1">
+    <title>
+      Novachat
+    </title>
+    <%= stylesheet_pack_tag 'admin', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'admin', 'data-turbolinks-track': 'reload' %>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= action_cable_meta_tag %>
+    <%= render 'magic_test/support' if Rails.env.test? %>
+  </head>
+  <body class="bg">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+    <div class="container max-w-full px-6 py-24 mx-auto">
+      <div class="font-sans">
+        <div class="max-w-sm px-6 mx-auto">
+          <div class="relative flex flex-wrap">
+            <div class="relative w-full">
+              <% flash.each do |message_type, message| %>
+                <%= content_tag(:div, message,  class: "alert alert-#{message_type}", role: "alert") %>
+              <% end %>
+              <%= yield %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

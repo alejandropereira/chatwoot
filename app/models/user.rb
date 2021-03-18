@@ -53,7 +53,7 @@ class User < ApplicationRecord
          :rememberable,
          :trackable,
          :validatable,
-         :confirmable
+         :confirmable, request_keys: [:subdomain]
 
   enum availability: { online: 0, offline: 1, busy: 2 }
 
@@ -157,6 +157,11 @@ class User < ApplicationRecord
       email: email,
       type: 'user'
     }
+  end
+
+  def self.find_for_authentication(warden_conditions)
+    account = Account.friendly.find(warden_conditions[:subdomain])
+    account.users.where(email: warden_conditions[:email]).first
   end
 
   private

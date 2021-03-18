@@ -18,7 +18,7 @@
             <%= form_for(resource, as: resource_name, url: '/super_admin/sign_in', html: { class: 'login-box column align-self-top'}) do |f| %>
               <div class="column log-in-form">
                 <% if flash[:error].present? %>
-                <div data-alert class="alert-box warning"><%= flash[:error] %></div>
+                  <div data-alert class="alert-box warning"><%= flash[:error] %></div>
                 <% end %>
                 <label>
                   Email
@@ -36,11 +36,11 @@
                 </button>
               </div>
             <% end %>
-            <div class="column text-center sigin__footer">
-              © Chatwoot
+            <div class="text-center column sigin__footer">
+              © Novachat
             </div>
           </div>
         </div>
-    </div>
-  </body>
-</html>
+      </div>
+    </body>
+  </html>

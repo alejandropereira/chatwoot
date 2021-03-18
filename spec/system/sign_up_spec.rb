@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "SignUps", type: :system do
   before do
-    driven_by :selenium_chrome
+    driven_by :selenium_chrome_headless
     Capybara.app_host = "http://lvh.me"
   end
 
@@ -32,6 +32,5 @@ RSpec.describe "SignUps", type: :system do
     click_on 'Create Web widget'
     expect(page).to_not have_content 'Setup your first inbox'
     expect(page).to have_content 'Insert this custom html on your website'
-    magic_test
   end
 end
