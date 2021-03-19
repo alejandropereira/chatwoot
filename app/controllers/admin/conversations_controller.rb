@@ -16,13 +16,13 @@ class Admin::ConversationsController < Admin::BaseController
   private
 
   def set_conversations
-    params[:assignee_type] ||= "me"
+    session[:assignee_type] ||= "me"
     result = conversation_finder.perform
     @conversations = result[:conversations]
     @conversations_count = result[:count]
   end
 
   def conversation_finder
-    @conversation_finder ||= ConversationFinder.new(current_user, params)
+    @conversation_finder ||= ConversationFinder.new(current_user, { assignee_type: session[:assignee_type] })
   end
 end

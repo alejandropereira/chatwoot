@@ -1,8 +1,14 @@
 class ApplicationCable::Connection < ActionCable::Connection::Base
-  identified_by :current_user
+  include SetCurrentRequestDetails
+
+  identified_by :current_user, :current_account
 
   def connect
     self.current_user = find_verified_user
+    set_request_details
+    self.current_account = Current.account
+
+    logger.add_tags "ActionCable", "User #{self.current_user.id}", "Account #{self.current_account.id}"
   end
 
   protected
@@ -13,5 +19,9 @@ class ApplicationCable::Connection < ActionCable::Connection::Base
     else
       reject_unauthorized_connection
     end
+  end
+
+  def set_current_tenant(account)
+    ActsAsTenant.current_tenant = account
   end
 end

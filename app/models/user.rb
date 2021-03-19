@@ -95,7 +95,7 @@ class User < ApplicationRecord
   end
 
   def current_account_user
-    account_users.find_by(account_id: Current.account.id) if Current.account
+    @current_account_user ||= account_users.find_by(account_id: Current.account.id) if Current.account
   end
 
   def available_name

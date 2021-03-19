@@ -12,8 +12,8 @@
       </svg>
     </div>
   </div>
-  <div class="px-4 border-b border-gray-200">
-    <%= render "admin/conversations/counts", counts: conversations_count, assignee_type: params[:assignee_type]  %>
+  <div id="conversations-counts" class="px-4 border-b border-gray-200">
+    <%= render "admin/conversations/counts", counts: conversations_count, assignee_type: assignee_type  %>
   </div>
   <%= render conversations %>
 </div>
