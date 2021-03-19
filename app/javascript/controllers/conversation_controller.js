@@ -19,13 +19,24 @@ export default class extends Controller {
         },
       }
     );
-    this.scroll(100);
+    this.initialScroll(100);
   }
 
-  scroll(delay = 10) {
+  initialScroll(delay = 10) {
     const messages = this.messagesTarget;
     this.inputTarget.value = '';
     this.inputTarget.focus();
+    setTimeout(() => {
+      messages.scrollTop = messages.scrollHeight;
+    }, delay);
+  }
+
+  scroll(event, delay = 10) {
+    if (event.detail.isAgent) {
+      this.inputTarget.value = '';
+      this.inputTarget.focus();
+    }
+    const messages = this.messagesTarget;
     setTimeout(() => {
       messages.scrollTop = messages.scrollHeight;
     }, delay);

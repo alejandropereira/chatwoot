@@ -2,6 +2,7 @@ class Admin::ConversationsController < Admin::BaseController
   before_action :set_conversations, only: [:index, :show] 
 
   def index
+    
     unless current_tenant.web_widgets.any?(&:persisted?)
       @widget = current_account.web_widgets.build
       @widget.build_inbox(account_id: current_account.id)
@@ -23,6 +24,6 @@ class Admin::ConversationsController < Admin::BaseController
   end
 
   def conversation_finder
-    @conversation_finder ||= ConversationFinder.new(current_user, { assignee_type: session[:assignee_type] })
+    @conversation_finder ||= ConversationFinder.new(current_admin, { assignee_type: session[:assignee_type] })
   end
 end

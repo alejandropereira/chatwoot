@@ -29,12 +29,14 @@
               <%= render @messages %>
             </div>
           </div>
-          <%= form_with(model: Message.new, url: '', data: { reflex: 'submit->MessageReflex#create' }, class: "flex items-center justify-between h-48 px-5 space-x-2 border-t border-gray-200" ) do |f| %>
-            <%= f.text_field :content, class: "flex-1 focus:outline-none", placeholder: "Click here to reply message...", data: { "conversation-target": "input" } %>
-            <div>
-              <%= f.submit "Send", class: "px-4 py-2 text-white bg-blue-600 rounded-md" %>
-            </div>
-          <% end %>
+          <div data-reflex-permanent>
+            <%= form_with(model: Message.new, url: '', data: { reflex: 'submit->MessageReflex#create' }, class: "flex items-center justify-between h-48 px-5 space-x-2 border-t border-gray-200" ) do |f| %>
+              <%= f.text_field :content, class: "flex-1 focus:outline-none", placeholder: "Click here to reply message...", data: { "conversation-target": "input" } %>
+              <div>
+                <%= f.submit "Send", class: "px-4 py-2 text-white bg-blue-600 rounded-md" %>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>

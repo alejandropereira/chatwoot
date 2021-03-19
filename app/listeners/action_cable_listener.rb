@@ -27,7 +27,9 @@ class ActionCableListener < BaseListener
         position: "beforeend",
         html: ApplicationController.render(partial: 'admin/messages/message', locals: { message: message })
       })
-      .dispatch_event(name: "message:added")
+      .dispatch_event(name: "message:added", detail: {
+        isAgent: message.sender_type == "User"
+      })
       .broadcast_to(conversation)
 
     broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
