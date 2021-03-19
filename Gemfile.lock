@@ -594,7 +594,7 @@ GEM
     valid_email2 (3.2.2)
       activemodel (>= 3.2)
       mail (~> 2.5)
-    view_component (2.26.1)
+    view_component (2.28.0)
       activesupport (>= 5.0.0, < 7.0)
     virtus (1.0.5)
       axiom-types (~> 0.1)
@@ -730,7 +730,7 @@ DEPENDENCIES
   tzinfo-data
   uglifier
   valid_email2
-  view_component
+  view_component (~> 2.28)
   web-console
   webdrivers
   webmock

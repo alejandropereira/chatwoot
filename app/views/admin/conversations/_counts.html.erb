@@ -1,0 +1,7 @@
+<%= render ConversationsCountComponent.new do |c| %>
+  <%= c.links([
+            { name: "Mine", count: counts[:mine_count], assignee_type: 'me', active: assignee_type == 'me' || assignee_type.blank? },
+            { name: "Unassigned", count: counts[:unassigned_count], assignee_type: 'unassigned', active: assignee_type == 'unassigned' },
+            { name: "All", count: counts[:all_count], assignee_type: 'all', active: assignee_type == 'all' },
+        ]) %>
+<% end %>

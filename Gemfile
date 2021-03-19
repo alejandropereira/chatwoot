@@ -103,7 +103,7 @@ gem "fcm"
 gem "webpush"
 
 ##-- A framework for building reusable, testable & encapsulated view components --##
-gem "view_component", require: "view_component/engine"
+gem "view_component", "~> 2.28", require: "view_component/engine"
 
 gem "simple_form"
 gem "simple_form-tailwind"
