@@ -211,6 +211,8 @@ Rails.application.routes.draw do
     namespace :admin do
       root to: 'conversations#index'
       resources :conversations, only: [:index, :show]
+      resources :users, only: [:index]
+      resources :customers, only: [:index]
       resources :workspaces, only: [:new, :create]
       namespace :channel do
         resources :web_widgets, only: [:create]

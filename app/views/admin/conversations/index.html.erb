@@ -1,13 +1,8 @@
-<div id="conversations">
-  <div class="flex h-screen">
-    <%= render "admin/shared/sidebar" %>
-    <div class="w-full p-6 overflow-hidden">
-      <div class="flex h-full bg-white border border-gray-200 rounded-md">
-        <%= render "admin/conversations/sidebar", conversations: @conversations, conversations_count: @conversations_count, assignee_type: session[:assignee_type] %>
-        <div class="flex flex-col items-center justify-center w-2/3">
-          <%= render "admin/conversations/blank_slate" %>
-        </div>
-      </div>
+<div id="conversations" class="h-full">
+  <div class="flex h-full bg-white border border-gray-200 rounded-md">
+    <%= render "admin/conversations/sidebar", conversations: @conversations, conversations_count: @conversations_count, assignee_type: session[:assignee_type] %>
+    <div class="flex flex-col items-center justify-center w-2/3">
+      <%= render "admin/conversations/blank_slate" %>
     </div>
   </div>
   <% unless current_tenant.web_widgets.any?(&:persisted?) %>

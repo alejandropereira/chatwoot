@@ -1,42 +1,39 @@
-<div class="flex h-screen" data-controller="conversation" data-conversation-id-value="<%= @conversation.id %>" data-action="message:added@document->conversation#scroll">
-  <%= render "admin/shared/sidebar" %>
-  <div class="w-full p-6 overflow-hidden">
-    <div class="flex h-full bg-white border border-gray-200 rounded-md">
-      <%= render "admin/conversations/sidebar", conversations: @conversations, conversations_count: @conversations_count, assignee_type: session[:assignee_type] %>
-      <div class="w-2/3">
-        <div class="flex flex-col w-full h-full">
-          <div class="flex items-center justify-between px-4 py-6 border-b border-gray-200">
+<div class="h-full" data-controller="conversation" data-conversation-id-value="<%= @conversation.id %>" data-action="message:added@document->conversation#scroll">
+  <div class="flex h-full bg-white border border-gray-200 rounded-md">
+    <%= render "admin/conversations/sidebar", conversations: @conversations, conversations_count: @conversations_count, assignee_type: session[:assignee_type] %>
+    <div class="w-2/3">
+      <div class="flex flex-col w-full h-full">
+        <div class="flex items-center justify-between px-4 py-6 border-b border-gray-200">
+          <div>
+            <div data-controller="hello">
+              <h4 class="text-base font-semibold"><%= @conversation.contact.name %></h4>
+              <span class="text-sm"><%= @conversation.contact.email %></span>
+            </div>
+          </div>
+          <div class="relative inline-block w-40">
+            <%= select_tag "assignee_id", options_from_collection_for_select(current_account.users, "id", "name", @conversation.assignee_id), include_blank: "None", class: "block text-sm appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline", data: { reflex: "change->ConversationReflex#assign", conversation_id: @conversation.id } %>
+            <div class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
+              <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+            </div>
+          </div>
+          <div class="flex space-x-3 text-gray-500">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+            </svg>
+          </div>
+        </div>
+        <div class="flex-grow overflow-y-scroll" data-conversation-target="messages">
+          <div id="messages" class="flex flex-col p-6 space-y-4">
+            <%= render @messages %>
+          </div>
+        </div>
+        <div data-reflex-permanent>
+          <%= form_with(model: Message.new, url: '', data: { reflex: 'submit->MessageReflex#create' }, class: "flex items-center justify-between h-32 px-5 space-x-2 border-t border-gray-200" ) do |f| %>
+            <%= f.text_field :content, class: "flex-1 focus:outline-none", placeholder: "Click here to reply message...", data: { "conversation-target": "input" } %>
             <div>
-              <div data-controller="hello">
-                <h4 class="text-base font-semibold"><%= @conversation.contact.name %></h4>
-                <span class="text-sm"><%= @conversation.contact.email %></span>
-              </div>
+              <%= f.submit "Send", class: "px-4 py-2 text-white bg-blue-600 rounded-md" %>
             </div>
-            <div class="relative inline-block w-40">
-              <%= select_tag "assignee_id", options_from_collection_for_select(current_account.users, "id", "name", @conversation.assignee_id), include_blank: "None", class: "block text-sm appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline", data: { reflex: "change->ConversationReflex#assign", conversation_id: @conversation.id } %>
-              <div class="absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none">
-                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-              </div>
-            </div>
-            <div class="flex space-x-3 text-gray-500">
-              <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
-              </svg>
-            </div>
-          </div>
-          <div class="flex-grow overflow-y-scroll" data-conversation-target="messages">
-            <div id="messages" class="flex flex-col p-6 space-y-4">
-              <%= render @messages %>
-            </div>
-          </div>
-          <div data-reflex-permanent>
-            <%= form_with(model: Message.new, url: '', data: { reflex: 'submit->MessageReflex#create' }, class: "flex items-center justify-between h-48 px-5 space-x-2 border-t border-gray-200" ) do |f| %>
-              <%= f.text_field :content, class: "flex-1 focus:outline-none", placeholder: "Click here to reply message...", data: { "conversation-target": "input" } %>
-              <div>
-                <%= f.submit "Send", class: "px-4 py-2 text-white bg-blue-600 rounded-md" %>
-              </div>
-            <% end %>
-          </div>
+          <% end %>
         </div>
       </div>
     </div>

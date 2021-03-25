@@ -18,6 +18,10 @@ class AvatarComponent < ViewComponent::Base
   end
 
   def name
+    if user.respond_to?(:name)
+      return user.name
+    end
+    
     [user.first_name, user.last_name].join(' ')
   end
 
