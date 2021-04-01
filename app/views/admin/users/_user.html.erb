@@ -1,6 +1,8 @@
 <div class="flex items-center h-32 px-5 bg-white rounded shadow-sm">
-  <div class="w-12 h-12 mr-4 overflow-hidden rounded-full">
-    <%= render(AvatarComponent.new(user: user)) %>
+  <div>
+    <div class="w-12 h-12 mr-4 overflow-hidden rounded-full">
+      <%= render(AvatarComponent.new(user: user)) %>
+    </div>
   </div>
   <div>
     <h1 class="mb-2"><%= user.name %></h1>
