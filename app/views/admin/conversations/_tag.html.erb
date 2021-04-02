@@ -1,1 +1,20 @@
-<div class="px-2 py-1 mb-2 mr-2 text-xs text-gray-400 border border-gray-200 rounded bg-blue-50"><%= item.name %></div>
+<% plus ||= false %>
+<% remove ||= false %>
+<% conversation_id ||= nil %>
+<div class="flex items-center px-2 py-1 mb-2 mr-2 text-xs text-gray-400 border border-gray-200 rounded bg-blue-50">
+  <%= item.respond_to?(:name) ? item.name : item.title %>
+  <% if remove %>
+    <div class="ml-1 cursor-pointer" data-reflex="click->Tag#remove" data-tag="<%= item.respond_to?(:name) ? item.name : item.title %>" data-conversation-id="<%= conversation_id %>">
+      <svg class="w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+  <% end %>
+  <% if plus %>
+    <div class="ml-1 cursor-pointer" data-reflex="click->Tag#add" data-tag="<%= item.respond_to?(:name) ? item.name : item.title %>" data-conversation-id="<%= conversation_id %>">
+      <svg class="w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+  <% end %>
+</div>

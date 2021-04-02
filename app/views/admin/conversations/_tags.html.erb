@@ -1,0 +1,9 @@
+<% if tags.any? %>
+  <div class="flex flex-wrap">
+    <% tags.each do |item| %>
+      <%= render "admin/conversations/tag", item: item %>
+    <% end %>
+  </div>
+<% else %>
+  <p class="py-5 text-sm text-center text-gray-300">No tags added.</p>
+<% end %>

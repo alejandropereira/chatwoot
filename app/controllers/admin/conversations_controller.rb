@@ -12,6 +12,7 @@ class Admin::ConversationsController < Admin::BaseController
   def show
     @conversation = Conversation.find(params[:id])
     @messages = @conversation.messages
+    @labels = @conversation.labels
   end
 
   private

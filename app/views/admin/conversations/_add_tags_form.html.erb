@@ -1,0 +1,31 @@
+<div class="p-8">
+  <h2 class="mb-6 text-xl">Labels for this conversation</h2>
+  <div class="mb-4">
+    <h3 class="mb-2 text-base">Labels added to the conversation</h3>
+    <% if tags.any? %>
+      <div class="flex flex-wrap">
+        <% tags.each do |item| %>
+          <%= render "admin/conversations/tag", item: item, remove: true, conversation_id: conversation_id %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-sm text-gray-400">There are no labels added to this conversation.</p>
+    <% end %>
+  </div>
+  <div class="mb-4">
+    <h3 class="mb-2 text-base">Labels available in the account</h3>
+    <% account_tags = current_account.labels.where.not(title: tags.map(&:name)) %>
+    <% if account_tags.any? %>
+      <div id="labels" class="flex flex-wrap">
+        <% account_tags.each do |item| %>
+          <%= render "admin/conversations/tag", item: item, plus: true, conversation_id: conversation_id, current_account: current_account %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-sm text-gray-400">There are no labels added to this account.</p>
+    <% end %>
+    <div id="new-label">
+      <%= render "admin/conversations/create_label", label: current_account.labels.new, conversation_id: conversation_id %>
+    </div>
+  </div>
+</div>

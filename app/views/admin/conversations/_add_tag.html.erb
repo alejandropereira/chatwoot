@@ -1,0 +1,18 @@
+<div data-controller="modal" data-modal-allow-background-close="false">
+  <a class="text-sm text-blue-400" data-action="click->modal#open" href="#">Add +</a>
+  <!-- Modal Container -->
+  <div data-modal-target="container" data-action="click->modal#closeBackground keyup@window->modal#closeWithKeyboard" class="fixed inset-0 flex items-center justify-center hidden overflow-y-auto animated fadeIn" style="z-index: 9999;">
+    <!-- Modal Inner Container -->
+    <div class="relative w-full max-w-lg max-h-screen">
+      <div data-action="click->modal#close" class="absolute flex items-center justify-center w-10 h-10 transition-all bg-gray-100 rounded-full cursor-pointer top-4 right-4 hover:bg-gray-200">
+        <svg class="w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </div>
+      <!-- Modal Card -->
+      <div class="m-1 bg-white rounded shadow" id="add-tags">
+        <%= render "admin/conversations/add_tags_form", tags: tags, conversation_id: conversation_id %>
+      </div>
+    </div>
+  </div>
+</div>

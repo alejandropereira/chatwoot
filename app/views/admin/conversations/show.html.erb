@@ -38,5 +38,5 @@
       </div>
     </div>
   </div>
-  <%= render "admin/conversations/customer_info", customer: @conversation.contact, tags: @conversation.labels %>
+  <%= render "admin/conversations/customer_info", customer: @conversation.contact, tags: @labels, conversation: @conversation %>
 </div>

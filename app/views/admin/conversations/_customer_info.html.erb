@@ -38,17 +38,11 @@
     <div class="p-4 pt-0">
       <div class="flex justify-between mb-4">
         <h6 class="text-sm text-gray-400">Tags</h6>
-        <a class="text-sm text-blue-400" href="#">Add +</a>
+        <%= render "admin/conversations/add_tag", tags: tags, conversation_id: conversation.id %>
       </div>
-      <% if tags.any? %>
-        <div class="flex flex-wrap">
-          <% tags.each do |item| %>
-            <%= render "admin/conversations/tag", item: item %>
-          <% end %>
-        </div>
-      <% else %>
-        <p class="py-5 text-sm text-center text-gray-300">No tags added.</p>
-      <% end %>
+      <div id="tags">
+        <%= render "admin/conversations/tags", tags: tags %>
+      </div>
     </div>
   </div>
 </div>
