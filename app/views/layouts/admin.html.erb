@@ -14,13 +14,12 @@
     <%= action_cable_meta_tag %>
     <%= render 'magic_test/support' if Rails.env.test? %>
   </head>
-  <body class="bg">
-    <div id="conversations">
-      <div class="flex h-screen">
-        <%= render "admin/shared/sidebar" %>
-        <div class="w-full p-6 overflow-hidden">
-          <%= yield %>
-        </div>
+  <body class="relative bg">
+    <div id="flash-messages"></div>
+    <div id="content" class="flex h-screen" data-reflex-root='#content'>
+      <%= render "admin/shared/sidebar" %>
+      <div class="w-full p-6 overflow-hidden">
+        <%= yield %>
       </div>
     </div>
   </body>

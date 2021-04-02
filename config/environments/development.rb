@@ -116,4 +116,6 @@ Rails.application.configure do
   end
 
   config.web_console.whitelisted_ips = '172.20.0.1'
+
+  config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
 end

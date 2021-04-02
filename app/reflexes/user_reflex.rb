@@ -10,6 +10,9 @@ class UserReflex < ApplicationReflex
                 html: render(partial: "admin/users/user", locals: { user: @user })
             ).dispatch_event(
                 name: "modal:close"
+            ).inner_html(
+                selector: "#flash-messages",
+                html: render(partial: "admin/shared/flash_message", locals: { content: "User invited successfully." })
             ).broadcast
         else
             cable_ready.inner_html(

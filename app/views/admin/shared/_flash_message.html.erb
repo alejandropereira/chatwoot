@@ -1,0 +1,19 @@
+<div
+  data-controller="flash-message"
+  data-transition-enter-active="transform opacity-0 scale-95"
+  data-transition-enter="transition ease-out duration-300"
+  data-transition-enter-to="transform opacity-100 scale-100"
+  data-transition-leave-active="transform opacity-100 scale-100"
+  data-transition-leave="transition ease-in duration-300"
+  data-transition-leave-to="transform opacity-0 scale-95"
+  class="relative z-30"
+>
+  <div class="absolute z-30 flex p-4 text-sm text-white bg-black rounded shadow-lg top-5 left-1/2">
+    <span class="block mr-1">
+      <svg class="w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </span>
+    <%= content %>
+  </div>
+</div>

@@ -1,5 +1,5 @@
-<div class="h-full" data-controller="conversation" data-conversation-id-value="<%= @conversation.id %>" data-action="message:added@document->conversation#scroll">
-  <div class="flex h-full bg-white border border-gray-200 rounded-md">
+<div class="flex w-full h-full" data-controller="conversation" data-conversation-id-value="<%= @conversation.id %>" data-action="message:added@document->conversation#scroll">
+  <div class="flex flex-1 h-full bg-white border border-gray-200 rounded-md">
     <%= render "admin/conversations/sidebar", conversations: @conversations, conversations_count: @conversations_count, assignee_type: session[:assignee_type] %>
     <div class="w-2/3">
       <div class="flex flex-col w-full h-full">
@@ -38,4 +38,5 @@
       </div>
     </div>
   </div>
+  <%= render "admin/conversations/customer_info", customer: @conversation.contact, tags: @conversation.labels %>
 </div>

@@ -117,6 +117,8 @@ group :development do
   gem "web-console"
   gem "spring-commands-rspec"
   gem "prettier"
+  gem 'guard-livereload', '~> 2.5', require: false
+  gem "rack-livereload"
 
   # used in swagger build
   gem "json_refs"
