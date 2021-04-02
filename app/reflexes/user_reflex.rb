@@ -28,7 +28,7 @@ class UserReflex < ApplicationReflex
 
     def save_account_user!
         AccountUser.create!(
-          account_id: Current.account.id,
+          account_id: current_account.id,
           user_id: @user.reload.id,
           role: new_agent_params[:role],
           inviter_id: current_user.id

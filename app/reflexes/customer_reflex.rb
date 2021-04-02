@@ -4,7 +4,7 @@ class CustomerReflex < ApplicationReflex
         contact.update(customer_params)
         cable_ready.inner_html(
             selector: "#flash-messages",
-            html: render("admin/shared/flash_message", locals: { content: "Customer updated successfully." })
+            html: render(partial: "admin/shared/flash_message", locals: { content: "Customer updated successfully." })
         )
     end
 
