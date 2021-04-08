@@ -13,7 +13,11 @@
     </div>
   </div>
   <div id="conversations-counts" class="px-4 border-b border-gray-200">
-    <%= render "admin/conversations/counts", counts: conversations_count, assignee_type: assignee_type  %>
+    <%= futurize partial: "admin/conversations/counts", locals: { counts: conversations_count, assignee_type: assignee_type }, extends: :div do %>
+      <!-- placeholder -->
+    <% end %>
   </div>
-  <%= render conversations %>
+  <%= futurize partial: "admin/conversations/conversation", collection: conversations, extends: :div do %>
+    <!-- placeholder -->
+  <% end %>
 </div>

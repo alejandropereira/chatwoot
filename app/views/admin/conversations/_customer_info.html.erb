@@ -38,10 +38,14 @@
     <div class="p-4 pt-0">
       <div class="flex justify-between mb-4">
         <h6 class="text-sm text-gray-400">Tags</h6>
-        <%= render "admin/conversations/add_tag", tags: tags, conversation_id: conversation.id %>
+        <%= futurize partial: "admin/conversations/add_tag", locals: { tags: tags, conversation_id: conversation.id, current_account: current_account }, eager: true, extends: :div do %>
+          Loading...
+        <% end %>
       </div>
       <div id="tags">
-        <%= render "admin/conversations/tags", tags: tags %>
+        <%= futurize partial: "admin/conversations/tags", locals: { tags: tags }, eager: true, extends: :div do %>
+          Loading...
+        <% end %>
       </div>
     </div>
   </div>

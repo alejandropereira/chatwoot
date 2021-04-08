@@ -1391,6 +1391,13 @@
     tslib "^2.0.0"
     twemoji "^13.0.0"
 
+"@minthesize/futurism@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.npmjs.org/@minthesize/futurism/-/futurism-0.7.2.tgz#ceac14120ee4af95aff897971a78172bdf127133"
+  integrity sha512-2bYd6VOIPnP8x49UR7KwbiI2Tbci4v/RFVze7Hv0QUjlLTwz1+m9i2ZjgPrj9cBxBRad/ATrPRS/QHndoq5MKg==
+  dependencies:
+    cable_ready "^4.3.0"
+
 "@npmcli/move-file@^1.0.1":
   version "1.1.2"
   resolved "https://registry.npmjs.org/@npmcli/move-file/-/move-file-1.1.2.tgz#1a82c3e372f7cae9253eb66d72543d6b8685c674"
@@ -3044,7 +3051,7 @@ bytes@3.1.0, bytes@^3.0.0:
   resolved "https://registry.npmjs.org/bytes/-/bytes-3.1.0.tgz#f6cf7933a360e0588fa9fde85651cdc7f805d1f6"
   integrity sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
 
-"cable_ready@>= 4.5.0":
+"cable_ready@>= 4.5.0", cable_ready@^4.3.0:
   version "4.5.0"
   resolved "https://registry.npmjs.org/cable_ready/-/cable_ready-4.5.0.tgz#1207218dd16934d12addfbd34c26ead853570672"
   integrity sha512-9bom1DuYe1teBdRckgKWjg+rWRLWrkOvkhzlXkhb33X+Pfu/QK9e4vGk6hGK9PVKVr0SYZC41dByFGknW4spLg==

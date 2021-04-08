@@ -41,5 +41,9 @@ class Admins::SessionsController < Devise::SessionsController
     if request.subdomain.blank?
       redirect_to new_admin_workspace_path, notice: "Lets find your workspace."
     end
+
+    account = Account.friendly.find(request.subdomain)
+  rescue
+    redirect_to new_admin_workspace_url(subdomain: ""), notice: "Lets find your workspace."
   end
 end

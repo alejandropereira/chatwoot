@@ -118,8 +118,9 @@ group :development do
   gem "web-console"
   gem "spring-commands-rspec"
   gem "prettier"
-  gem 'guard-livereload', '~> 2.5', require: false
+  gem "guard-livereload", "~> 2.5", require: false
   gem "rack-livereload"
+  gem "rack-mini-profiler"
 
   # used in swagger build
   gem "json_refs"
@@ -161,3 +162,4 @@ group :development, :test do
 end
 
 gem "stimulus_reflex", "~> 3.4"
+gem "futurism"

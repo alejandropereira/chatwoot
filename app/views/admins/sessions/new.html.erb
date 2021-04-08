@@ -1,6 +1,6 @@
 <div class="mt-6">
   <div class="my-3 mb-6 text-3xl font-semibold text-gray-700 dark:text-gray-200">
-    Log in <%= request.subdomain.blank? %>
+    Log in
   </div>
   <%= form_for(resource, as: resource_name, url: session_path(resource_name), builder: DeviseFormBuilder) do |f| %>
     <div class="field">
