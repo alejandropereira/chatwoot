@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "engines": {
-    "node": "12.21.x"
+    "node": "12.x"
   },
   "scripts": {
     "eslint": "eslint app/javascript --fix",
