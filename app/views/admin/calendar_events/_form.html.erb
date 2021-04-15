@@ -1,7 +1,19 @@
 <%= simple_form_for [:admin, event], id: dom_id(event), data: { reflex: "submit->CalendarEvent#create" } do |f| %>
   <%= f.input :title, placeholder: "Name" %>
-  <%= f.input :start_time, label: "Start Time" %>
-  <%= f.input :end_time, label: "End Time" %>
+  <%= f.input :start_time, label: "Start Time", as: :string, input_html: { data: {
+    controller: "flatpickr",
+    flatpickr_enable_time: true,
+    flatpickr_alt_input: true,
+    flatpickr_alt_format: "F j, Y at h:i K",
+    flatpickr_date_format: "Z"
+  }} %>
+  <%= f.input :end_time, label: "End Time", as: :string, input_html: { data: {
+    controller: "flatpickr",
+    flatpickr_enable_time: true,
+    flatpickr_alt_input: true,
+    flatpickr_alt_format: "F j, Y at h:i K",
+    flatpickr_date_format: "Z"
+  }} %>
   <div class="flex flex-wrap items-center justify-end mt-6">
     <%= f.button :submit %>
   </div>

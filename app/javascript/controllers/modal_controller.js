@@ -60,6 +60,7 @@ export default class extends Controller {
 
     // Remove the background
     if (this.background) { this.background.remove() }
+    this.element.remove()
   }
 
   closeBackground(e) {
