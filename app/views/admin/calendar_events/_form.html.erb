@@ -1,0 +1,8 @@
+<%= simple_form_for [:admin, event], id: dom_id(event), data: { reflex: "submit->CalendarEvent#create" } do |f| %>
+  <%= f.input :title, placeholder: "Name" %>
+  <%= f.input :start_time, label: "Start Time" %>
+  <%= f.input :end_time, label: "End Time" %>
+  <div class="flex flex-wrap items-center justify-end mt-6">
+    <%= f.button :submit %>
+  </div>
+<% end %>

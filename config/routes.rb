@@ -212,6 +212,7 @@ Rails.application.routes.draw do
       root to: 'conversations#index'
       resources :conversations, only: [:index, :show]
       resources :calendars, only: [:index]
+      resources :calendar_events, only: [:create]
       resources :users, only: [:index]
       resources :customers, only: [:index]
       resources :workspaces, only: [:new, :create]

@@ -1,0 +1,15 @@
+<div data-controller="modal" data-action="event:added@window->modal#close" data-modal-allow-background-close="true">
+  <!-- Modal Container -->
+  <div data-modal-target="container" data-action="modal:open@window->modal#open load@window->modal#open click->modal#closeBackground keyup@window->modal#closeWithKeyboard" class="fixed inset-0 flex items-center justify-center hidden overflow-y-auto animated fadeIn" style="z-index: 9999;">
+    <!-- Modal Inner Container -->
+    <div class="relative w-full max-w-lg max-h-screen">
+      <!-- Modal Card -->
+      <div class="m-1 bg-white rounded shadow">
+        <div class="p-8">
+          <h2 class="mb-4 text-xl">Create new event</h2>
+          <%= render "admin/calendar_events/form", event: @event %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
