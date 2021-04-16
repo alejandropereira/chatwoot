@@ -1,5 +1,5 @@
 class CalendarEventReflex < ApplicationReflex
-    def new(start_time, end_time)
+    def new(start_time = nil, end_time = nil)
         @event = CalendarEvent.new(start_time: start_time, end_time: end_time)
         cable_ready.insert_adjacent_html(
             selector: "#calendar_events",
@@ -26,6 +26,9 @@ class CalendarEventReflex < ApplicationReflex
           detail: {
             event: @event
           }
+        ).inner_html(
+          selector: "#flash-messages",
+          html: render(partial: "admin/shared/flash_message", locals: { content: "Event created successfully." })
         ).broadcast
       else
         cable_ready.replace(

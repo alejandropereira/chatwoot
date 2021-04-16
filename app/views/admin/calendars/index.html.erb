@@ -66,4 +66,11 @@
   <div id="calendar" class="py-2 bg-white rounded shadow-sm">
     <%= render "admin/calendars/calendar", events: @calendar_events, current_date: session[:calendar_date] %>
   </div>
+  <div class="absolute bottom-6 right-6">
+    <div data-reflex="click->CalendarEvent#new" class="p-4 transition-all bg-purple-800 rounded-full shadow-lg cursor-pointer hover:shadow-xl hover:bg-purple-700">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19.4752 10.0001C19.4752 9.4344 19.051 9.01013 18.4853 9.01013L10.9899 9.01013L10.9899 1.5148C10.9899 0.949114 10.5657 0.52485 10 0.52485C9.43431 0.52485 9.01005 0.949114 9.01005 1.5148L9.01005 9.01013L1.51472 9.01013C0.949033 9.01013 0.524769 9.4344 0.524769 10.0001C0.52477 10.2829 0.59548 10.4951 0.807612 10.7072C1.01974 10.9193 1.23188 10.99 1.51472 10.99L9.01005 10.99V18.4854C9.01005 18.7682 9.15147 19.051 9.29289 19.1925C9.43431 19.3339 9.71716 19.4753 10 19.4753C10.5657 19.4753 10.9899 19.051 10.9899 18.4854V10.99L18.4853 10.99C19.051 10.99 19.4752 10.5658 19.4752 10.0001Z" fill="#D0C3FF"/>
+      </svg>
+    </div>
+  </div>
 </div>
