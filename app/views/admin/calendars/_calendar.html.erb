@@ -1,0 +1,13 @@
+<%= content_tag :div, data: { controller: "calendar", events: events.to_json, action: "event:added@window->calendar#addEvent" } do %>
+  <div class="flex justify-between px-4 py-4 overflow-x-scroll">
+    <% (Date.today.beginning_of_month..Date.today.end_of_month).each do |date| %>
+      <div class="flex flex-col items-center text-xs cursor-pointer" data-action="click->calendar#changeDate" data-date="<%= date.to_s %>">
+        <span class="block mb-2 text-gray-300 <%= 'text-blue-500' if date.to_s === current_date %>""><%= date.strftime("%a") %></span>
+        <div class="p-4 <%= 'bg-blue-500 text-white rounded' if date.to_s === current_date  %>">
+          <%= date.day %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div data-calendar-target="calendar"></div>
+<% end %>

@@ -129,6 +129,7 @@ export default class extends ApplicationController {
   static targets = ['calendar', 'day'];
 
   connect() {
+    console.log("connect")
     super.connect();
     const _this = this;
     this.calendar = new Calendar(this.calendarTarget, {
@@ -138,6 +139,7 @@ export default class extends ApplicationController {
       useDetailPopup: false,
       theme,
     });
+    window.calendar = this.calendar
 
     this.calendar.on('beforeCreateSchedule', function(event) {
       console.log({ event });
@@ -173,6 +175,16 @@ export default class extends ApplicationController {
     this.calendar.createSchedules(this.events)
   }
 
+  disconnect() {
+    console.log("disconnect")
+    this.calendar.destroy()
+  }
+
+  afterReflex (element, reflex, noop, reflexId) {
+    console.log("afterReflex")
+    this.calendar.render();
+  }
+
   addEvent(event) {
     const newEvent = {
       id: event.detail.event.id,
@@ -189,9 +201,10 @@ export default class extends ApplicationController {
   }
 
   changeDate(e) {
-    const date = e.currentTarget.dataset.date.split('-');
-    this.calendar.setDate(
-      new Date(Number(date[0]), Number(date[1]) - 1, Number(date[2]))
-    );
+    const date = e.currentTarget.dataset.date;
+    // this.calendar.setDate(
+    //   new Date(Number(date[0]), Number(date[1]) - 1, Number(date[2]))
+    // );
+    this.stimulate("CalendarEvent#change_date", date)
   }
 }

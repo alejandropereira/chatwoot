@@ -37,6 +37,17 @@ class CalendarEventReflex < ApplicationReflex
     morph :nothing
   end
 
+  def change_date(new_date)
+    session[:calendar_date] = new_date
+    date = Date.parse(session[:calendar_date])
+    events = CalendarEvent.where("start_time >= ? AND end_time <= ?", date.beginning_of_day, date.end_of_day)
+    cable_ready.inner_html(
+      selector: "#calendar",
+      html: render(partial: "admin/calendars/calendar", locals: { events: events, current_date: new_date })
+    ).broadcast
+    morph :nothing
+  end
+
   private
 
   def calendar_event_params
