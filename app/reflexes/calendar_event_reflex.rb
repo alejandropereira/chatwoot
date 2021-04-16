@@ -12,7 +12,7 @@ class CalendarEventReflex < ApplicationReflex
     end
 
     def update(id, start_time, end_time)
-      @event = CalendarEvent.find(1)
+      @event = CalendarEvent.find(id)
       @event.update(start_time: start_time, end_time: end_time)
       morph :nothing
     end
@@ -37,9 +37,10 @@ class CalendarEventReflex < ApplicationReflex
     morph :nothing
   end
 
-  def change_date(new_date)
+  def change_date(new_date, timezone = "America/Guatemala")
+    Time.zone = timezone
     session[:calendar_date] = new_date
-    date = Date.parse(session[:calendar_date])
+    date = Time.zone.parse(session[:calendar_date])
     events = CalendarEvent.where("start_time >= ? AND end_time <= ?", date.beginning_of_day, date.end_of_day)
     cable_ready.inner_html(
       selector: "#calendar",

@@ -1,4 +1,4 @@
-<%= content_tag :div, data: { controller: "calendar", events: events.to_json, action: "event:added@window->calendar#addEvent" } do %>
+<%= content_tag :div, data: { controller: "calendar", events: events.to_json, action: "event:added@window->calendar#addEvent", current_date: current_date, timezone: Time.zone.name } do %>
   <div class="flex justify-between px-4 py-4 overflow-x-scroll">
     <% (Date.today.beginning_of_month..Date.today.end_of_month).each do |date| %>
       <div class="flex flex-col items-center text-xs cursor-pointer" data-action="click->calendar#changeDate" data-date="<%= date.to_s %>">

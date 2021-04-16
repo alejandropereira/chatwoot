@@ -129,7 +129,6 @@ export default class extends ApplicationController {
   static targets = ['calendar', 'day'];
 
   connect() {
-    console.log("connect")
     super.connect();
     const _this = this;
     this.calendar = new Calendar(this.calendarTarget, {
@@ -139,10 +138,15 @@ export default class extends ApplicationController {
       useDetailPopup: false,
       theme,
     });
-    window.calendar = this.calendar
+    this.calendar.setDate(
+      new Date(
+        Number(this.element.dataset.currentDate.split('-')[0]),
+        Number(this.element.dataset.currentDate.split('-')[1]) - 1,
+        Number(this.element.dataset.currentDate.split('-')[2])
+      )
+    );
 
     this.calendar.on('beforeCreateSchedule', function(event) {
-      console.log({ event });
       const guide = event.guide;
       const startTime = format(event.start['_date'], 'yyyy-MM-dd HH:mm:ss xxx');
       const endTime = format(event.end['_date'], 'yyyy-MM-dd HH:mm:ss xxx');
@@ -151,13 +155,17 @@ export default class extends ApplicationController {
     });
 
     this.calendar.on('beforeUpdateSchedule', function(event) {
-      console.log({ event });
       const schedule = event.schedule;
       const changes = event.changes;
       const startTime = format(event.start['_date'], 'yyyy-MM-dd HH:mm:ss xxx');
       const endTime = format(event.end['_date'], 'yyyy-MM-dd HH:mm:ss xxx');
 
-      _this.stimulate('CalendarEventReflex#update', schedule.id, startTime, endTime);
+      _this.stimulate(
+        'CalendarEventReflex#update',
+        schedule.id,
+        startTime,
+        endTime
+      );
       _this.calendar.updateSchedule(schedule.id, schedule.calendarId, changes);
     });
 
@@ -165,6 +173,7 @@ export default class extends ApplicationController {
       id: event.id,
       title: event.title,
       category: 'time',
+      calendarId: 1,
       dueDateClass: '',
       bgColor: '#fff',
       borderColor: '#3B82F6',
@@ -172,16 +181,14 @@ export default class extends ApplicationController {
       end: event.end_time,
     }));
 
-    this.calendar.createSchedules(this.events)
+    this.calendar.createSchedules(this.events);
   }
 
   disconnect() {
-    console.log("disconnect")
-    this.calendar.destroy()
+    this.calendar.destroy();
   }
 
-  afterReflex (element, reflex, noop, reflexId) {
-    console.log("afterReflex")
+  afterReflex(element, reflex, noop, reflexId) {
     this.calendar.render();
   }
 
@@ -195,16 +202,12 @@ export default class extends ApplicationController {
       borderColor: '#3B82F6',
       start: event.detail.event.start_time,
       end: event.detail.event.end_time,
-    }
-    console.log({ newEvent, detail: event.detail })
-    this.calendar.createSchedules([newEvent])
+    };
+    this.calendar.createSchedules([newEvent]);
   }
 
   changeDate(e) {
     const date = e.currentTarget.dataset.date;
-    // this.calendar.setDate(
-    //   new Date(Number(date[0]), Number(date[1]) - 1, Number(date[2]))
-    // );
-    this.stimulate("CalendarEvent#change_date", date)
+    this.stimulate('CalendarEvent#change_date', date, this.element.dataset.timezone);
   }
 }
