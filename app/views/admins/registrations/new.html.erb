@@ -9,7 +9,7 @@
       <%= account_users_form.fields_for(:account) do |account_form| %>
         <div class="field">
           <%= account_form.label :name, "Account Name" %><br />
-          <%= account_form.text_field :name %>
+          <%= account_form.text_field :name, autofocus: true %>
         </div>
       <% end %>
     <% end %>
@@ -19,7 +19,7 @@
     </div>
     <div class="field">
       <%= f.label :email %><br />
-      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      <%= f.email_field :email, autocomplete: "email" %>
     </div>
     <div class="field">
       <%= f.label :password %>

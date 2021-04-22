@@ -125,7 +125,7 @@ class Account < ApplicationRecord
     return if Rails.env.test?
     
     self.processor = 'stripe'
-    subscribe(name: ENV['FREE_PLAN_NAME'], plan: ENV['FREE_PLAN_ID'])
+    subscribe(name: ENV['FREE_PLAN_NAME'], plan: ENV['FREE_PLAN_ID']) if ENV['FREE_PLAN_ID'].present?
   end
 
   def notify_creation

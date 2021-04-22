@@ -169,6 +169,10 @@ export default class extends ApplicationController {
       _this.calendar.updateSchedule(schedule.id, schedule.calendarId, changes);
     });
 
+    this.calendar.on('clickSchedule', e => {
+      console.log(e);
+    });
+
     this.events = JSON.parse(this.element.dataset.events).map(event => ({
       id: event.id,
       title: event.title,
@@ -208,6 +212,10 @@ export default class extends ApplicationController {
 
   changeDate(e) {
     const date = e.currentTarget.dataset.date;
-    this.stimulate('CalendarEvent#change_date', date, this.element.dataset.timezone);
+    this.stimulate(
+      'CalendarEvent#change_date',
+      date,
+      this.element.dataset.timezone
+    );
   }
 }

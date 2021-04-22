@@ -11,4 +11,7 @@
       <%= f.submit "Check" %>
     </div>
   <% end %>
+  <div class="text-center mt-5">
+    <%= link_to "Sign up to a new account.", new_registration_path(:admin, User.new), class: "cursor-pointer tracking-tighter text-black block mb-1" %>
+  </div>
 </div>
