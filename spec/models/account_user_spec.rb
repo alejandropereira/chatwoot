@@ -11,6 +11,11 @@ RSpec.describe AccountUser do
     it { is_expected.to delegate_method(:email).to(:user) }
   end
 
+  context 'associations' do
+    it { is_expected.to have_many(:event_invitees) }
+    it { is_expected.to have_many(:events) }
+  end
+
   describe 'notification_settings' do
     it 'gets created with the right default settings' do
       expect(account_user.user.notification_settings).not_to eq(nil)

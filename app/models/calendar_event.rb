@@ -21,5 +21,8 @@
 class CalendarEvent < ApplicationRecord
   acts_as_tenant(:account)
 
+  has_many :event_invitees, as: :invitee
+  has_many :invitees, through: :event_invitees, class_name: "CalendarEvent"
+
   validates :title, presence: true
 end

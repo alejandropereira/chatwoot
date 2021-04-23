@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_184314) do
+ActiveRecord::Schema.define(version: 2021_04_23_000002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -262,6 +262,16 @@ ActiveRecord::Schema.define(version: 2021_04_15_184314) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
+  end
+
+  create_table "event_invitees", force: :cascade do |t|
+    t.bigint "calendar_event_id", null: false
+    t.string "invitee_type", null: false
+    t.bigint "invitee_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["calendar_event_id"], name: "index_event_invitees_on_calendar_event_id"
+    t.index ["invitee_type", "invitee_id"], name: "index_event_invitees_on_invitee_type_and_invitee_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -532,4 +542,5 @@ ActiveRecord::Schema.define(version: 2021_04_15_184314) do
   add_foreign_key "contact_inboxes", "contacts"
   add_foreign_key "contact_inboxes", "inboxes"
   add_foreign_key "conversations", "contact_inboxes"
+  add_foreign_key "event_invitees", "calendar_events"
 end

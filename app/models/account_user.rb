@@ -29,6 +29,8 @@ class AccountUser < ApplicationRecord
   acts_as_tenant(:account)
   belongs_to :user
   belongs_to :inviter, class_name: 'User', optional: true
+  has_many :event_invitees, as: :invitee
+  has_many :events, through: :event_invitees, class_name: "CalendarEvent"
 
   delegate :first_name, to: :user
   delegate :last_name, to: :user
