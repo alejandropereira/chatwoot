@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_000002) do
+ActiveRecord::Schema.define(version: 2021_04_30_003437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -434,6 +434,17 @@ ActiveRecord::Schema.define(version: 2021_04_23_000002) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "status"
+  end
+
+  create_table "settings", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "account_id"
+    t.jsonb "google_calendar", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_settings_on_account_id"
+    t.index ["google_calendar"], name: "index_settings_on_google_calendar"
+    t.index ["user_id"], name: "index_settings_on_user_id"
   end
 
   create_table "super_admins", force: :cascade do |t|

@@ -701,6 +701,7 @@ DEPENDENCIES
   foreman
   friendly_id (~> 5.4.0)
   futurism
+  google-api-client
   google-cloud-storage
   graphiql-rails
   graphql (~> 1.10, >= 1.10.9)

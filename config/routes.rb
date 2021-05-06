@@ -1,29 +1,31 @@
 Rails.application.routes.draw do
-  Rails.env.development? && mount(GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql')
-  
-  post '/graphql', to: 'graphql#execute'
+  Rails.env.development? && mount(GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql")
+
+  post "/graphql", to: "graphql#execute"
+  get "/redirect", to: "example#redirect", as: "redirect"
+  get "/callback", to: "example#callback", as: "callback"
   # AUTH STARTS
-  match 'auth/:provider/callback', to: 'home#callback', via: [:get, :post]
-  mount_devise_token_auth_for 'User', at: 'auth', controllers: {
-    confirmations: 'devise_overrides/confirmations',
-    passwords: 'devise_overrides/passwords',
-    sessions: 'devise_overrides/sessions',
-    token_validations: 'devise_overrides/token_validations'
-  }, via: [:get, :post]
+  match "auth/:provider/callback", to: "home#callback", via: [:get, :post]
+  mount_devise_token_auth_for "User", at: "auth", controllers: {
+            confirmations: "devise_overrides/confirmations",
+            passwords: "devise_overrides/passwords",
+            sessions: "devise_overrides/sessions",
+            token_validations: "devise_overrides/token_validations",
+          }, via: [:get, :post]
   resources :auths, only: :create
 
   # root to: 'dashboard#index'
-  root to: redirect('/admin')
+  root to: redirect("/admin")
 
-  get '/app', to: 'dashboard#index'
-  get '/app/*params', to: 'dashboard#index'
-  get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
-  get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
+  get "/app", to: "dashboard#index"
+  get "/app/*params", to: "dashboard#index"
+  get "/app/accounts/:account_id/settings/inboxes/new/twitter", to: "dashboard#index", as: "app_new_twitter_inbox"
+  get "/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents", to: "dashboard#index", as: "app_twitter_inbox_agents"
 
   resource :widget, only: [:show]
 
-  get '/api/v1', to: 'api#index'
-  namespace :api, defaults: { format: 'json' } do
+  get "/api/v1", to: "api#index"
+  namespace :api, defaults: { format: "json" } do
     namespace :v1 do
       # ----------------------------------
       # start of account scoped api routes
@@ -51,7 +53,7 @@ Rails.application.routes.draw do
             resource :twilio_channel, only: [:create]
           end
           resources :conversations, only: [:index, :create, :show] do
-            get 'meta', on: :collection
+            get "meta", on: :collection
             scope module: :conversations do
               resources :messages, only: [:index, :create]
               resources :assignments, only: [:create]
@@ -100,7 +102,7 @@ Rails.application.routes.draw do
           resources :webhooks, except: [:show]
           namespace :integrations do
             resources :apps, only: [:index, :show]
-            resource :slack, only: [:create, :update, :destroy], controller: 'slack'
+            resource :slack, only: [:create, :update, :destroy], controller: "slack"
           end
         end
       end
@@ -165,9 +167,9 @@ Rails.application.routes.draw do
 
   # ----------------------------------------------------------------------
   # Routes for social integrations
-  mount Facebook::Messenger::Server, at: 'bot'
-  get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
-  post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
+  mount Facebook::Messenger::Server, at: "bot"
+  get "webhooks/twitter", to: "api/v1/webhooks#twitter_crc"
+  post "webhooks/twitter", to: "api/v1/webhooks#twitter_events"
 
   # ----------------------------------------------------------------------
   # Routes for testing
@@ -179,17 +181,17 @@ Rails.application.routes.draw do
 
   # ----------------------------------------------------------------------
   # Routes for external service verifications
-  get 'apple-app-site-association' => 'apple_app#site_association'
+  get "apple-app-site-association" => "apple_app#site_association"
 
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes
-  require 'sidekiq/web'
+  require "sidekiq/web"
 
-  devise_for :super_admins, path: 'super_admin', controllers: { sessions: 'super_admin/devise/sessions' }
+  devise_for :super_admins, path: "super_admin", controllers: { sessions: "super_admin/devise/sessions" }
   devise_scope :super_admin do
-    get 'super_admin/logout', to: 'super_admin/devise/sessions#destroy'
+    get "super_admin/logout", to: "super_admin/devise/sessions#destroy"
     namespace :super_admin do
-      root to: 'dashboard#index'
+      root to: "dashboard#index"
 
       # order of resources affect the order of sidebar navigation in super admin
       resources :accounts
@@ -202,16 +204,18 @@ Rails.application.routes.draw do
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update]
     end
     authenticated :super_admin do
-      mount Sidekiq::Web => '/monitoring/sidekiq'
+      mount Sidekiq::Web => "/monitoring/sidekiq"
     end
   end
 
-  devise_for :admins, class_name: 'User', module: 'admin', controllers: { registrations: 'admins/registrations', sessions: 'admins/sessions', confirmations: 'admins/confirmations', passwords: 'admins/passwords' }
+  devise_for :admins, class_name: "User", module: "admin", controllers: { registrations: "admins/registrations", sessions: "admins/sessions", confirmations: "admins/confirmations", passwords: "admins/passwords" }
   devise_scope :admin do
     namespace :admin do
-      root to: 'conversations#index'
+      root to: "conversations#index"
       resources :conversations, only: [:index, :show]
-      resources :calendars, only: [:index]
+      resource :calendar, only: [:show] do
+        resource :settings, only: :show, module: :calendar
+      end
       resources :calendar_events, only: [:create]
       resources :users, only: [:index]
       resources :customers, only: [:index]
@@ -224,6 +228,6 @@ Rails.application.routes.draw do
 
   # ---------------------------------------------------------------------
   # Routes for swagger docs
-  get '/swagger/*path', to: 'swagger#respond'
-  get '/swagger', to: 'swagger#respond'
+  get "/swagger/*path", to: "swagger#respond"
+  get "/swagger", to: "swagger#respond"
 end

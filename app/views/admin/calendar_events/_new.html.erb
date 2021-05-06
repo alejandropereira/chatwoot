@@ -1,4 +1,4 @@
-<div data-controller="modal" data-action="event:added@window->modal#close" data-modal-allow-background-close="true">
+<div data-controller="modal" data-modal-remove-after-close-value="true" data-action="event:added@window->modal#close" data-modal-allow-background-close="true">
   <!-- Modal Container -->
   <div data-modal-target="container" data-action="modal:open@window->modal#open load@window->modal#open click->modal#closeBackground keyup@window->modal#closeWithKeyboard" class="fixed inset-0 flex items-center justify-center hidden overflow-y-auto animated fadeIn" style="z-index: 9999;">
     <!-- Modal Inner Container -->

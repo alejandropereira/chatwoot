@@ -2,25 +2,31 @@ import { Controller } from 'stimulus';
 
 export default class extends Controller {
   static targets = ['container'];
+  static values = { removeAfterClose: Boolean };
 
   connect() {
+    console.log(this);
     // The class we should toggle on the container
     this.toggleClass = this.data.get('class') || 'hidden';
 
     // The HTML for the background element
-    this.backgroundHtml = this.data.get('backgroundHtml') || this._backgroundHTML();
+    this.backgroundHtml =
+      this.data.get('backgroundHtml') || this._backgroundHTML();
 
     // The ID of the background to hide/remove
     this.backgroundId = this.data.get('backgroundId') || 'modal-background';
 
     // Let the user close the modal by clicking on the background
-    this.allowBackgroundClose = (this.data.get('allowBackgroundClose') || 'true') === 'true';
+    this.allowBackgroundClose =
+      (this.data.get('allowBackgroundClose') || 'true') === 'true';
 
     // Prevent the default action of the clicked element (following a link for example) when opening the modal
-    this.preventDefaultActionOpening = (this.data.get('preventDefaultActionOpening') || 'true') === 'true';
+    this.preventDefaultActionOpening =
+      (this.data.get('preventDefaultActionOpening') || 'true') === 'true';
 
     // Prevent the default action of the clicked element (following a link for example) when closing the modal
-    this.preventDefaultActionClosing = (this.data.get('preventDefaultActionClosing') || 'true') === 'true';
+    this.preventDefaultActionClosing =
+      (this.data.get('preventDefaultActionClosing') || 'true') === 'true';
   }
 
   disconnect() {
@@ -41,7 +47,7 @@ export default class extends Controller {
     this.containerTarget.classList.remove(this.toggleClass);
 
     // Insert the background
-    if (!this.data.get("disable-backdrop")) {
+    if (!this.data.get('disable-backdrop')) {
       document.body.insertAdjacentHTML('beforeend', this.backgroundHtml);
       this.background = document.querySelector(`#${this.backgroundId}`);
     }
@@ -59,8 +65,13 @@ export default class extends Controller {
     this.containerTarget.classList.add(this.toggleClass);
 
     // Remove the background
-    if (this.background) { this.background.remove() }
-    this.element.remove()
+    if (this.background) {
+      this.background.remove();
+    }
+
+    if (this.hasRemoveAfterCloseValue) {
+      this.element.remove();
+    }
   }
 
   closeBackground(e) {
@@ -70,7 +81,10 @@ export default class extends Controller {
   }
 
   closeWithKeyboard(e) {
-    if (e.keyCode === 27 && !this.containerTarget.classList.contains(this.toggleClass)) {
+    if (
+      e.keyCode === 27 &&
+      !this.containerTarget.classList.contains(this.toggleClass)
+    ) {
       this.close(e);
     }
   }
@@ -82,7 +96,8 @@ export default class extends Controller {
   lockScroll() {
     // Add right padding to the body so the page doesn't shift
     // when we disable scrolling
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    const scrollbarWidth =
+      window.innerWidth - document.documentElement.clientWidth;
     document.body.style.paddingRight = `${scrollbarWidth}px`;
 
     // Save the scroll position

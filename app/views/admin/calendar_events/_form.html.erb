@@ -1,5 +1,5 @@
 <%= simple_form_for [:admin, event], id: dom_id(event), data: { reflex: "submit->CalendarEvent#create" } do |f| %>
-  <%= f.input :title, placeholder: "Name" %>
+  <%= f.input :title, placeholder: "Name", input_html: { autofocus: true } %>
   <%= f.input :start_time, label: "Start Time", as: :string, input_html: { data: {
     controller: "flatpickr",
     flatpickr_enable_time: true,

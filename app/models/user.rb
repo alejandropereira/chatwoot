@@ -67,14 +67,15 @@ class User < ApplicationRecord
   has_many :accounts, through: :account_users
   accepts_nested_attributes_for :account_users
 
-  has_many :assigned_conversations, foreign_key: 'assignee_id', class_name: 'Conversation', dependent: :nullify
+  has_many :assigned_conversations, foreign_key: "assignee_id", class_name: "Conversation", dependent: :nullify
   has_many :inbox_members, dependent: :destroy
   has_many :inboxes, through: :inbox_members, source: :inbox
   has_many :messages, as: :sender
-  has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', dependent: :nullify
+  has_many :invitees, through: :account_users, class_name: "User", foreign_key: "inviter_id", dependent: :nullify
 
   has_many :notifications, dependent: :destroy
   has_many :notification_settings, dependent: :destroy
+  has_many :settings, dependent: :destroy
   has_many :notification_subscriptions, dependent: :destroy
 
   before_validation :set_password_and_uid, on: :create
@@ -103,11 +104,11 @@ class User < ApplicationRecord
   end
 
   def first_name
-    name.split(' ').first
+    name.split(" ").first
   end
 
   def last_name
-    name.split(' ').last
+    name.split(" ").last
   end
 
   def account
@@ -134,6 +135,10 @@ class User < ApplicationRecord
     current_account_user&.inviter
   end
 
+  def current_settings
+    settings.find_by(account: Current.account) || settings.build(account: Current.account)
+  end
+
   def serializable_hash(options = nil)
     serialized_user = super(options).merge(confirmed: confirmed?)
     serialized_user
@@ -145,8 +150,8 @@ class User < ApplicationRecord
       name: name,
       available_name: available_name,
       avatar_url: avatar_url,
-      type: 'user',
-      availability_status: availability_status
+      type: "user",
+      availability_status: availability_status,
     }
   end
 
@@ -155,7 +160,7 @@ class User < ApplicationRecord
       id: id,
       name: name,
       email: email,
-      type: 'user'
+      type: "user",
     }
   end
 
