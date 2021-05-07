@@ -13,13 +13,13 @@ Rails.application.configure do
 
   # Enable/disable caching. By default caching is disabled.
   # Run rails dev:cache to toggle caching.
-  if Rails.root.join('tmp/caching-dev.txt').exist?
+  if Rails.root.join("tmp/caching-dev.txt").exist?
     config.action_controller.perform_caching = true
     config.action_controller.enable_fragment_cache_logging = true
 
     config.cache_store = :memory_store
     config.public_file_server.headers = {
-      'Cache-Control' => "public, max-age=#{2.days.to_i}"
+      "Cache-Control" => "public, max-age=#{2.days.to_i}",
     }
   else
     config.action_controller.perform_caching = false
@@ -29,30 +29,30 @@ Rails.application.configure do
   config.public_file_server.enabled = true
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = ENV.fetch('ACTIVE_STORAGE_SERVICE', 'local').to_sym
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", "local").to_sym
 
-  config.active_job.queue_adapter = :sidekiq
+  config.active_job.queue_adapter = :inline
 
   # Email related config
   config.action_mailer.perform_caching = false
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] }
+  config.action_mailer.default_url_options = { host: ENV["FRONTEND_URL"] }
 
   smtp_settings = {
-    port: ENV['SMTP_PORT'] || 25,
-    domain: ENV['SMTP_DOMAIN'] || 'localhost',
-    address: ENV['SMTP_ADDRESS'] || 'chatwoot.com'
+    port: ENV["SMTP_PORT"] || 25,
+    domain: ENV["SMTP_DOMAIN"] || "localhost",
+    address: ENV["SMTP_ADDRESS"] || "chatwoot.com",
   }
 
-  if ENV['SMTP_AUTHENTICATION'].present?
-    smtp_settings[:user_name] = ENV['SMTP_USERNAME']
-    smtp_settings[:password] = ENV['SMTP_PASSWORD']
-    smtp_settings[:authentication] = ENV['SMTP_AUTHENTICATION']
-    smtp_settings[:enable_starttls_auto] = ENV['SMTP_ENABLE_STARTTLS_AUTO'] if ENV['SMTP_ENABLE_STARTTLS_AUTO'].present?
+  if ENV["SMTP_AUTHENTICATION"].present?
+    smtp_settings[:user_name] = ENV["SMTP_USERNAME"]
+    smtp_settings[:password] = ENV["SMTP_PASSWORD"]
+    smtp_settings[:authentication] = ENV["SMTP_AUTHENTICATION"]
+    smtp_settings[:enable_starttls_auto] = ENV["SMTP_ENABLE_STARTTLS_AUTO"] if ENV["SMTP_ENABLE_STARTTLS_AUTO"].present?
   end
 
-  if ENV['LETTER_OPENER']
+  if ENV["LETTER_OPENER"]
     config.action_mailer.delivery_method = :letter_opener
   else
     config.action_mailer.delivery_method = :smtp
@@ -65,9 +65,9 @@ Rails.application.configure do
   # :mandrill for Mandrill
   # :postmark for Postmark
   # :sendgrid for Sendgrid
-  config.action_mailbox.ingress = ENV.fetch('RAILS_INBOUND_EMAIL_SERVICE', 'relay').to_sym
+  config.action_mailbox.ingress = ENV.fetch("RAILS_INBOUND_EMAIL_SERVICE", "relay").to_sym
 
-  Rails.application.routes.default_url_options = { host: ENV['FRONTEND_URL'] }
+  Rails.application.routes.default_url_options = { host: ENV["FRONTEND_URL"] }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -99,11 +99,11 @@ Rails.application.configure do
   config.hosts = nil
 
   # customize using the environment variables
-  config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym
+  config.log_level = ENV.fetch("LOG_LEVEL", "debug").to_sym
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
-  config.logger = ActiveSupport::Logger.new(Rails.root.join('log', Rails.env + '.log'), 1, ENV.fetch('LOG_SIZE', '1024').to_i.megabytes)
+  config.logger = ActiveSupport::Logger.new(Rails.root.join("log", Rails.env + ".log"), 1, ENV.fetch("LOG_SIZE", "1024").to_i.megabytes)
 
   # Bullet configuration to fix the N+1 queries
   config.after_initialize do
@@ -112,7 +112,7 @@ Rails.application.configure do
     Bullet.rails_logger = true
   end
 
-  config.web_console.whitelisted_ips = '172.20.0.1'
+  config.web_console.whitelisted_ips = "172.20.0.1"
 
   config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
 end

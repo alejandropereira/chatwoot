@@ -25,4 +25,21 @@ class CalendarEvent < ApplicationRecord
   has_many :invitees, through: :event_invitees, source: :invitee, source_type: "AccountUser"
 
   validates :title, presence: true
+
+  after_create :sync_calendars
+  after_update :update_calendars
+
+  private
+
+  def sync_calendars
+    event_invitees.each do |record|
+      SyncGoogleCalendarJob.perform_later(record)
+    end
+  end
+
+  def update_calendars
+    event_invitees.each do |record|
+      UpdateGoogleCalendarJob.perform_later(record)
+    end
+  end
 end

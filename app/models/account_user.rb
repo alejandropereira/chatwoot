@@ -28,7 +28,7 @@ class AccountUser < ApplicationRecord
 
   acts_as_tenant(:account)
   belongs_to :user
-  belongs_to :inviter, class_name: 'User', optional: true
+  belongs_to :inviter, class_name: "User", optional: true
   has_many :event_invitees, as: :invitee
   has_many :events, through: :event_invitees, class_name: "CalendarEvent"
 
@@ -54,6 +54,10 @@ class AccountUser < ApplicationRecord
   def destroy_notification_setting
     setting = user.notification_settings.find_by(account_id: account.id)
     setting.destroy!
+  end
+
+  def settings
+    user.settings.find_by(account_id: account.id)
   end
 
   private
