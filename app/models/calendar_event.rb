@@ -33,13 +33,13 @@ class CalendarEvent < ApplicationRecord
 
   def sync_calendars
     event_invitees.each do |record|
-      SyncGoogleCalendarJob.perform_later(record)
+      ::SyncGoogleCalendarJob.perform_later(record)
     end
   end
 
   def update_calendars
     event_invitees.each do |record|
-      UpdateGoogleCalendarJob.perform_later(record)
+      ::UpdateGoogleCalendarJob.perform_later(record)
     end
   end
 end

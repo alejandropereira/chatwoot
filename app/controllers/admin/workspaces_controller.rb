@@ -1,24 +1,24 @@
 class Admin::WorkspacesController < ActionController::Base
-   layout 'devise'
+  layout "devise"
 
-   def new
-        @workspace = Workspace.new
-   end
+  def new
+    @workspace = Workspace.new
+  end
 
-   def create
+  def create
     @workspace = Workspace.new(workspace_params)
 
     if @workspace.valid_account?
-        redirect_to new_admin_session_url(subdomain: @workspace.subdomain)
+      redirect_to new_admin_session_url(subdomain: @workspace.subdomain)
     else
-        flash[:alert] = "Workspace not found"
-        render :new 
+      flash[:alert] = "Workspace not found"
+      render :new
     end
-   end
+  end
 
-   private
+  private
 
-   def workspace_params
+  def workspace_params
     params.require(:workspace).permit(:name_or_subdomain)
-   end
+  end
 end
