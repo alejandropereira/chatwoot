@@ -8,6 +8,7 @@ import MessagesSeparator from '../MessagesSeparator';
 import IsTyping from './IsTyping';
 import Loading from './Loading';
 import SecureChat from './SecureChat/index';
+import Schedule from './ScheduleView';
 
 const MessagesContainer = ({
   messages,
@@ -71,9 +72,11 @@ const MessagesContainer = ({
   return (
     <animated.div style={transition}>
       <SecureChat />
+      <Schedule />
       <styles.Messages ref={messagesRef}>
-        <IsTyping />
-        {messages &&
+        {!loading && <IsTyping />}
+        {!loading &&
+          messages &&
           groupArrays.map(record => (
             <MessagesSeparator
               key={record.date}

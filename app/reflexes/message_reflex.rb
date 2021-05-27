@@ -32,6 +32,25 @@ class MessageReflex < ApplicationReflex
   #
   # Learn more at: https://docs.stimulusreflex.com/reflexes#reflex-classes
 
+  def create_init_event
+    mb = Messages::MessageBuilder.new(current_user, conversation, ActionController::Parameters.new({
+      content: "Schedule a meeting with me",
+      content_type: :schedule,
+      message_type: :template,
+    }))
+    message = mb.perform
+    morph :nothing
+  end
+
+  def destroy
+    message = Message.find(element.dataset.id)
+    message.destroy!
+    cable_ready.remove(
+      selector: dom_id(message),
+    )
+    morph :nothing
+  end
+
   def create
     mb = Messages::MessageBuilder.new(current_user, conversation, message_params)
     message = mb.perform

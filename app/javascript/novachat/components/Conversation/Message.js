@@ -8,6 +8,7 @@ import Avatar from '../Avatar';
 import RequestBubble from './RequestBubble';
 import PathMessage from '../../img/PathMessage.svg';
 import ImageContainer from './ImageContainer';
+import Schedule from './Schedule';
 
 const ANIM_TIME = 2;
 const DOTS_TIME = 1;
@@ -147,6 +148,8 @@ export default function Message({
           onChange={() => {}}
           contentAttributes={contentAttributes}
         />
+      ) : contentType === 'schedule' ? (
+        <Schedule text={text} />
       ) : (
         <styles.Bubble
           fromUser={fromUser}

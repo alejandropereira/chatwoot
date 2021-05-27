@@ -7,11 +7,11 @@ Rails.application.routes.draw do
   # AUTH STARTS
   match "auth/:provider/callback", to: "home#callback", via: [:get, :post]
   mount_devise_token_auth_for "User", at: "auth", controllers: {
-            confirmations: "devise_overrides/confirmations",
-            passwords: "devise_overrides/passwords",
-            sessions: "devise_overrides/sessions",
-            token_validations: "devise_overrides/token_validations",
-          }, via: [:get, :post]
+                                        confirmations: "devise_overrides/confirmations",
+                                        passwords: "devise_overrides/passwords",
+                                        sessions: "devise_overrides/sessions",
+                                        token_validations: "devise_overrides/token_validations",
+                                      }, via: [:get, :post]
   resources :auths, only: :create
 
   # root to: 'dashboard#index'
@@ -216,7 +216,11 @@ Rails.application.routes.draw do
       resource :calendar, only: [:show] do
         resource :settings, only: :show, module: :calendar
       end
-      resources :calendar_events, only: [:create]
+      resources :calendar_events, only: [:create] do
+        member do
+          get :members
+        end
+      end
       resources :users, only: [:index]
       resources :customers, only: [:index]
       resources :workspaces, only: [:new, :create]

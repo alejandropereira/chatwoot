@@ -32,7 +32,7 @@ class AccountUser < ApplicationRecord
   has_many :event_invitees, as: :invitee
   has_many :events, through: :event_invitees, class_name: "CalendarEvent"
 
-  delegate :first_name, to: :user
+  delegate :first_name, :name, :avatar_url, to: :user
   delegate :last_name, to: :user
   delegate :email, to: :user
 

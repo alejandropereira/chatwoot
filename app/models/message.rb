@@ -48,7 +48,8 @@ class Message < ApplicationRecord
     cards: 5,
     form: 6,
     article: 7,
-    incoming_email: 8
+    incoming_email: 8,
+    schedule: 9,
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types
@@ -57,7 +58,7 @@ class Message < ApplicationRecord
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to], coder: JSON
 
   # .succ is a hack to avoid https://makandracards.com/makandra/1057-why-two-ruby-time-objects-are-not-equal-although-they-appear-to-be
-  scope :unread_since, ->(datetime) { where('EXTRACT(EPOCH FROM created_at) > (?)', datetime.to_i.succ) }
+  scope :unread_since, ->(datetime) { where("EXTRACT(EPOCH FROM created_at) > (?)", datetime.to_i.succ) }
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
   default_scope { order(created_at: :asc) }
 
@@ -91,7 +92,7 @@ class Message < ApplicationRecord
       created_at: created_at.to_i,
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id,
-      conversation_uuid: conversation.reload.uuid
+      conversation_uuid: conversation.reload.uuid,
     )
     data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
     data.merge!(sender: sender.push_event_data) if sender && !sender.is_a?(AgentBot)
@@ -115,7 +116,7 @@ class Message < ApplicationRecord
       sender: sender.try(:webhook_data),
       inbox: inbox.webhook_data,
       conversation: conversation.webhook_data,
-      account: account.webhook_data
+      account: account.webhook_data,
     }
   end
 
@@ -178,6 +179,6 @@ class Message < ApplicationRecord
   end
 
   def validate_attachments_limit(_attachment)
-    errors.add(attachments: 'exceeded maximum allowed') if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
+    errors.add(attachments: "exceeded maximum allowed") if attachments.size >= NUMBER_OF_PERMITTED_ATTACHMENTS
   end
 end

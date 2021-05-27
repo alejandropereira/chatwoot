@@ -1,3 +1,11 @@
-<div class="w-2/3 p-4 text-sm border border-gray-200 rounded bg-blue-50 <%= 'self-end' if message.message_type == 'incoming' %>">
+<div id="<%= dom_id(message) %>" class="relative w-2/3 p-4 text-sm border border-gray-200 rounded bg-blue-50 <%= 'self-end' if message.message_type == 'incoming' %>">
+  <%= content_tag :span, class: "absolute top-1 right-1 cursor-pointer", data: { controller: "confirm-popup" } do %>
+    <svg data-confirm-popup-target="trigger" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+    <%= content_tag :div, class: "flex space-x-2 hidden", data: { "confirm-popup-target": "content" } do %>
+      <a href="#" data-reflex="click->Message#destroy" data-id="<%= message.id %>" class="text-blue-500 hover:text-blue-600 w-5">Delete</a>
+    <% end %>
+  <% end %>
   <%= message.content || message.id %>
 </div>

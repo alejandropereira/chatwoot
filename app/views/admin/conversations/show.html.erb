@@ -32,7 +32,20 @@
         <div data-reflex-permanent>
           <%= form_with(model: Message.new, url: '', data: { reflex: 'submit->MessageReflex#create' }, class: "flex items-center justify-between h-32 px-5 space-x-2 border-t border-gray-200" ) do |f| %>
             <%= f.text_field :content, class: "flex-1 focus:outline-none", placeholder: "Click here to reply message...", data: { "conversation-target": "input" } %>
-            <div>
+            <div class="flex space-x-4 items-center">
+              <%= content_tag :div, data: { controller: "confirm-popup" } do %>
+                <svg data-confirm-popup-target="trigger" xmlns="http://www.w3.org/2000/svg" class="text-gray-400 h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <%= content_tag :div, class: "flex space-x-4 hidden", data: { controller: "form", "confirm-popup-target": "content" } do %>
+                  <%= content_tag :button, type: "button", data: { reflex: "click->Message#create_init_event", "form-target": "button" }, class: "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" do %>
+                    Confirm
+                  <% end %>
+                  <button data-action="confirm-popup#hide" type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    Cancel
+                  </button>
+                <% end %>
+              <% end %>
               <%= f.submit "Send", class: "px-4 py-2 text-white bg-blue-600 rounded-md" %>
             </div>
           <% end %>

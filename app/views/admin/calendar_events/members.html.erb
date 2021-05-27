@@ -1,0 +1,25 @@
+<div data-popover-target="card" class="absolute -bottom-15 mt-2 -right-15 bg-white shadow px-2 py-4 rounded w-64">
+  <div class="text-gray-400 border-b border-gray-200 pb-2 flex justify-between items-center mb-4">
+    <h5>Members</h5>
+    <svg data-action="click->popover#hide" xmlns="http://www.w3.org/2000/svg" class="cursor-pointer h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </div>
+  <div class="flex flex-col space-y-2">
+    <% @agents.all.each do |agent| %>
+      <div data-reflex="click->Assignee#toggle" data-event="<%= @event.to_sgid.to_s %>" data-agent="<%= agent.to_sgid.to_s %>" class="flex items-center justify-between cursor-pointer hover:bg-gray-100 p-1 rounded <%= @event.invitees.include?(agent) && 'bg-gray-100' %>">
+        <div class="flex items-center">
+          <div class="inline-block h-8 w-8 overflow-hidden rounded-full hover:opacity-75 mr-2">
+            <%= render AvatarComponent.new(user: agent.user) %>
+          </div>
+          <%= agent.name %>
+        </div>
+        <% if @event.invitees.include?(agent) %>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
