@@ -22,10 +22,10 @@ class Admin::Calendar::SettingsController < Admin::BaseController
         service.list_calendar_lists
       end
     rescue Google::Apis::AuthorizationError
-      response = client.refresh!
-      settings.update(google_calendar: settings.google_calendar.merge(response))
-      retry
-      # settings.update(google_calendar: { "hello": "world" })
+      # response = client.refresh!
+      # settings.update(google_calendar: settings.google_calendar.merge(response))
+      # retry
+      settings.update(google_calendar: { "hello": "world" })
     rescue Signet::AuthorizationError
     end
   end

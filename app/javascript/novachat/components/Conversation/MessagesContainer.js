@@ -8,7 +8,7 @@ import MessagesSeparator from '../MessagesSeparator';
 import IsTyping from './IsTyping';
 import Loading from './Loading';
 import SecureChat from './SecureChat/index';
-import Schedule from './ScheduleView';
+import ScheduleView from './ScheduleView';
 
 const MessagesContainer = ({
   messages,
@@ -23,6 +23,7 @@ const MessagesContainer = ({
       transform: 'translate3d(100%, 0,0)',
       opacity: 0,
       background: '#fcfcfc',
+      height: '100%',
     },
     transform: toggle ? 'translate3d(0%, 0,0)' : `translate3d(100%, 0 ,0)`,
     opacity: toggle ? 1 : 0,
@@ -72,7 +73,7 @@ const MessagesContainer = ({
   return (
     <animated.div style={transition}>
       <SecureChat />
-      <Schedule />
+      <ScheduleView />
       <styles.Messages ref={messagesRef}>
         {!loading && <IsTyping />}
         {!loading &&
@@ -132,7 +133,8 @@ styles.Loading = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
-  padding-bottom: 60px;
+  height: 100%;
+  align-items: center;
 `;
 
 export default MessagesContainer;

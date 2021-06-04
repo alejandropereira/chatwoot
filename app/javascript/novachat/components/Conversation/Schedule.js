@@ -1,12 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ScheduleContext } from '../../context/ScheduleContext';
 import variables from '../../utils/variables';
 
-const Schedule = ({ text }) => {
+const Schedule = ({ text, contentAttributes }) => {
+  const [_, send] = React.useContext(ScheduleContext);
+
   return (
     <styles.Bubble>
       {text}
-      <styles.Button>Find a Time</styles.Button>
+      {!contentAttributes?.submitted_values && (
+        <styles.Button onClick={() => send('OPEN')}>Find Time</styles.Button>
+      )}
     </styles.Bubble>
   );
 };
@@ -23,6 +28,7 @@ styles.Bubble = styled.div`
   overflow: hidden;
   position: relative;
   word-break: break-word;
+  box-shadow: 0px 0px 17px -8px rgb(0 0 0 / 50%);
 `;
 
 styles.Button = styled.button`

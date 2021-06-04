@@ -17,6 +17,7 @@ import ActionCableConnector from '../utils/actionCable';
 import { useTracked } from '../App';
 import { types } from '../reducers';
 import { SecureProvider } from '../context/SecureContext';
+import { ScheduleProvider } from '../context/ScheduleContext';
 
 const WEB_WIDGET = gql`
   query webWidget($websiteToken: String!, $authToken: String) {
@@ -102,15 +103,17 @@ const Chat = ({ websiteToken }) => {
       }}
     >
       <SecureProvider>
-        <styles.Chat className="Chat">
-          <IntroAnimation />
-          <ChatBox />
-          <OutroAnimation />
-          <CloseButton />
-          <StartButtonAnimation />
-          <StartChatButton />
-          <OutroLogo />
-        </styles.Chat>
+        <ScheduleProvider>
+          <styles.Chat className="Chat">
+            <IntroAnimation />
+            <ChatBox />
+            <OutroAnimation />
+            <CloseButton />
+            <StartButtonAnimation />
+            <StartChatButton />
+            <OutroLogo />
+          </styles.Chat>
+        </ScheduleProvider>
       </SecureProvider>
     </AppContext.Provider>
   );

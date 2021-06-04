@@ -8,10 +8,9 @@ class NovachatMessenger {
   }
 
   render() {
-    ReactDOM.render(
-      <App {...this.props} />,
-      document.body.appendChild(document.createElement('div'))
-    );
+    const div = document.createElement('div');
+    div.setAttribute('id', 'novachat__root');
+    ReactDOM.render(<App {...this.props} />, document.body.appendChild(div));
   }
 }
 

@@ -1,29 +1,29 @@
-import jstz from 'jstz'
+import jstz from 'jstz';
 import 'styles/admin.scss';
 import 'channels';
 import 'controllers';
 
-require("@rails/ujs").start()
+require('@rails/ujs').start();
 
 function setCookie(name, value) {
-  var expires = new Date()
-  expires.setTime(expires.getTime() + (24 * 60 * 60 * 1000))
-  document.cookie = name + '=' + value + ';expires=' + expires.toUTCString()
+  var expires = new Date();
+  expires.setTime(expires.getTime() + 24 * 60 * 60 * 1000);
+  document.cookie = name + '=' + value + ';expires=' + expires.toUTCString();
 }
 
 // Rails doesn't support every timezone that Intl supports
 function findTimeZone() {
-  const oldIntl = window.Intl
+  const oldIntl = window.Intl;
   try {
-    window.Intl = undefined
-    const tz = jstz.determine().name()
-    window.Intl = oldIntl
-    return tz
+    window.Intl = undefined;
+    const tz = jstz.determine().name();
+    window.Intl = oldIntl;
+    return tz;
   } catch (e) {
     // sometimes (on android) you can't override intl
-    return jstz.determine().name()
+    return jstz.determine().name();
   }
 }
 
-const timezone = findTimeZone()
-setCookie("timezone", timezone)
+const timezone = findTimeZone();
+setCookie('timezone', timezone);

@@ -330,7 +330,9 @@ const reducer = (state, action) => {
           if (action.payload.id.toString() === m.id.toString()) {
             return {
               id: action.payload.id.toString(),
-              createdAt: new Date(action.payload.created_at).toISOString(),
+              createdAt: new Date(
+                action.payload.created_at * 1000
+              ).toISOString(),
               status: action.payload.status,
               secured: action.payload.secured,
               attachments:

@@ -21,6 +21,7 @@
     "@babel/preset-env": "~7.8.4",
     "@babel/preset-react": "^7.9.4",
     "@babel/runtime": "^7.12.13",
+    "@hot-loader/react-dom": "^16.13.0",
     "@joeattardi/emoji-button": "^4.0.1",
     "@minthesize/futurism": "^0.7.2",
     "@rails/actioncable": "^6.0.0",
@@ -55,6 +56,7 @@
     "global": "^4.4.0",
     "graphql": "^15.0.0",
     "graphql-request": "^3.4.0",
+    "graphql-tag": "^2.12.4",
     "gsap": "file:./app/javascript/novachat/gsap/gsap-bonus.tgz",
     "highlight.js": "^9.15.10",
     "ionicons": "~2.0.1",
@@ -67,6 +69,7 @@
     "prop-types": "^15.7.2",
     "query-string": "5",
     "react": "^16.13.1",
+    "react-calendar": "^3.4.0",
     "react-dom": "^16.13.1",
     "react-dropzone": "^11.0.2",
     "react-hook-form": "^4.10.2",
@@ -92,6 +95,7 @@
     "tippy.js": "^6.3.1",
     "tui-calendar": "^1.13.0",
     "tween.js": "~16.6.0",
+    "twin.macro": "^2.4.2",
     "url-loader": "^2.0.0",
     "use-deep-compare-effect": "^1.3.1",
     "v-tooltip": "~2.0.2",
@@ -120,6 +124,7 @@
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-transform-runtime": "^7.12.15",
     "@babel/preset-env": "^7.9.5",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/vue": "^5.4.0",
     "@vue/test-utils": "^1.0.0-beta.29",
@@ -147,9 +152,15 @@
     "jest-transform-stub": "^2.0.0",
     "lint-staged": ">=8",
     "prettier": "^1.16.4",
+    "react-refresh": "^0.10.0",
     "rimraf": "^3.0.0",
     "vue-jest": "^3.0.5",
     "webpack-dev-server": "^3.10.3"
+  },
+  "babelMacros": {
+    "twin": {
+      "preset": "styled-components"
+    }
   },
   "husky": {
     "hooks": {

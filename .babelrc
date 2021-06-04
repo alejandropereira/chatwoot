@@ -5,6 +5,8 @@
       {
         "displayName": true
       }
-    ]
+    ],
+    "babel-plugin-macros",
+    "@babel/plugin-transform-react-jsx"
   ]
 }

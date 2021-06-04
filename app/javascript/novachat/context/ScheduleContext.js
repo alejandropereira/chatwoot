@@ -23,6 +23,12 @@ export const scheduleMachine = Machine({
     },
     time: {
       on: {
+        CONTINUE: 'confirmation',
+        CLOSE: 'closed',
+      },
+    },
+    confirmation: {
+      on: {
         CONTINUE: 'confirm',
         CLOSE: 'closed',
       },

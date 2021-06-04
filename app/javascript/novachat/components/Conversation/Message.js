@@ -149,7 +149,7 @@ export default function Message({
           contentAttributes={contentAttributes}
         />
       ) : contentType === 'schedule' ? (
-        <Schedule text={text} />
+        <Schedule text={text} contentAttributes={contentAttributes} />
       ) : (
         <styles.Bubble
           fromUser={fromUser}
