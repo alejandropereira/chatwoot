@@ -1,10 +1,10 @@
 class UserChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
+    current_user.update(availability: "online")
     stream_for current_user
   end
 
   def unsubscribed
-    # Any cleanup needed when channel is unsubscribed
+    current_user.update(availability: "offline")
   end
 end

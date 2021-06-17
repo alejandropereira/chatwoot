@@ -24,9 +24,7 @@
         </div>
         <div class="flex-grow overflow-y-scroll" data-conversation-target="messages">
           <div id="messages" class="flex flex-col p-6 space-y-4">
-            <%= futurize partial: "admin/messages/message", collection: @messages, extends: :div do %>
-              <!-- placeholder -->
-            <% end %>
+            <%= render partial: 'admin/messages/message', collection: @messages, cached: true %>
           </div>
         </div>
         <div data-reflex-permanent>

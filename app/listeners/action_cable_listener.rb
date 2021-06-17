@@ -25,12 +25,21 @@ class ActionCableListener < BaseListener
       .insert_adjacent_html({
         selector: "#messages",
         position: "beforeend",
-        html: ApplicationController.render(partial: 'admin/messages/message', locals: { message: message })
+        html: ApplicationController.render(partial: "admin/messages/message", locals: { message: message }, cached: true),
       })
-      .dispatch_event(name: "message:added", detail: {
-        isAgent: message.sender_type == "User"
-      })
+      .dispatch_event(
+        name: "message:added",
+        detail: { isAgent: message.sender_type == "User" },
+      )
       .broadcast_to(conversation)
+
+    account.users.online.each do |user|
+      cable_ready[UserChannel]
+        .dispatch_event({
+          name: "sidebar:updated",
+        })
+        .broadcast_to(user)
+    end
 
     broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
   end
@@ -85,7 +94,7 @@ class ActionCableListener < BaseListener
       tokens,
       CONVERSATION_TYPING_ON,
       conversation: conversation.push_event_data,
-      user: user.push_event_data
+      user: user.push_event_data,
     )
   end
 
@@ -100,7 +109,7 @@ class ActionCableListener < BaseListener
       tokens,
       CONVERSATION_TYPING_OFF,
       conversation: conversation.push_event_data,
-      user: user.push_event_data
+      user: user.push_event_data,
     )
   end
 

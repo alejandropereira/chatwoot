@@ -5,7 +5,6 @@ export default class extends Controller {
   static values = { removeAfterClose: Boolean };
 
   connect() {
-    console.log(this);
     // The class we should toggle on the container
     this.toggleClass = this.data.get('class') || 'hidden';
 

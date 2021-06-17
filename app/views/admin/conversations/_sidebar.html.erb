@@ -1,4 +1,4 @@
-<div id="conversations-sidebar" class="w-1/3 overflow-y-scroll border-r border-gray-200">
+<div id="conversations-sidebar" data-controller="sidebar" class="w-1/3 overflow-y-scroll border-r border-gray-200">
   <div class="flex items-center justify-between h-24 px-4">
     <div>
       <p class="text-sm">Queue: <span class="text-blue-400"><%= conversations_count[:mine_count] %> chats</span></p>
@@ -13,11 +13,7 @@
     </div>
   </div>
   <div id="conversations-counts" class="px-4 border-b border-gray-200">
-    <%= futurize partial: "admin/conversations/counts", locals: { counts: conversations_count, assignee_type: assignee_type }, extends: :div do %>
-      <!-- placeholder -->
-    <% end %>
+    <%= render partial: "admin/conversations/counts", locals: { counts: conversations_count, assignee_type: assignee_type } %>
   </div>
-  <%= futurize partial: "admin/conversations/conversation", collection: conversations, extends: :div do %>
-    <!-- placeholder -->
-  <% end %>
+  <%= render partial: "admin/conversations/conversation", collection: conversations, cached: true %>
 </div>

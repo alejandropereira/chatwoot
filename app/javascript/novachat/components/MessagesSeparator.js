@@ -29,9 +29,7 @@ const MessagesSeparator = ({ date, messages }) => (
           />
         );
       })}
-    <styles.Separator>
-      {format(parseISO(date), 'MMM dd, yyyy')}
-    </styles.Separator>
+    <styles.Separator>{date}</styles.Separator>
   </>
 );
 

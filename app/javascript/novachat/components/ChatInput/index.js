@@ -154,7 +154,7 @@ const ChatInput = React.memo(() => {
       type: types.APPEND_IP_MESSAGE,
       payload: {
         id: getUuid(),
-        createdAt: new Date().toISOString(),
+        createdAt: new Date().toString(),
         assignee: null,
         content: message,
         secured: currentConversation.secured,

@@ -1,4 +1,4 @@
-<%= link_to admin_conversation_path(conversation, assignee_type: params[:assignee_type]) do %>
+<%= link_to admin_conversation_path(conversation, assignee_type: params[:assignee_type]), id: dom_id(conversation) do %>
   <div class="px-3 py-6 border-b border-gray-200 <%= 'bg-blue-50' if conversation.id.to_i == params[:id].to_i %>">
     <div class="flex justify-between mb-2">
       <div>

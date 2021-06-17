@@ -17,7 +17,7 @@ const MESSAGES = gql`
       token: $token
       websiteToken: $websiteToken
       uuid: $uuid
-      per: 7
+      per: 25
       page: $page
     ) {
       collection {

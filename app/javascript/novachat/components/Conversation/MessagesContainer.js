@@ -55,7 +55,7 @@ const MessagesContainer = ({
   }, [messagesRef.current]);
 
   const groups = messages.reduce((group, message) => {
-    const date = message.createdAt.split('T')[0];
+    const date = new Date(message.createdAt).toLocaleDateString();
     if (!group[date]) {
       group[date] = [];
     }

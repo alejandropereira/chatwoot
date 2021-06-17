@@ -48,12 +48,30 @@ const Chat = ({ websiteToken }) => {
   const [authToken, setAuthToken] = useState(
     Cookies.get('cw_conversation') || ''
   );
+  const [graphqlClient, setGraphqlClient] = useState(
+    () =>
+      new GraphQLClient('/graphql', {
+        headers: {
+          'X-Widget-Token': websiteToken,
+          'X-Auth-Token': authToken,
+        },
+      })
+  );
   const { loading, error, data } = useQuery(WEB_WIDGET, {
     variables: {
       websiteToken,
       authToken,
     },
     onCompleted(d) {
+      Cookies.set('cw_conversation', d.webWidget.token);
+      setGraphqlClient(
+        new GraphQLClient('/graphql', {
+          headers: {
+            'X-Widget-Token': websiteToken,
+            'X-Auth-Token': d.webWidget.token,
+          },
+        })
+      );
       dispatch({
         type: types.SET_WIDGET_TOKEN,
         payload: { webWidget: d.webWidget, websiteToken },
@@ -82,13 +100,6 @@ const Chat = ({ websiteToken }) => {
   }, [data]);
 
   if (loading || error || !authToken) return null;
-
-  const graphqlClient = new GraphQLClient('/graphql', {
-    headers: {
-      'X-Widget-Token': websiteToken,
-      'X-Auth-Token': Cookies.get('cw_conversation'),
-    },
-  });
 
   return (
     <AppContext.Provider

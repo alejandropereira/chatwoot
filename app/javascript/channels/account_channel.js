@@ -1,6 +1,7 @@
-import consumer from "./consumer"
+import consumer from './consumer';
+import CableReady from 'cable_ready';
 
-consumer.subscriptions.create("AccountChannel", {
+consumer.subscriptions.create('AccountChannel', {
   connected() {
     // Called when the subscription is ready for use on the server
   },
@@ -10,6 +11,9 @@ consumer.subscriptions.create("AccountChannel", {
   },
 
   received(data) {
-    // Called when there's incoming data on the websocket for this channel
-  }
+    if (data.cableReady)
+      CableReady.perform(data.operations, {
+        emitMissingElementWarnings: false,
+      });
+  },
 });

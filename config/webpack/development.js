@@ -20,7 +20,9 @@ environment.loaders.append('babel', {
 if (isDevelopment) {
   environment.plugins.append(
     'ReactRefreshWebpackPlugin',
-    new ReactRefreshWebpackPlugin()
+    new ReactRefreshWebpackPlugin({
+      overlay: false,
+    })
   );
 }
 

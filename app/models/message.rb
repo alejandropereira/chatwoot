@@ -89,7 +89,7 @@ class Message < ApplicationRecord
 
   def push_event_data
     data = attributes.merge(
-      created_at: created_at.to_i,
+      created_at: created_at,
       message_type: message_type_before_type_cast,
       conversation_id: conversation.display_id,
       conversation_uuid: conversation.reload.uuid,
