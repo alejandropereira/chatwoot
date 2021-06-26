@@ -221,6 +221,9 @@ Rails.application.routes.draw do
           get :members
         end
       end
+      resource :account, only: [:show] do
+        resource :settings, only: :show, module: :account
+      end
       resources :users, only: [:index]
       resources :customers, only: [:index]
       resources :workspaces, only: [:new, :create]
